@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Color Converter - Convert HEX to RGB, HSL Online | ToolKit Pro</title>
-    <meta name="description" content="Convert colors between HEX, RGB, HSL formats instantly. Free color converter with live preview. Convert #FF5733 to RGB, HSL values online.">
-    <meta name="keywords" content="color converter, hex to rgb, rgb to hex, hsl converter, color code converter">
+    <title>Color Converter - HEX, RGB, HSL, CMYK + Contrast Checker | ToolKit Pro</title>
+    <meta name="description" content="Convert colors between HEX, RGB, HSL, CMYK formats. Includes WCAG contrast checker for accessibility. Free color converter with live preview.">
+    <meta name="keywords" content="color converter, hex to rgb, rgb to hex, hsl converter, cmyk converter, contrast checker, wcag contrast, accessibility checker">
     <link rel="canonical" href="https://yourdomain.com/color-converter">
     <link rel="stylesheet" href="../assets/css/common.css">
     <link rel="stylesheet" href="../assets/css/tool-specific.css">
@@ -21,10 +21,17 @@
     </header>
 
     <div class="container">
-        <h1>🎨 Color Converter</h1>
-        <p class="subtitle">Convert colors between HEX, RGB, and HSL formats with live preview.</p>
+        <h1>🎨 Color Converter & Contrast Checker</h1>
+        <p class="subtitle">Convert colors between HEX, RGB, HSL, CMYK formats and check WCAG contrast ratios.</p>
 
-        <div class="workspace">
+        <!-- Mode Tabs -->
+        <div style="display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;">
+            <button id="converterTab" class="mode-tab active" onclick="switchMode('converter')">Color Converter</button>
+            <button id="contrastTab" class="mode-tab" onclick="switchMode('contrast')">Contrast Checker</button>
+        </div>
+
+        <!-- Converter Mode -->
+        <div id="converterMode" class="workspace">
             <!-- Color Preview -->
             <div style="margin-bottom: 20px; text-align: center;">
                 <div id="colorPreview" style="width: 100%; height: 120px; border-radius: 12px; border: 2px solid var(--border); box-shadow: var(--shadow); transition: all 0.3s;"></div>
@@ -71,13 +78,102 @@
                 </div>
                 <div id="hslString" style="margin-top: 5px; font-size: 0.85rem; color: var(--gray); font-family: 'Courier New', monospace;"></div>
             </div>
+
+            <!-- CMYK -->
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">CMYK (Print)</label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr auto; gap: 8px;">
+                    <input type="number" id="cmykC" placeholder="C%" min="0" max="100" oninput="updateFromCmyk()" style="padding: 10px; font-size: 0.9rem;">
+                    <input type="number" id="cmykM" placeholder="M%" min="0" max="100" oninput="updateFromCmyk()" style="padding: 10px; font-size: 0.9rem;">
+                    <input type="number" id="cmykY" placeholder="Y%" min="0" max="100" oninput="updateFromCmyk()" style="padding: 10px; font-size: 0.9rem;">
+                    <input type="number" id="cmykK" placeholder="K%" min="0" max="100" oninput="updateFromCmyk()" style="padding: 10px; font-size: 0.9rem;">
+                    <button class="btn btn-success" onclick="copyCmyk()" style="padding: 10px 20px;">Copy</button>
+                </div>
+                <div id="cmykString" style="margin-top: 5px; font-size: 0.85rem; color: var(--gray); font-family: 'Courier New', monospace;"></div>
+            </div>
+        </div>
+
+        <!-- Contrast Checker Mode -->
+        <div id="contrastMode" class="workspace" style="display: none;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                <!-- Foreground Color -->
+                <div>
+                    <label style="font-size: 0.9rem; margin-bottom: 8px; display: block;">Foreground (Text)</label>
+                    <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                        <input type="color" id="fgColor" value="#000000" oninput="checkContrast()" style="width: 60px; height: 50px; cursor: pointer; border-radius: 8px;">
+                        <input type="text" id="fgHex" value="#000000" oninput="updateFgFromHex()" style="flex: 1; padding: 10px; font-family: 'Courier New', monospace;">
+                    </div>
+                    <div id="fgPreview" style="width: 100%; height: 80px; border-radius: 8px; border: 2px solid var(--border); background: #000000;"></div>
+                </div>
+
+                <!-- Background Color -->
+                <div>
+                    <label style="font-size: 0.9rem; margin-bottom: 8px; display: block;">Background</label>
+                    <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                        <input type="color" id="bgColor" value="#ffffff" oninput="checkContrast()" style="width: 60px; height: 50px; cursor: pointer; border-radius: 8px;">
+                        <input type="text" id="bgHex" value="#ffffff" oninput="updateBgFromHex()" style="flex: 1; padding: 10px; font-family: 'Courier New', monospace;">
+                    </div>
+                    <div id="bgPreview" style="width: 100%; height: 80px; border-radius: 8px; border: 2px solid var(--border); background: #ffffff;"></div>
+                </div>
+            </div>
+
+            <!-- Preview -->
+            <div style="margin-bottom: 20px;">
+                <label style="font-size: 0.9rem; margin-bottom: 8px; display: block;">Preview</label>
+                <div id="contrastPreview" style="padding: 30px; border-radius: 12px; border: 2px solid var(--border); text-align: center; background: #ffffff; color: #000000;">
+                    <div style="font-size: 2rem; font-weight: bold; margin-bottom: 10px;">Sample Heading</div>
+                    <div style="font-size: 1rem;">This is sample body text to preview the contrast ratio.</div>
+                    <div style="font-size: 0.85rem; margin-top: 10px;">Small text example for testing.</div>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div id="contrastResults" style="background: var(--light); border-radius: 12px; padding: 20px; border: 2px solid var(--border);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <span style="font-size: 1.1rem; font-weight: 600;">Contrast Ratio</span>
+                    <span id="contrastRatio" style="font-size: 1.5rem; font-weight: bold; color: var(--primary);">21:1</span>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <!-- Normal Text -->
+                    <div style="background: var(--dark); padding: 15px; border-radius: 8px;">
+                        <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 8px;">Normal Text</div>
+                        <div id="normalAA" style="margin-bottom: 5px;">
+                            <span style="font-size: 0.9rem;">AA: </span>
+                            <span class="badge">✓ Pass</span>
+                        </div>
+                        <div id="normalAAA">
+                            <span style="font-size: 0.9rem;">AAA: </span>
+                            <span class="badge">✓ Pass</span>
+                        </div>
+                    </div>
+
+                    <!-- Large Text -->
+                    <div style="background: var(--dark); padding: 15px; border-radius: 8px;">
+                        <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 8px;">Large Text (18pt+)</div>
+                        <div id="largeAA" style="margin-bottom: 5px;">
+                            <span style="font-size: 0.9rem;">AA: </span>
+                            <span class="badge">✓ Pass</span>
+                        </div>
+                        <div id="largeAAA">
+                            <span style="font-size: 0.9rem;">AAA: </span>
+                            <span class="badge">✓ Pass</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 15px; padding: 12px; background: rgba(249, 115, 22, 0.1); border-radius: 8px; font-size: 0.85rem; color: var(--gray);">
+                    <strong>WCAG Guidelines:</strong> AA requires 4.5:1 for normal text, 3:1 for large text. AAA requires 7:1 for normal text, 4.5:1 for large text.
+                </div>
+            </div>
         </div>
 
         <div class="info-section">
-            <h2>Color Converter - Convert Between HEX, RGB, HSL</h2>
-            <p>This free color converter converts colors between HEX, RGB, and HSL formats with live preview. Perfect for web designers, developers, and digital artists.</p>
-            <p><strong>Color Formats:</strong> HEX (#FF5733), RGB (255, 87, 51), HSL (9°, 100%, 60%). Each format has different use cases in web development and design.</p>
-            <p><strong>Use Cases:</strong> Web design, CSS styling, graphic design, color matching, brand guidelines, UI/UX design, digital art.</p>
+            <h2>Color Converter & WCAG Contrast Checker</h2>
+            <p>Convert colors between HEX, RGB, HSL, and CMYK formats with live preview. Check WCAG contrast ratios for accessibility compliance.</p>
+            <p><strong>Color Formats:</strong> HEX (#FF5733), RGB (255, 87, 51), HSL (9°, 100%, 60%), CMYK (0%, 66%, 80%, 0%). Each format has different use cases.</p>
+            <p><strong>Contrast Checker:</strong> Test foreground and background color combinations against WCAG 2.1 guidelines. Ensures your designs are accessible to all users.</p>
+            <p><strong>Use Cases:</strong> Web design, CSS styling, print design (CMYK), accessibility testing, brand guidelines, UI/UX design.</p>
         </div>
     </div>
 
@@ -85,7 +181,54 @@
         <span id="toastMessage">Success!</span>
     </div>
 
+    <style>
+        .mode-tab {
+            padding: 10px 20px;
+            background: var(--dark);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--white);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .mode-tab:hover {
+            background: rgba(249, 115, 22, 0.1);
+            border-color: var(--primary);
+        }
+        .mode-tab.active {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+        .badge {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+    </style>
+
     <script>
+        let currentMode = 'converter';
+
+        function switchMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-tab').forEach(tab => tab.classList.remove('active'));
+            document.getElementById(mode + 'Tab').classList.add('active');
+            
+            if (mode === 'converter') {
+                document.getElementById('converterMode').style.display = 'block';
+                document.getElementById('contrastMode').style.display = 'none';
+            } else {
+                document.getElementById('converterMode').style.display = 'none';
+                document.getElementById('contrastMode').style.display = 'block';
+                checkContrast();
+            }
+        }
+
+        // ===== COLOR CONVERTER =====
+        
         function updateFromPicker() {
             const hex = document.getElementById('colorPicker').value;
             document.getElementById('hexInput').value = hex;
@@ -99,8 +242,9 @@
             const cleanHex = hex.startsWith('#') ? hex : '#' + hex;
             const rgb = hexToRgb(cleanHex);
             const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+            const cmyk = rgbToCmyk(rgb.r, rgb.g, rgb.b);
             
-            updateDisplay(cleanHex, rgb, hsl);
+            updateDisplay(cleanHex, rgb, hsl, cmyk);
         }
 
         function updateFromRgb() {
@@ -110,8 +254,9 @@
             
             const hex = rgbToHex(r, g, b);
             const hsl = rgbToHsl(r, g, b);
+            const cmyk = rgbToCmyk(r, g, b);
             
-            updateDisplay(hex, {r, g, b}, hsl);
+            updateDisplay(hex, {r, g, b}, hsl, cmyk);
         }
 
         function updateFromHsl() {
@@ -121,11 +266,25 @@
             
             const rgb = hslToRgb(h, s, l);
             const hex = rgbToHex(rgb.r, rgb.g, rgb.b);
+            const cmyk = rgbToCmyk(rgb.r, rgb.g, rgb.b);
             
-            updateDisplay(hex, rgb, {h, s, l});
+            updateDisplay(hex, rgb, {h, s, l}, cmyk);
         }
 
-        function updateDisplay(hex, rgb, hsl) {
+        function updateFromCmyk() {
+            const c = parseInt(document.getElementById('cmykC').value) || 0;
+            const m = parseInt(document.getElementById('cmykM').value) || 0;
+            const y = parseInt(document.getElementById('cmykY').value) || 0;
+            const k = parseInt(document.getElementById('cmykK').value) || 0;
+            
+            const rgb = cmykToRgb(c, m, y, k);
+            const hex = rgbToHex(rgb.r, rgb.g, rgb.b);
+            const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+            
+            updateDisplay(hex, rgb, hsl, {c, m, y, k});
+        }
+
+        function updateDisplay(hex, rgb, hsl, cmyk) {
             document.getElementById('colorPreview').style.background = hex;
             document.getElementById('colorPicker').value = hex;
             document.getElementById('hexInput').value = hex;
@@ -139,8 +298,15 @@
             document.getElementById('hslS').value = Math.round(hsl.s);
             document.getElementById('hslL').value = Math.round(hsl.l);
             document.getElementById('hslString').textContent = `hsl(${Math.round(hsl.h)}, ${Math.round(hsl.s)}%, ${Math.round(hsl.l)}%)`;
+            
+            document.getElementById('cmykC').value = Math.round(cmyk.c);
+            document.getElementById('cmykM').value = Math.round(cmyk.m);
+            document.getElementById('cmykY').value = Math.round(cmyk.y);
+            document.getElementById('cmykK').value = Math.round(cmyk.k);
+            document.getElementById('cmykString').textContent = `cmyk(${Math.round(cmyk.c)}%, ${Math.round(cmyk.m)}%, ${Math.round(cmyk.y)}%, ${Math.round(cmyk.k)}%)`;
         }
 
+        // Conversion functions
         function hexToRgb(hex) {
             const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
             return result ? {
@@ -200,6 +366,37 @@
             return {r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255)};
         }
 
+        function rgbToCmyk(r, g, b) {
+            let c = 1 - (r / 255);
+            let m = 1 - (g / 255);
+            let y = 1 - (b / 255);
+            let k = Math.min(c, m, y);
+            
+            if (k === 1) {
+                return {c: 0, m: 0, y: 0, k: 100};
+            }
+            
+            c = ((c - k) / (1 - k)) * 100;
+            m = ((m - k) / (1 - k)) * 100;
+            y = ((y - k) / (1 - k)) * 100;
+            k = k * 100;
+            
+            return {c, m, y, k};
+        }
+
+        function cmykToRgb(c, m, y, k) {
+            c = c / 100;
+            m = m / 100;
+            y = y / 100;
+            k = k / 100;
+            
+            const r = 255 * (1 - c) * (1 - k);
+            const g = 255 * (1 - m) * (1 - k);
+            const b = 255 * (1 - y) * (1 - k);
+            
+            return {r: Math.round(r), g: Math.round(g), b: Math.round(b)};
+        }
+
         function copyHex() {
             const hex = document.getElementById('hexInput').value;
             navigator.clipboard.writeText(hex).then(() => showToast('HEX copied!'));
@@ -215,6 +412,87 @@
             navigator.clipboard.writeText(hsl).then(() => showToast('HSL copied!'));
         }
 
+        function copyCmyk() {
+            const cmyk = document.getElementById('cmykString').textContent;
+            navigator.clipboard.writeText(cmyk).then(() => showToast('CMYK copied!'));
+        }
+
+        // ===== CONTRAST CHECKER =====
+        
+        function updateFgFromHex() {
+            const hex = document.getElementById('fgHex').value.trim();
+            if (/^#?[0-9A-Fa-f]{6}$/.test(hex)) {
+                const cleanHex = hex.startsWith('#') ? hex : '#' + hex;
+                document.getElementById('fgColor').value = cleanHex;
+                document.getElementById('fgHex').value = cleanHex;
+                checkContrast();
+            }
+        }
+
+        function updateBgFromHex() {
+            const hex = document.getElementById('bgHex').value.trim();
+            if (/^#?[0-9A-Fa-f]{6}$/.test(hex)) {
+                const cleanHex = hex.startsWith('#') ? hex : '#' + hex;
+                document.getElementById('bgColor').value = cleanHex;
+                document.getElementById('bgHex').value = cleanHex;
+                checkContrast();
+            }
+        }
+
+        function checkContrast() {
+            const fgHex = document.getElementById('fgColor').value;
+            const bgHex = document.getElementById('bgColor').value;
+            
+            document.getElementById('fgHex').value = fgHex;
+            document.getElementById('bgHex').value = bgHex;
+            document.getElementById('fgPreview').style.background = fgHex;
+            document.getElementById('bgPreview').style.background = bgHex;
+            
+            const preview = document.getElementById('contrastPreview');
+            preview.style.color = fgHex;
+            preview.style.background = bgHex;
+            
+            const ratio = getContrastRatio(fgHex, bgHex);
+            document.getElementById('contrastRatio').textContent = ratio.toFixed(2) + ':1';
+            
+            // Check WCAG compliance
+            updateCompliance('normalAA', ratio >= 4.5);
+            updateCompliance('normalAAA', ratio >= 7);
+            updateCompliance('largeAA', ratio >= 3);
+            updateCompliance('largeAAA', ratio >= 4.5);
+        }
+
+        function getContrastRatio(hex1, hex2) {
+            const lum1 = getLuminance(hex1);
+            const lum2 = getLuminance(hex2);
+            const lighter = Math.max(lum1, lum2);
+            const darker = Math.min(lum1, lum2);
+            return (lighter + 0.05) / (darker + 0.05);
+        }
+
+        function getLuminance(hex) {
+            const rgb = hexToRgb(hex);
+            const [r, g, b] = [rgb.r, rgb.g, rgb.b].map(val => {
+                val = val / 255;
+                return val <= 0.03928 ? val / 12.92 : Math.pow((val + 0.055) / 1.055, 2.4);
+            });
+            return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+        }
+
+        function updateCompliance(id, passes) {
+            const elem = document.getElementById(id);
+            const badge = elem.querySelector('.badge');
+            if (passes) {
+                badge.textContent = '✓ Pass';
+                badge.style.background = '#10b981';
+                badge.style.color = 'white';
+            } else {
+                badge.textContent = '✗ Fail';
+                badge.style.background = '#ef4444';
+                badge.style.color = 'white';
+            }
+        }
+
         function showToast(message) {
             const toast = document.getElementById('toast');
             const msg = document.getElementById('toastMessage');
@@ -223,7 +501,7 @@
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        // Initialize with default color
+        // Initialize
         updateFromPicker();
     </script>
 </body>

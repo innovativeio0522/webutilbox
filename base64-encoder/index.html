@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Base64 Encode Decode - Free Online Base64 Converter | ToolKit Pro</title>
-    <meta name="description" content="Encode and decode Base64 strings instantly. Free online Base64 converter for text, URLs, and data. Works in browser, no upload required.">
-    <meta name="keywords" content="base64 encode, base64 decode, base64 converter online, encode decode base64, base64 tool free">
+    <title>Base64 & URL Encoder/Decoder - Free Online Tool | ToolKit Pro</title>
+    <meta name="description" content="Encode and decode Base64 and URL strings instantly. Free online converter for Base64, URL encoding/decoding. Works in browser, no upload required.">
+    <meta name="keywords" content="base64 encode, base64 decode, url encode, url decode, base64 converter, url encoder, percent encoding">
     <link rel="canonical" href="https://yourdomain.com/base64-encoder">
     <link rel="stylesheet" href="../assets/css/common.css">
     <link rel="stylesheet" href="../assets/css/tool-specific.css">
@@ -21,10 +21,17 @@
     </header>
 
     <div class="container">
-        <h1>🔢 Base64 Encode/Decode</h1>
-        <p class="subtitle">Encode text to Base64 or decode Base64 strings back to text. Fast, secure, and works entirely in your browser.</p>
+        <h1>🔢 Base64 & URL Encoder/Decoder</h1>
+        <p class="subtitle">Encode and decode Base64 and URL strings. Fast, secure, and works entirely in your browser.</p>
 
-        <div class="workspace">
+        <!-- Mode Tabs -->
+        <div style="display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;">
+            <button id="base64Tab" class="mode-tab active" onclick="switchMode('base64')">Base64</button>
+            <button id="urlTab" class="mode-tab" onclick="switchMode('url')">URL Encoding</button>
+        </div>
+
+        <!-- Base64 Mode -->
+        <div id="base64Mode" class="workspace">
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                 <!-- Left: Encode -->
                 <div>
@@ -65,12 +72,52 @@
             </div>
         </div>
 
+        <!-- URL Encoding Mode -->
+        <div id="urlMode" class="workspace" style="display: none;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <!-- Left: Encode -->
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <label style="font-size: 0.9rem; margin: 0;">Plain Text / URL</label>
+                        <button class="btn btn-primary" onclick="encodeURL()" style="padding: 6px 16px; font-size: 0.85rem;">Encode →</button>
+                    </div>
+                    <textarea id="urlPlainText" placeholder="Enter text or URL to encode..." oninput="autoEncodeURL()" style="min-height: 250px; font-size: 0.9rem;"></textarea>
+                    <div style="display: flex; gap: 8px; margin-top: 10px;">
+                        <button class="btn btn-success" onclick="copyURLPlain()" style="flex: 1; padding: 8px; font-size: 0.85rem;">Copy</button>
+                        <button class="btn btn-secondary" onclick="clearURLPlain()" style="flex: 1; padding: 8px; font-size: 0.85rem;">Clear</button>
+                    </div>
+                </div>
+                
+                <!-- Right: Decode -->
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <label style="font-size: 0.9rem; margin: 0;">URL Encoded</label>
+                        <button class="btn btn-primary" onclick="decodeURL()" style="padding: 6px; font-size: 0.85rem;">← Decode</button>
+                    </div>
+                    <textarea id="urlEncodedText" placeholder="Enter URL encoded text to decode..." oninput="autoDecodeURL()" style="min-height: 250px; font-size: 0.9rem; font-family: 'Courier New', monospace;"></textarea>
+                    <div style="display: flex; gap: 8px; margin-top: 10px;">
+                        <button class="btn btn-success" onclick="copyURLEncoded()" style="flex: 1; padding: 8px; font-size: 0.85rem;">Copy</button>
+                        <button class="btn btn-secondary" onclick="clearURLEncoded()" style="flex: 1; padding: 8px; font-size: 0.85rem;">Clear</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 10px; margin-top: 15px; padding: 12px; background: var(--light); border-radius: 8px; border: 1px solid var(--border);">
+                <input type="checkbox" id="urlAutoMode" checked>
+                <label for="urlAutoMode" style="margin: 0; cursor: pointer; font-size: 0.9rem;">Auto-convert as you type</label>
+            </div>
+
+            <div style="margin-top: 15px; padding: 12px; background: rgba(249, 115, 22, 0.1); border-radius: 8px; font-size: 0.85rem; color: var(--gray);">
+                <strong>URL Encoding (Percent Encoding):</strong> Converts special characters to %XX format for safe transmission in URLs. Spaces become %20, & becomes %26, etc.
+            </div>
+        </div>
+
         <div class="info-section">
-            <h2>Base64 Encode Decode - Free Online Base64 Converter</h2>
-            <p>This free Base64 encoder and decoder converts text to Base64 encoding and decodes Base64 strings back to plain text. Base64 is a binary-to-text encoding scheme commonly used to encode binary data for transmission over text-based protocols like email and HTTP.</p>
-            <p><strong>What is Base64?</strong> Base64 encoding converts binary data into ASCII text format using 64 printable characters (A-Z, a-z, 0-9, +, /). It's commonly used for encoding images, files, and data in URLs, JSON, XML, and email attachments.</p>
-            <p><strong>Use Cases:</strong> Encoding images for data URIs, API authentication tokens, email attachments, embedding files in HTML/CSS, URL-safe data transmission, storing binary data in text format, JWT tokens, basic authentication headers.</p>
-            <p><strong>Privacy:</strong> All encoding and decoding happens in your browser. No data is sent to any server.</p>
+            <h2>Base64 & URL Encoder/Decoder</h2>
+            <p>Encode and decode Base64 and URL strings in your browser. All processing happens locally - your data never leaves your device.</p>
+            <p><strong>Base64:</strong> Binary-to-text encoding using 64 printable characters. Used for encoding images, files, and data in URLs, JSON, XML, and email attachments.</p>
+            <p><strong>URL Encoding:</strong> Percent encoding for safe transmission in URLs. Converts special characters to %XX format (e.g., space → %20, & → %26).</p>
+            <p><strong>Use Cases:</strong> Data URIs, API tokens, email attachments, JWT tokens, query parameters, form data, basic authentication headers.</p>
         </div>
     </div>
 
@@ -78,9 +125,43 @@
         <span id="toastMessage">Success!</span>
     </div>
 
+    <style>
+        .mode-tab {
+            padding: 10px 20px;
+            background: var(--dark);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--white);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .mode-tab:hover {
+            background: rgba(249, 115, 22, 0.1);
+            border-color: var(--primary);
+        }
+        .mode-tab.active {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+    </style>
+
     <script>
         let isEncoding = false;
         let isDecoding = false;
+        let currentMode = 'base64';
+
+        function switchMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-tab').forEach(tab => tab.classList.remove('active'));
+            document.getElementById(mode + 'Tab').classList.add('active');
+            
+            document.getElementById('base64Mode').style.display = mode === 'base64' ? 'block' : 'none';
+            document.getElementById('urlMode').style.display = mode === 'url' ? 'block' : 'none';
+        }
+
+        // ===== BASE64 MODE =====
 
         function encodeText() {
             const plain = document.getElementById('plainText').value;
@@ -129,9 +210,7 @@
                     const encoded = btoa(unescape(encodeURIComponent(plain)));
                     document.getElementById('base64Text').value = encoded;
                     updateStats(plain, encoded);
-                } catch (e) {
-                    // Ignore encoding errors during auto-convert
-                }
+                } catch (e) {}
             } else {
                 document.getElementById('base64Text').value = '';
                 document.getElementById('statsBar').style.display = 'none';
@@ -151,9 +230,7 @@
                     const decoded = decodeURIComponent(escape(atob(base64)));
                     document.getElementById('plainText').value = decoded;
                     updateStats(decoded, base64);
-                } catch (e) {
-                    // Ignore decoding errors during auto-convert
-                }
+                } catch (e) {}
             } else {
                 document.getElementById('plainText').value = '';
                 document.getElementById('statsBar').style.display = 'none';
@@ -175,24 +252,14 @@
         
         function copyPlain() {
             const text = document.getElementById('plainText').value;
-            if (!text) {
-                showToast('Nothing to copy', true);
-                return;
-            }
-            navigator.clipboard.writeText(text).then(() => {
-                showToast('Plain text copied!');
-            });
+            if (!text) return showToast('Nothing to copy', true);
+            navigator.clipboard.writeText(text).then(() => showToast('Plain text copied!'));
         }
         
         function copyBase64() {
             const text = document.getElementById('base64Text').value;
-            if (!text) {
-                showToast('Nothing to copy', true);
-                return;
-            }
-            navigator.clipboard.writeText(text).then(() => {
-                showToast('Base64 copied!');
-            });
+            if (!text) return showToast('Nothing to copy', true);
+            navigator.clipboard.writeText(text).then(() => showToast('Base64 copied!'));
         }
         
         function clearPlain() {
@@ -209,6 +276,106 @@
             if (document.getElementById('autoMode').checked) {
                 document.getElementById('plainText').value = '';
                 document.getElementById('statsBar').style.display = 'none';
+            }
+            showToast('Cleared');
+        }
+
+        // ===== URL ENCODING MODE =====
+
+        function encodeURL() {
+            const plain = document.getElementById('urlPlainText').value;
+            
+            if (!plain) {
+                showToast('Enter text to encode', true);
+                return;
+            }
+            
+            try {
+                const encoded = encodeURIComponent(plain);
+                document.getElementById('urlEncodedText').value = encoded;
+                showToast('Text URL encoded');
+            } catch (e) {
+                showToast('Encoding failed', true);
+            }
+        }
+        
+        function decodeURL() {
+            const encoded = document.getElementById('urlEncodedText').value;
+            
+            if (!encoded) {
+                showToast('Enter URL encoded text to decode', true);
+                return;
+            }
+            
+            try {
+                const decoded = decodeURIComponent(encoded);
+                document.getElementById('urlPlainText').value = decoded;
+                showToast('URL decoded to text');
+            } catch (e) {
+                showToast('Invalid URL encoded string', true);
+            }
+        }
+        
+        function autoEncodeURL() {
+            if (!document.getElementById('urlAutoMode').checked || isDecoding) return;
+            
+            isEncoding = true;
+            const plain = document.getElementById('urlPlainText').value;
+            
+            if (plain) {
+                try {
+                    const encoded = encodeURIComponent(plain);
+                    document.getElementById('urlEncodedText').value = encoded;
+                } catch (e) {}
+            } else {
+                document.getElementById('urlEncodedText').value = '';
+            }
+            
+            setTimeout(() => { isEncoding = false; }, 100);
+        }
+        
+        function autoDecodeURL() {
+            if (!document.getElementById('urlAutoMode').checked || isEncoding) return;
+            
+            isDecoding = true;
+            const encoded = document.getElementById('urlEncodedText').value;
+            
+            if (encoded) {
+                try {
+                    const decoded = decodeURIComponent(encoded);
+                    document.getElementById('urlPlainText').value = decoded;
+                } catch (e) {}
+            } else {
+                document.getElementById('urlPlainText').value = '';
+            }
+            
+            setTimeout(() => { isDecoding = false; }, 100);
+        }
+        
+        function copyURLPlain() {
+            const text = document.getElementById('urlPlainText').value;
+            if (!text) return showToast('Nothing to copy', true);
+            navigator.clipboard.writeText(text).then(() => showToast('Plain text copied!'));
+        }
+        
+        function copyURLEncoded() {
+            const text = document.getElementById('urlEncodedText').value;
+            if (!text) return showToast('Nothing to copy', true);
+            navigator.clipboard.writeText(text).then(() => showToast('URL encoded text copied!'));
+        }
+        
+        function clearURLPlain() {
+            document.getElementById('urlPlainText').value = '';
+            if (document.getElementById('urlAutoMode').checked) {
+                document.getElementById('urlEncodedText').value = '';
+            }
+            showToast('Cleared');
+        }
+        
+        function clearURLEncoded() {
+            document.getElementById('urlEncodedText').value = '';
+            if (document.getElementById('urlAutoMode').checked) {
+                document.getElementById('urlPlainText').value = '';
             }
             showToast('Cleared');
         }

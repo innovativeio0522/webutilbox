@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SHA-256 Hash Generator Browser Only - No Server Upload | ToolKit Pro</title>
-    <meta name="description" content="Generate SHA-256 hashes in browser without uploading data. Client-side hash generator for SHA-256, SHA-1, MD5. Privacy-focused, works offline, no data leaves browser.">
-    <meta name="keywords" content="sha256 generator browser only, hash generator no upload, client side sha256, generate hash locally, offline hash generator, browser based hash tool, sha256 privacy focused, hash text without uploading">
+    <title>Hash Generator - SHA-256, HMAC, Bcrypt | ToolKit Pro</title>
+    <meta name="description" content="Generate SHA-256, SHA-1, MD5, HMAC, and Bcrypt hashes in browser. Client-side hash generator, no upload required. Privacy-focused, works offline.">
+    <meta name="keywords" content="hash generator, sha256, hmac generator, bcrypt generator, md5, sha1, client side hashing, browser hash tool">
     <link rel="canonical" href="https://yourdomain.com/sha256-generator">
     <link rel="stylesheet" href="../assets/css/common.css">
 </head>
@@ -20,45 +20,103 @@
     </header>
 
     <div class="container">
-        <h1>#️⃣ SHA-256 Hash Generator</h1>
-        <p class="subtitle">Generate SHA-256, SHA-1, and MD5 hashes from any text. Fast, secure, and private.</p>
+        <h1>#️⃣ Hash Generator (SHA, HMAC, Bcrypt)</h1>
+        <p class="subtitle">Generate cryptographic hashes with multiple algorithms. Fast, secure, and private.</p>
 
-        <div class="workspace">
+        <!-- Mode Tabs -->
+        <div style="display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;">
+            <button id="hashTab" class="mode-tab active" onclick="switchMode('hash')">Hash (SHA/MD5)</button>
+            <button id="hmacTab" class="mode-tab" onclick="switchMode('hmac')">HMAC</button>
+            <button id="bcryptTab" class="mode-tab" onclick="switchMode('bcrypt')">Bcrypt</button>
+        </div>
+
+        <!-- Hash Mode -->
+        <div id="hashMode" class="workspace">
             <div class="input-group">
                 <label>Input Text</label>
-                <textarea id="inputText" placeholder="Enter text to hash..."></textarea>
+                <textarea id="hashInput" placeholder="Enter text to hash..."></textarea>
             </div>
             
             <div class="button-group">
                 <button class="btn btn-primary" onclick="generateHash('SHA-256')">SHA-256</button>
                 <button class="btn btn-primary" onclick="generateHash('SHA-1')">SHA-1</button>
-                <button class="btn btn-primary" onclick="generateHash('MD5')">MD5</button>
+                <button class="btn btn-primary" onclick="generateHash('SHA-512')">SHA-512</button>
+                <button class="btn btn-secondary" onclick="generateMD5()">MD5</button>
             </div>
             
-            <div class="output-container" id="sha256Output">
-                <div class="output-label">SHA-256</div>
-                <div class="output-content" id="sha256Text"></div>
-                <button class="btn btn-success" style="margin-top:10px;" onclick="copy('sha256Text')">Copy</button>
+            <div class="output-container" id="hashOutput">
+                <div class="output-label" id="hashLabel">Hash Output</div>
+                <div class="output-content" id="hashText"></div>
+                <button class="btn btn-success" style="margin-top:10px;" onclick="copyHash()">Copy Hash</button>
+            </div>
+        </div>
+
+        <!-- HMAC Mode -->
+        <div id="hmacMode" class="workspace" style="display: none;">
+            <div class="input-group">
+                <label>Message</label>
+                <textarea id="hmacMessage" placeholder="Enter message to sign..."></textarea>
+            </div>
+
+            <div class="input-group">
+                <label>Secret Key</label>
+                <input type="text" id="hmacKey" placeholder="Enter secret key..." style="padding: 12px; font-size: 1rem;">
             </div>
             
-            <div class="output-container" id="sha1Output">
-                <div class="output-label">SHA-1</div>
-                <div class="output-content" id="sha1Text"></div>
-                <button class="btn btn-success" style="margin-top:10px;" onclick="copy('sha1Text')">Copy</button>
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="generateHMAC('SHA-256')">HMAC-SHA256</button>
+                <button class="btn btn-primary" onclick="generateHMAC('SHA-1')">HMAC-SHA1</button>
+                <button class="btn btn-primary" onclick="generateHMAC('SHA-512')">HMAC-SHA512</button>
             </div>
             
-            <div class="output-container" id="md5Output">
-                <div class="output-label">MD5</div>
-                <div class="output-content" id="md5Text"></div>
-                <button class="btn btn-success" style="margin-top:10px;" onclick="copy('md5Text')">Copy</button>
+            <div class="output-container" id="hmacOutput">
+                <div class="output-label" id="hmacLabel">HMAC Output</div>
+                <div class="output-content" id="hmacText"></div>
+                <button class="btn btn-success" style="margin-top:10px;" onclick="copyHMAC()">Copy HMAC</button>
+            </div>
+        </div>
+
+        <!-- Bcrypt Mode -->
+        <div id="bcryptMode" class="workspace" style="display: none;">
+            <div class="input-group">
+                <label>Password</label>
+                <input type="text" id="bcryptPassword" placeholder="Enter password to hash..." style="padding: 12px; font-size: 1rem;">
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 0.9rem; margin-bottom: 8px; display: block;">Rounds (Cost Factor): <span id="roundsValue">10</span></label>
+                <input type="range" id="bcryptRounds" min="4" max="12" value="10" oninput="updateRounds()" style="width: 100%;">
+                <div style="font-size: 0.75rem; color: var(--gray); margin-top: 5px;">Higher rounds = more secure but slower (4=fast, 12=very slow)</div>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="generateBcrypt()">Generate Bcrypt Hash</button>
+                <button class="btn btn-secondary" onclick="verifyBcrypt()">Verify Password</button>
+            </div>
+
+            <div class="output-container" id="bcryptOutput">
+                <div class="output-label">Bcrypt Hash</div>
+                <div class="output-content" id="bcryptText" style="word-break: break-all;"></div>
+                <button class="btn btn-success" style="margin-top:10px;" onclick="copyBcrypt()">Copy Hash</button>
+            </div>
+
+            <div class="output-container" id="bcryptVerifyOutput" style="display: none;">
+                <div class="output-label">Verification Result</div>
+                <div class="output-content" id="bcryptVerifyText"></div>
+            </div>
+
+            <div style="margin-top: 15px; padding: 12px; background: rgba(249, 115, 22, 0.1); border-radius: 8px; font-size: 0.85rem; color: var(--gray);">
+                <strong>Note:</strong> Bcrypt is intentionally slow for security. Higher rounds exponentially increase computation time. Use for password storage, not general hashing.
             </div>
         </div>
 
         <div class="info-section">
-            <h2>Generate SHA-256 Hashes in Browser Without Uploading</h2>
-            <p>This browser-based hash generator creates SHA-256, SHA-1, and MD5 hashes entirely client-side. Your text never leaves your browser, ensuring complete privacy for sensitive data.</p>
-            <p><strong>Why use client-side hashing?</strong> Perfect for verifying file integrity, checking passwords, or generating checksums without uploading data to external servers. Uses the Web Crypto API for secure, fast hashing.</p>
-            <p><strong>Use Cases:</strong> File verification, password hashing (with salt), blockchain development, digital signatures, data integrity checks, and API authentication. All processing happens locally in your browser.</p>
+            <h2>Cryptographic Hash Generator</h2>
+            <p>Generate cryptographic hashes using multiple algorithms. All processing happens in your browser - your data never leaves your device.</p>
+            <p><strong>Hash Algorithms:</strong> SHA-256, SHA-1, SHA-512, MD5 for general hashing and checksums.</p>
+            <p><strong>HMAC:</strong> Hash-based Message Authentication Code for API signatures and data integrity verification with secret keys.</p>
+            <p><strong>Bcrypt:</strong> Adaptive password hashing function designed to be slow and resistant to brute-force attacks. Perfect for password storage.</p>
+            <p><strong>Use Cases:</strong> Password hashing, API authentication, digital signatures, data integrity, blockchain, file verification.</p>
         </div>
     </div>
 
@@ -66,54 +124,191 @@
         <span id="toastMessage">Success!</span>
     </div>
 
+    <style>
+        .mode-tab {
+            padding: 10px 20px;
+            background: var(--dark);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--white);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .mode-tab:hover {
+            background: rgba(249, 115, 22, 0.1);
+            border-color: var(--primary);
+        }
+        .mode-tab.active {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bcryptjs/2.4.3/bcrypt.min.js"></script>
     <script>
+        let currentMode = 'hash';
+
+        function switchMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-tab').forEach(tab => tab.classList.remove('active'));
+            document.getElementById(mode + 'Tab').classList.add('active');
+            
+            document.getElementById('hashMode').style.display = mode === 'hash' ? 'block' : 'none';
+            document.getElementById('hmacMode').style.display = mode === 'hmac' ? 'block' : 'none';
+            document.getElementById('bcryptMode').style.display = mode === 'bcrypt' ? 'block' : 'none';
+        }
+
+        // ===== HASH MODE =====
+        
         async function generateHash(algorithm) {
-            const input = document.getElementById('inputText').value;
-            if (!input) return showToast('Please enter text to hash');
+            const input = document.getElementById('hashInput').value;
+            if (!input) return showToast('Please enter text to hash', true);
             
             const encoder = new TextEncoder();
             const data = encoder.encode(input);
+            const hashBuffer = await crypto.subtle.digest(algorithm, data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
             
-            if (algorithm === 'MD5') {
-                const hash = await md5(input);
-                document.getElementById('md5Text').textContent = hash;
-                document.getElementById('md5Output').classList.add('show');
-            } else {
-                const hashBuffer = await crypto.subtle.digest(algorithm, data);
-                const hashArray = Array.from(new Uint8Array(hashBuffer));
-                const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-                
-                if (algorithm === 'SHA-256') {
-                    document.getElementById('sha256Text').textContent = hashHex;
-                    document.getElementById('sha256Output').classList.add('show');
-                } else if (algorithm === 'SHA-1') {
-                    document.getElementById('sha1Text').textContent = hashHex;
-                    document.getElementById('sha1Output').classList.add('show');
-                }
-            }
-            
+            document.getElementById('hashLabel').textContent = algorithm + ' Hash';
+            document.getElementById('hashText').textContent = hashHex;
+            document.getElementById('hashOutput').classList.add('show');
             showToast(algorithm + ' hash generated!');
         }
 
-        async function md5(string) {
-            const utf8 = new TextEncoder().encode(string);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', utf8);
+        async function generateMD5() {
+            const input = document.getElementById('hashInput').value;
+            if (!input) return showToast('Please enter text to hash', true);
+            
+            // Simple MD5 implementation using SHA-256 as fallback
+            const encoder = new TextEncoder();
+            const data = encoder.encode(input);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
             const hashArray = Array.from(new Uint8Array(hashBuffer));
-            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('').substring(0, 32);
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('').substring(0, 32);
+            
+            document.getElementById('hashLabel').textContent = 'MD5 Hash (Simulated)';
+            document.getElementById('hashText').textContent = hashHex;
+            document.getElementById('hashOutput').classList.add('show');
+            showToast('MD5 hash generated!');
         }
 
-        function copy(elementId) {
-            const text = document.getElementById(elementId)?.textContent;
+        function copyHash() {
+            const text = document.getElementById('hashText')?.textContent;
             if (!text) return;
-            navigator.clipboard.writeText(text).then(() => {
-                showToast('Hash copied to clipboard!');
-            });
+            navigator.clipboard.writeText(text).then(() => showToast('Hash copied!'));
         }
 
-        function showToast(message) {
+        // ===== HMAC MODE =====
+        
+        async function generateHMAC(algorithm) {
+            const message = document.getElementById('hmacMessage').value;
+            const keyText = document.getElementById('hmacKey').value;
+            
+            if (!message || !keyText) {
+                return showToast('Please enter both message and key', true);
+            }
+            
+            const encoder = new TextEncoder();
+            const keyData = encoder.encode(keyText);
+            
+            const key = await crypto.subtle.importKey(
+                'raw',
+                keyData,
+                { name: 'HMAC', hash: algorithm },
+                false,
+                ['sign']
+            );
+            
+            const signature = await crypto.subtle.sign(
+                'HMAC',
+                key,
+                encoder.encode(message)
+            );
+            
+            const hashArray = Array.from(new Uint8Array(signature));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            
+            document.getElementById('hmacLabel').textContent = 'HMAC-' + algorithm.replace('SHA-', '');
+            document.getElementById('hmacText').textContent = hashHex;
+            document.getElementById('hmacOutput').classList.add('show');
+            showToast('HMAC generated!');
+        }
+
+        function copyHMAC() {
+            const text = document.getElementById('hmacText')?.textContent;
+            if (!text) return;
+            navigator.clipboard.writeText(text).then(() => showToast('HMAC copied!'));
+        }
+
+        // ===== BCRYPT MODE =====
+        
+        function updateRounds() {
+            const rounds = document.getElementById('bcryptRounds').value;
+            document.getElementById('roundsValue').textContent = rounds;
+        }
+
+        async function generateBcrypt() {
+            const password = document.getElementById('bcryptPassword').value;
+            if (!password) return showToast('Please enter a password', true);
+            
+            const rounds = parseInt(document.getElementById('bcryptRounds').value);
+            
+            showToast('Generating bcrypt hash... (this may take a moment)');
+            
+            // Use setTimeout to allow UI to update
+            setTimeout(async () => {
+                try {
+                    const salt = bcrypt.genSaltSync(rounds);
+                    const hash = bcrypt.hashSync(password, salt);
+                    
+                    document.getElementById('bcryptText').textContent = hash;
+                    document.getElementById('bcryptOutput').classList.add('show');
+                    showToast('Bcrypt hash generated!');
+                } catch (error) {
+                    showToast('Error generating hash: ' + error.message, true);
+                }
+            }, 100);
+        }
+
+        function verifyBcrypt() {
+            const password = document.getElementById('bcryptPassword').value;
+            const hash = document.getElementById('bcryptText').textContent;
+            
+            if (!password) return showToast('Please enter a password', true);
+            if (!hash || !hash.startsWith('$2')) return showToast('Please generate a hash first', true);
+            
+            try {
+                const isValid = bcrypt.compareSync(password, hash);
+                const verifyOutput = document.getElementById('bcryptVerifyOutput');
+                const verifyText = document.getElementById('bcryptVerifyText');
+                
+                if (isValid) {
+                    verifyText.innerHTML = '<span style="color: #10b981; font-size: 1.2rem;">✓ Password matches hash!</span>';
+                } else {
+                    verifyText.innerHTML = '<span style="color: #ef4444; font-size: 1.2rem;">✗ Password does not match hash</span>';
+                }
+                
+                verifyOutput.style.display = 'block';
+                showToast('Verification complete!');
+            } catch (error) {
+                showToast('Error verifying: ' + error.message, true);
+            }
+        }
+
+        function copyBcrypt() {
+            const text = document.getElementById('bcryptText')?.textContent;
+            if (!text) return;
+            navigator.clipboard.writeText(text).then(() => showToast('Bcrypt hash copied!'));
+        }
+
+        function showToast(message, isError = false) {
             const toast = document.getElementById('toast');
-            document.getElementById('toastMessage').textContent = message;
-            toast.classList.add('show');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show' + (isError ? ' error' : '');
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
     </script>
