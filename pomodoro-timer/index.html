@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro Timer - Focus Timer with Breaks | ToolKit Pro</title>
+    <meta name="description" content="Free Pomodoro timer for productivity. 25-minute focus sessions with 5-minute breaks. Customizable work and break intervals.">
+    <meta name="keywords" content="pomodoro timer, focus timer, productivity timer, work timer, break timer">
+    <link rel="canonical" href="https://yourdomain.com/pomodoro-timer">
+    <link rel="stylesheet" href="../assets/css/common.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>🍅 Pomodoro Timer</h1>
+        <p class="subtitle">Stay focused with the Pomodoro Technique. 25 minutes of work, 5 minutes of break.</p>
+
+        <div class="workspace">
+            <!-- Timer Display -->
+            <div style="text-align: center; margin-bottom: 30px;">
+                <div id="timerDisplay" style="font-size: 5rem; font-weight: bold; color: var(--primary); margin-bottom: 10px; font-family: monospace;">25:00</div>
+                <div id="sessionType" style="font-size: 1.2rem; color: var(--gray); margin-bottom: 20px;">Focus Session</div>
+                <div id="sessionCount" style="font-size: 0.9rem; color: var(--gray);">Session 1 of 4</div>
+            </div>
+
+            <!-- Controls -->
+            <div class="button-group" style="justify-content: center;">
+                <button id="startBtn" class="btn btn-primary" onclick="startTimer()" style="padding: 15px 40px; font-size: 1.1rem;">Start</button>
+                <button id="pauseBtn" class="btn btn-secondary" onclick="pauseTimer()" style="padding: 15px 40px; font-size: 1.1rem; display: none;">Pause</button>
+                <button class="btn btn-secondary" onclick="resetTimer()" style="padding: 15px 40px; font-size: 1.1rem;">Reset</button>
+            </div>
+
+            <!-- Settings -->
+            <div style="margin-top: 40px; background: var(--light); border-radius: 12px; padding: 20px; border: 1px solid var(--border);">
+                <h3 style="margin-bottom: 15px; font-size: 1rem;">Settings</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                    <div>
+                        <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Focus Duration (minutes)</label>
+                        <input type="number" id="focusDuration" value="25" min="1" max="60" style="width: 100%; padding: 8px;">
+                    </div>
+                    <div>
+                        <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Short Break (minutes)</label>
+                        <input type="number" id="shortBreak" value="5" min="1" max="30" style="width: 100%; padding: 8px;">
+                    </div>
+                    <div>
+                        <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Long Break (minutes)</label>
+                        <input type="number" id="longBreak" value="15" min="1" max="60" style="width: 100%; padding: 8px;">
+                    </div>
+                </div>
+                <div style="margin-top: 15px;">
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" id="autoStart" checked>
+                        <span style="font-size: 0.9rem;">Auto-start next session</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Progress -->
+            <div style="margin-top: 20px;">
+                <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 8px;">Today's Progress</div>
+                <div style="display: flex; gap: 5px;">
+                    <div id="progress1" class="progress-dot"></div>
+                    <div id="progress2" class="progress-dot"></div>
+                    <div id="progress3" class="progress-dot"></div>
+                    <div id="progress4" class="progress-dot"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Pomodoro Timer - Focus & Productivity Technique</h2>
+            <p>The Pomodoro Technique is a time management method that uses a timer to break work into focused intervals (traditionally 25 minutes) separated by short breaks.</p>
+            <p><strong>How it works:</strong> Work for 25 minutes (1 Pomodoro), take a 5-minute break. After 4 Pomodoros, take a longer 15-minute break.</p>
+            <p><strong>Benefits:</strong> Improved focus, reduced mental fatigue, better time awareness, increased productivity, prevention of burnout.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <style>
+        .progress-dot {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--dark);
+            border: 2px solid var(--border);
+            transition: all 0.3s;
+        }
+        .progress-dot.completed {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+    </style>
+
+    <script>
+        let timeLeft = 25 * 60; // seconds
+        let isRunning = false;
+        let interval = null;
+        let currentSession = 1;
+        let sessionType = 'focus'; // focus, shortBreak, longBreak
+        let completedSessions = 0;
+
+        function updateDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timerDisplay').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Update session type
+            if (sessionType === 'focus') {
+                document.getElementById('sessionType').textContent = 'Focus Session';
+                document.getElementById('timerDisplay').style.color = 'var(--primary)';
+            } else if (sessionType === 'shortBreak') {
+                document.getElementById('sessionType').textContent = 'Short Break';
+                document.getElementById('timerDisplay').style.color = '#10b981';
+            } else {
+                document.getElementById('sessionType').textContent = 'Long Break';
+                document.getElementById('timerDisplay').style.color = '#3b82f6';
+            }
+            
+            document.getElementById('sessionCount').textContent = `Session ${currentSession} of 4`;
+            
+            // Update progress dots
+            for (let i = 1; i <= 4; i++) {
+                const dot = document.getElementById(`progress${i}`);
+                if (i <= completedSessions) {
+                    dot.classList.add('completed');
+                } else {
+                    dot.classList.remove('completed');
+                }
+            }
+        }
+
+        function startTimer() {
+            if (isRunning) return;
+            
+            isRunning = true;
+            document.getElementById('startBtn').style.display = 'none';
+            document.getElementById('pauseBtn').style.display = 'inline-block';
+            
+            interval = setInterval(() => {
+                timeLeft--;
+                updateDisplay();
+                
+                if (timeLeft <= 0) {
+                    playSound();
+                    nextSession();
+                }
+            }, 1000);
+        }
+
+        function pauseTimer() {
+            isRunning = false;
+            clearInterval(interval);
+            document.getElementById('startBtn').style.display = 'inline-block';
+            document.getElementById('pauseBtn').style.display = 'none';
+        }
+
+        function resetTimer() {
+            pauseTimer();
+            sessionType = 'focus';
+            currentSession = 1;
+            completedSessions = 0;
+            timeLeft = parseInt(document.getElementById('focusDuration').value) * 60;
+            updateDisplay();
+            showToast('Timer reset');
+        }
+
+        function nextSession() {
+            pauseTimer();
+            
+            if (sessionType === 'focus') {
+                completedSessions++;
+                
+                if (completedSessions >= 4) {
+                    sessionType = 'longBreak';
+                    timeLeft = parseInt(document.getElementById('longBreak').value) * 60;
+                    completedSessions = 0;
+                    currentSession = 1;
+                    showToast('Great work! Take a long break!');
+                } else {
+                    sessionType = 'shortBreak';
+                    timeLeft = parseInt(document.getElementById('shortBreak').value) * 60;
+                    currentSession++;
+                    showToast('Focus session complete! Take a short break.');
+                }
+            } else {
+                sessionType = 'focus';
+                timeLeft = parseInt(document.getElementById('focusDuration').value) * 60;
+                showToast('Break over! Time to focus.');
+            }
+            
+            updateDisplay();
+            
+            if (document.getElementById('autoStart').checked) {
+                setTimeout(startTimer, 2000);
+            }
+        }
+
+        function playSound() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = 800;
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.5);
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show';
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        updateDisplay();
+    </script>
+</body>
+</html>
