@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Encryption - Encrypt Decrypt Text Online with AES | ToolKit Pro</title>
+    <meta name="description" content="Encrypt and decrypt text with AES-256 encryption. Free online text encryption tool for secure message protection. Works in browser, no upload required.">
+    <meta name="keywords" content="text encryption online, aes encryption tool, encrypt decrypt text, secure text encryption free">
+    <link rel="canonical" href="https://yourdomain.com/text-encryption">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/tool-specific.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>🔒 Text Encryption</h1>
+        <p class="subtitle">Encrypt and decrypt text using AES-256 encryption. Secure your messages with a password. All processing happens in your browser.</p>
+
+        <div class="workspace">
+            <!-- Password Input -->
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 0.9rem; margin-bottom: 8px;">Encryption Password</label>
+                <div style="position: relative;">
+                    <input type="password" id="passwordInput" placeholder="Enter a strong password..." style="padding: 12px; font-size: 1rem; padding-right: 50px;">
+                    <button onclick="togglePassword()" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 1.3rem; color: var(--gray);" id="toggleBtn">👁️</button>
+                </div>
+                <div style="font-size: 0.8rem; color: var(--gray); margin-top: 5px;">⚠️ Remember this password - you'll need it to decrypt the text</div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <!-- Left: Plain Text -->
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <label style="font-size: 0.9rem; margin: 0;">Plain Text</label>
+                        <button class="btn btn-primary" onclick="encryptText()" style="padding: 6px 16px; font-size: 0.85rem;">🔒 Encrypt</button>
+                    </div>
+                    <textarea id="plainText" placeholder="Enter text to encrypt..." style="min-height: 250px; font-size: 0.9rem;"></textarea>
+                    <div style="display: flex; gap: 8px; margin-top: 10px;">
+                        <button class="btn btn-success" onclick="copyPlain()" style="flex: 1; padding: 8px; font-size: 0.85rem;">Copy</button>
+                        <button class="btn btn-secondary" onclick="clearPlain()" style="flex: 1; padding: 8px; font-size: 0.85rem;">Clear</button>
+                    </div>
+                </div>
+                
+                <!-- Right: Encrypted Text -->
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <label style="font-size: 0.9rem; margin: 0;">Encrypted Text</label>
+                        <button class="btn btn-primary" onclick="decryptText()" style="padding: 6px 16px; font-size: 0.85rem;">🔓 Decrypt</button>
+                    </div>
+                    <textarea id="encryptedText" placeholder="Encrypted text will appear here..." style="min-height: 250px; font-size: 0.9rem; font-family: 'Courier New', monospace;"></textarea>
+                    <div style="display: flex; gap: 8px; margin-top: 10px;">
+                        <button class="btn btn-success" onclick="copyEncrypted()" style="flex: 1; padding: 8px; font-size: 0.85rem;">Copy</button>
+                        <button class="btn btn-secondary" onclick="clearEncrypted()" style="flex: 1; padding: 8px; font-size: 0.85rem;">Clear</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-bar" id="statsBar" style="display: none; margin-top: 15px;">
+                <div class="stat">📝 Original: <span class="stat-value" id="originalSize">0</span> chars</div>
+                <div class="stat">🔒 Encrypted: <span class="stat-value" id="encryptedSize">0</span> chars</div>
+                <div class="stat">🔐 Algorithm: <span class="stat-value">AES-256</span></div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Text Encryption - Secure Your Messages with AES-256</h2>
+            <p>This free text encryption tool uses AES-256 encryption to secure your messages. Enter a password and encrypt your text to protect sensitive information. Only someone with the correct password can decrypt the message.</p>
+            <p><strong>What is AES-256?</strong> Advanced Encryption Standard (AES) with 256-bit keys is a symmetric encryption algorithm used worldwide for securing sensitive data. It's the same encryption standard used by governments and banks.</p>
+            <p><strong>How it Works:</strong> Your text is encrypted using your password as the key. The encrypted output is Base64-encoded for easy sharing. To decrypt, paste the encrypted text and enter the same password.</p>
+            <p><strong>Security Tips:</strong> Use a strong, unique password. Never share your password with the encrypted text. Remember your password - there's no recovery option. For maximum security, use passwords with 16+ characters.</p>
+            <p><strong>Privacy:</strong> All encryption and decryption happens in your browser. No data is sent to any server. Your text and password never leave your device.</p>
+            <p><strong>Use Cases:</strong> Secure messaging, password storage notes, sensitive document protection, confidential data sharing, private journal entries, API key storage.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        // Simple AES-like encryption using Web Crypto API
+        async function deriveKey(password, salt) {
+            const encoder = new TextEncoder();
+            const keyMaterial = await crypto.subtle.importKey(
+                'raw',
+                encoder.encode(password),
+                'PBKDF2',
+                false,
+                ['deriveBits', 'deriveKey']
+            );
+            
+            return crypto.subtle.deriveKey(
+                {
+                    name: 'PBKDF2',
+                    salt: salt,
+                    iterations: 100000,
+                    hash: 'SHA-256'
+                },
+                keyMaterial,
+                { name: 'AES-GCM', length: 256 },
+                false,
+                ['encrypt', 'decrypt']
+            );
+        }
+
+        function togglePassword() {
+            const input = document.getElementById('passwordInput');
+            const btn = document.getElementById('toggleBtn');
+            if (input.type === 'password') {
+                input.type = 'text';
+                btn.textContent = '🙈';
+            } else {
+                input.type = 'password';
+                btn.textContent = '👁️';
+            }
+        }
+
+        async function encryptText() {
+            const password = document.getElementById('passwordInput').value;
+            const plainText = document.getElementById('plainText').value;
+            
+            if (!password) {
+                showToast('Enter a password first', true);
+                return;
+            }
+            
+            if (!plainText) {
+                showToast('Enter text to encrypt', true);
+                return;
+            }
+            
+            try {
+                const encoder = new TextEncoder();
+                const salt = crypto.getRandomValues(new Uint8Array(16));
+                const iv = crypto.getRandomValues(new Uint8Array(12));
+                
+                const key = await deriveKey(password, salt);
+                
+                const encrypted = await crypto.subtle.encrypt(
+                    { name: 'AES-GCM', iv: iv },
+                    key,
+                    encoder.encode(plainText)
+                );
+                
+                // Combine salt + iv + encrypted data
+                const combined = new Uint8Array(salt.length + iv.length + encrypted.byteLength);
+                combined.set(salt, 0);
+                combined.set(iv, salt.length);
+                combined.set(new Uint8Array(encrypted), salt.length + iv.length);
+                
+                // Convert to Base64
+                const base64 = btoa(String.fromCharCode(...combined));
+                
+                document.getElementById('encryptedText').value = base64;
+                updateStats(plainText, base64);
+                showToast('Text encrypted successfully!');
+                
+            } catch (e) {
+                showToast('Encryption failed', true);
+            }
+        }
+
+        async function decryptText() {
+            const password = document.getElementById('passwordInput').value;
+            const encryptedText = document.getElementById('encryptedText').value;
+            
+            if (!password) {
+                showToast('Enter the password', true);
+                return;
+            }
+            
+            if (!encryptedText) {
+                showToast('Enter encrypted text to decrypt', true);
+                return;
+            }
+            
+            try {
+                // Decode Base64
+                const combined = new Uint8Array(
+                    atob(encryptedText).split('').map(c => c.charCodeAt(0))
+                );
+                
+                // Extract salt, iv, and encrypted data
+                const salt = combined.slice(0, 16);
+                const iv = combined.slice(16, 28);
+                const encrypted = combined.slice(28);
+                
+                const key = await deriveKey(password, salt);
+                
+                const decrypted = await crypto.subtle.decrypt(
+                    { name: 'AES-GCM', iv: iv },
+                    key,
+                    encrypted
+                );
+                
+                const decoder = new TextDecoder();
+                const plainText = decoder.decode(decrypted);
+                
+                document.getElementById('plainText').value = plainText;
+                updateStats(plainText, encryptedText);
+                showToast('Text decrypted successfully!');
+                
+            } catch (e) {
+                showToast('Decryption failed - wrong password or corrupted data', true);
+            }
+        }
+
+        function updateStats(plain, encrypted) {
+            document.getElementById('originalSize').textContent = plain.length;
+            document.getElementById('encryptedSize').textContent = encrypted.length;
+            document.getElementById('statsBar').style.display = 'flex';
+        }
+
+        function copyPlain() {
+            const text = document.getElementById('plainText').value;
+            if (!text) {
+                showToast('Nothing to copy', true);
+                return;
+            }
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Plain text copied!');
+            });
+        }
+
+        function copyEncrypted() {
+            const text = document.getElementById('encryptedText').value;
+            if (!text) {
+                showToast('Nothing to copy', true);
+                return;
+            }
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Encrypted text copied!');
+            });
+        }
+
+        function clearPlain() {
+            document.getElementById('plainText').value = '';
+            showToast('Cleared');
+        }
+
+        function clearEncrypted() {
+            document.getElementById('encryptedText').value = '';
+            showToast('Cleared');
+        }
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show' + (isError ? ' error' : '');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>

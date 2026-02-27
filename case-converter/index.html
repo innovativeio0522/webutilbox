@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Converter Online - UPPER, lower, Title, camelCase | ToolKit Pro</title>
+    <meta name="description" content="Convert text case online instantly. Change to UPPERCASE, lowercase, Title Case, camelCase, snake_case, kebab-case. Free text case converter in browser.">
+    <meta name="keywords" content="case converter online, text case converter, uppercase lowercase converter, camelcase converter, snake case converter, title case converter instant">
+    <link rel="canonical" href="https://yourdomain.com/case-converter">
+    <link rel="stylesheet" href="../assets/css/common.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>🔤 Case Converter</h1>
+        <p class="subtitle">Convert text between different cases instantly. UPPERCASE, lowercase, Title Case, camelCase, and more.</p>
+
+        <div class="workspace">
+            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 20px; align-items: start;">
+                <!-- Left: Input -->
+                <div>
+                    <div class="input-group" style="margin-bottom: 15px;">
+                        <label>Input Text</label>
+                        <textarea id="inputText" placeholder="Enter your text here..." oninput="convertAllCases()" style="min-height: 200px;"></textarea>
+                    </div>
+                    <div class="stats-bar" id="statsBar" style="display:none; flex-direction: column; gap: 8px; padding: 12px;">
+                        <div class="stat" style="justify-content: space-between; width: 100%;">
+                            <span>Characters:</span>
+                            <span class="stat-value" id="charCount">0</span>
+                        </div>
+                        <div class="stat" style="justify-content: space-between; width: 100%;">
+                            <span>Words:</span>
+                            <span class="stat-value" id="wordCount">0</span>
+                        </div>
+                        <div class="stat" style="justify-content: space-between; width: 100%;">
+                            <span>Lines:</span>
+                            <span class="stat-value" id="lineCount">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: All conversions in compact grid -->
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+                    <!-- UPPERCASE -->
+                    <div class="output-container show" style="padding: 12px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                            <div class="output-label" style="margin-bottom: 0; font-size: 0.75rem;">UPPERCASE</div>
+                            <button class="btn btn-success" style="padding: 3px 8px; font-size: 0.75rem;" onclick="copyCase('upper')">Copy</button>
+                        </div>
+                        <div class="output-content" id="upperCase" style="color: var(--gray); font-size: 0.85rem; min-height: 35px; line-height: 1.3;">Type...</div>
+                    </div>
+
+                    <!-- lowercase -->
+                    <div class="output-container show" style="padding: 12px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                            <div class="output-label" style="margin-bottom: 0; font-size: 0.75rem;">lowercase</div>
+                            <button class="btn btn-success" style="padding: 3px 8px; font-size: 0.75rem;" onclick="copyCase('lower')">Copy</button>
+                        </div>
+                        <div class="output-content" id="lowerCase" style="color: var(--gray); font-size: 0.85rem; min-height: 35px; line-height: 1.3;">Type...</div>
+                    </div>
+
+                    <!-- Title Case -->
+                    <div class="output-container show" style="padding: 12px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                            <div class="output-label" style="margin-bottom: 0; font-size: 0.75rem;">Title Case</div>
+                            <button class="btn btn-success" style="padding: 3px 8px; font-size: 0.75rem;" onclick="copyCase('title')">Copy</button>
+                        </div>
+                        <div class="output-content" id="titleCase" style="color: var(--gray); font-size: 0.85rem; min-height: 35px; line-height: 1.3;">Type...</div>
+                    </div>
+
+                    <!-- Sentence case -->
+                    <div class="output-container show" style="padding: 12px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                            <div class="output-label" style="margin-bottom: 0; font-size: 0.75rem;">Sentence case</div>
+                            <button class="btn btn-success" style="padding: 3px 8px; font-size: 0.75rem;" onclick="copyCase('sentence')">Copy</button>
+                        </div>
+                        <div class="output-content" id="sentenceCase" style="color: var(--gray); font-size: 0.85rem; min-height: 35px; line-height: 1.3;">Type...</div>
+                    </div>
+
+                    <!-- camelCase -->
+                    <div class="output-container show" style="padding: 12px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                            <div class="output-label" style="margin-bottom: 0; font-size: 0.75rem;">camelCase</div>
+                            <button class="btn btn-success" style="padding: 3px 8px; font-size: 0.75rem;" onclick="copyCase('camel')">Copy</button>
+                        </div>
+                        <div class="output-content" id="camelCase" style="color: var(--gray); font-size: 0.85rem; min-height: 35px; line-height: 1.3;">Type...</div>
+                    </div>
+
+                    <!-- PascalCase -->
+                    <div class="output-container show" style="padding: 12px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                            <div class="output-label" style="margin-bottom: 0; font-size: 0.75rem;">PascalCase</div>
+                            <button class="btn btn-success" style="padding: 3px 8px; font-size: 0.75rem;" onclick="copyCase('pascal')">Copy</button>
+                        </div>
+                        <div class="output-content" id="pascalCase" style="color: var(--gray); font-size: 0.85rem; min-height: 35px; line-height: 1.3;">Type...</div>
+                    </div>
+
+                    <!-- snake_case -->
+                    <div class="output-container show" style="padding: 12px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                            <div class="output-label" style="margin-bottom: 0; font-size: 0.75rem;">snake_case</div>
+                            <button class="btn btn-success" style="padding: 3px 8px; font-size: 0.75rem;" onclick="copyCase('snake')">Copy</button>
+                        </div>
+                        <div class="output-content" id="snakeCase" style="color: var(--gray); font-size: 0.85rem; min-height: 35px; line-height: 1.3;">Type...</div>
+                    </div>
+
+                    <!-- kebab-case -->
+                    <div class="output-container show" style="padding: 12px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                            <div class="output-label" style="margin-bottom: 0; font-size: 0.75rem;">kebab-case</div>
+                            <button class="btn btn-success" style="padding: 3px 8px; font-size: 0.75rem;" onclick="copyCase('kebab')">Copy</button>
+                        </div>
+                        <div class="output-content" id="kebabCase" style="color: var(--gray); font-size: 0.85rem; min-height: 35px; line-height: 1.3;">Type...</div>
+                    </div>
+
+                    <!-- CONSTANT_CASE -->
+                    <div class="output-container show" style="padding: 12px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                            <div class="output-label" style="margin-bottom: 0; font-size: 0.75rem;">CONSTANT_CASE</div>
+                            <button class="btn btn-success" style="padding: 3px 8px; font-size: 0.75rem;" onclick="copyCase('constant')">Copy</button>
+                        </div>
+                        <div class="output-content" id="constantCase" style="color: var(--gray); font-size: 0.85rem; min-height: 35px; line-height: 1.3;">Type...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Text Case Converter - Convert Text Case Online Instantly</h2>
+            <p>This free online case converter lets you change text case instantly in your browser. Convert to UPPERCASE, lowercase, Title Case, camelCase, snake_case, kebab-case, and more. Perfect for developers, writers, and content creators.</p>
+            <p><strong>Supported Cases:</strong> UPPERCASE (all caps), lowercase (all small), Title Case (capitalize first letter of each word), Sentence case (capitalize first letter), camelCase (programming style), PascalCase (class names), snake_case (Python style), kebab-case (URL slugs), CONSTANT_CASE (constants).</p>
+            <p><strong>Use Cases:</strong> Format code variables, create URL slugs, fix text formatting, convert database field names, standardize naming conventions, prepare text for different programming languages.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        const conversions = {};
+
+        function convertAllCases() {
+            const input = document.getElementById('inputText').value;
+            
+            if (!input) {
+                // Reset all to placeholder
+                const cases = ['upper', 'lower', 'title', 'sentence', 'camel', 'pascal', 'snake', 'kebab', 'constant'];
+                cases.forEach(c => {
+                    const elem = document.getElementById(c + 'Case');
+                    elem.textContent = 'Enter text to see conversions...';
+                    elem.style.color = 'var(--gray)';
+                });
+                document.getElementById('statsBar').style.display = 'none';
+                return;
+            }
+
+            // Show stats
+            updateStats(input);
+            document.getElementById('statsBar').style.display = 'flex';
+            
+            // UPPERCASE
+            conversions.upper = input.toUpperCase();
+            showCase('upper', conversions.upper);
+            
+            // lowercase
+            conversions.lower = input.toLowerCase();
+            showCase('lower', conversions.lower);
+            
+            // Title Case
+            conversions.title = input.toLowerCase().replace(/(?:^|\s|["'([{])+\S/g, match => match.toUpperCase());
+            showCase('title', conversions.title);
+            
+            // Sentence case
+            conversions.sentence = input.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, match => match.toUpperCase());
+            showCase('sentence', conversions.sentence);
+            
+            // camelCase
+            conversions.camel = input
+                .toLowerCase()
+                .replace(/[^a-zA-Z0-9]+(.)/g, (match, chr) => chr.toUpperCase())
+                .replace(/^[A-Z]/, match => match.toLowerCase());
+            showCase('camel', conversions.camel);
+            
+            // PascalCase
+            conversions.pascal = input
+                .toLowerCase()
+                .replace(/[^a-zA-Z0-9]+(.)/g, (match, chr) => chr.toUpperCase())
+                .replace(/^[a-z]/, match => match.toUpperCase());
+            showCase('pascal', conversions.pascal);
+            
+            // snake_case
+            conversions.snake = input
+                .replace(/([a-z])([A-Z])/g, '$1_$2')
+                .replace(/[\s-]+/g, '_')
+                .replace(/[^a-zA-Z0-9_]/g, '')
+                .toLowerCase();
+            showCase('snake', conversions.snake);
+            
+            // kebab-case
+            conversions.kebab = input
+                .replace(/([a-z])([A-Z])/g, '$1-$2')
+                .replace(/[\s_]+/g, '-')
+                .replace(/[^a-zA-Z0-9-]/g, '')
+                .toLowerCase();
+            showCase('kebab', conversions.kebab);
+            
+            // CONSTANT_CASE
+            conversions.constant = input
+                .replace(/([a-z])([A-Z])/g, '$1_$2')
+                .replace(/[\s-]+/g, '_')
+                .replace(/[^a-zA-Z0-9_]/g, '')
+                .toUpperCase();
+            showCase('constant', conversions.constant);
+        }
+
+        function showCase(type, text) {
+            const elem = document.getElementById(type + 'Case');
+            elem.textContent = text;
+            elem.style.color = 'var(--white)';
+        }
+
+        function updateStats(text) {
+            const chars = text.length;
+            const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+            const lines = text === '' ? 0 : text.split('\n').length;
+            
+            document.getElementById('charCount').textContent = chars;
+            document.getElementById('wordCount').textContent = words;
+            document.getElementById('lineCount').textContent = lines;
+        }
+
+        function copyCase(type) {
+            const text = conversions[type];
+            if (!text) return showToast('Enter text first', true);
+            
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Copied to clipboard!');
+            });
+        }
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show' + (isError ? ' error' : '');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>

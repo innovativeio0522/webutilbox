@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Shades Generator - Generate Tints and Shades Online | ToolKit Pro</title>
+    <meta name="description" content="Generate color shades, tints, and tones from any color. Free color palette generator with HEX codes. Perfect for designers and developers.">
+    <meta name="keywords" content="color shades generator, color tints, color palette generator, generate color shades">
+    <link rel="canonical" href="https://yourdomain.com/color-shades-generator">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/tool-specific.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>🎨 Color Shades Generator</h1>
+        <p class="subtitle">Generate tints, shades, and tones from any color. Create beautiful color palettes instantly.</p>
+
+        <div class="workspace">
+            <!-- Color Input -->
+            <div style="margin-bottom: 20px;">
+                <label style="font-size: 0.9rem; margin-bottom: 8px; display: block;">Base Color</label>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <input type="color" id="baseColor" value="#3b82f6" oninput="generateShades()" style="width: 80px; height: 50px; cursor: pointer; border-radius: 8px;">
+                    <input type="text" id="baseColorText" value="#3b82f6" oninput="updateFromText()" placeholder="#3b82f6" style="flex: 1; padding: 12px; font-size: 1rem; font-family: 'Courier New', monospace;">
+                </div>
+            </div>
+
+            <!-- Tints (Lighter) -->
+            <div style="margin-bottom: 20px;">
+                <div class="output-label" style="margin-bottom: 10px;">Tints (Lighter)</div>
+                <div id="tints" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px;"></div>
+            </div>
+
+            <!-- Base Color -->
+            <div style="margin-bottom: 20px;">
+                <div class="output-label" style="margin-bottom: 10px;">Base Color</div>
+                <div id="baseColorDisplay" style="display: grid; grid-template-columns: 1fr; gap: 10px;"></div>
+            </div>
+
+            <!-- Shades (Darker) -->
+            <div style="margin-bottom: 20px;">
+                <div class="output-label" style="margin-bottom: 10px;">Shades (Darker)</div>
+                <div id="shades" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px;"></div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Color Shades Generator - Create Color Palettes</h2>
+            <p>Generate tints (lighter versions) and shades (darker versions) of any color. Perfect for creating cohesive color palettes for web design, branding, and UI design.</p>
+            <p><strong>What are Tints and Shades?</strong> Tints are created by adding white to a color, making it lighter. Shades are created by adding black to a color, making it darker.</p>
+            <p><strong>Use Cases:</strong> Color palette creation, UI design systems, brand guidelines, theme development, gradient creation, accessibility testing.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        function updateFromText() {
+            const color = document.getElementById('baseColorText').value.trim();
+            if (/^#[0-9A-F]{6}$/i.test(color)) {
+                document.getElementById('baseColor').value = color;
+                generateShades();
+            }
+        }
+
+        function generateShades() {
+            const baseColor = document.getElementById('baseColor').value;
+            document.getElementById('baseColorText').value = baseColor;
+
+            const rgb = hexToRgb(baseColor);
+            
+            // Generate tints (lighter - add white)
+            const tintsDiv = document.getElementById('tints');
+            tintsDiv.innerHTML = '';
+            for (let i = 9; i >= 1; i--) {
+                const factor = i / 10;
+                const tint = {
+                    r: Math.round(rgb.r + (255 - rgb.r) * (1 - factor)),
+                    g: Math.round(rgb.g + (255 - rgb.g) * (1 - factor)),
+                    b: Math.round(rgb.b + (255 - rgb.b) * (1 - factor))
+                };
+                const hex = rgbToHex(tint.r, tint.g, tint.b);
+                tintsDiv.innerHTML += createColorCard(hex, `${i}0%`);
+            }
+
+            // Base color
+            const baseDiv = document.getElementById('baseColorDisplay');
+            baseDiv.innerHTML = createColorCard(baseColor, '100%', true);
+
+            // Generate shades (darker - add black)
+            const shadesDiv = document.getElementById('shades');
+            shadesDiv.innerHTML = '';
+            for (let i = 1; i <= 9; i++) {
+                const factor = i / 10;
+                const shade = {
+                    r: Math.round(rgb.r * (1 - factor)),
+                    g: Math.round(rgb.g * (1 - factor)),
+                    b: Math.round(rgb.b * (1 - factor))
+                };
+                const hex = rgbToHex(shade.r, shade.g, shade.b);
+                shadesDiv.innerHTML += createColorCard(hex, `${100 - i * 10}%`);
+            }
+        }
+
+        function createColorCard(hex, label, isBase = false) {
+            const textColor = getContrastColor(hex);
+            const height = isBase ? '100px' : '80px';
+            return `
+                <div onclick="copyColor('${hex}')" style="background: ${hex}; height: ${height}; border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.2s; border: 1px solid var(--border);" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    <div style="color: ${textColor}; font-size: ${isBase ? '1rem' : '0.8rem'}; font-weight: 600; font-family: 'Courier New', monospace;">${hex}</div>
+                    <div style="color: ${textColor}; font-size: 0.75rem; margin-top: 3px; opacity: 0.8;">${label}</div>
+                </div>
+            `;
+        }
+
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : {r: 0, g: 0, b: 0};
+        }
+
+        function rgbToHex(r, g, b) {
+            return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+        }
+
+        function getContrastColor(hex) {
+            const rgb = hexToRgb(hex);
+            const brightness = (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000;
+            return brightness > 128 ? '#000000' : '#ffffff';
+        }
+
+        function copyColor(hex) {
+            navigator.clipboard.writeText(hex).then(() => {
+                showToast(`${hex} copied!`);
+            });
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show';
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // Initialize
+        generateShades();
+    </script>
+</body>
+</html>

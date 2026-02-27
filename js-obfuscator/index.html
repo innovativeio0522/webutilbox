@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Obfuscator - Protect JS Code Online | ToolKit Pro</title>
+    <meta name="description" content="Obfuscate JavaScript code to protect it from reverse engineering. Rename variables, encode strings, and make code harder to read. Free online JS obfuscator.">
+    <meta name="keywords" content="javascript obfuscator, js obfuscator, obfuscate javascript, protect js code, code obfuscation">
+    <link rel="canonical" href="https://yourdomain.com/js-obfuscator">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/tool-specific.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>🔒 JavaScript Obfuscator</h1>
+        <p class="subtitle">Protect your JavaScript code from reverse engineering and unauthorized copying.</p>
+
+        <div class="workspace" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <!-- Left: Input -->
+            <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <label style="font-size: 0.8rem; color: var(--gray);">Original JavaScript Code</label>
+                    <div style="display: flex; gap: 6px;">
+                        <button id="loadSampleBtn" style="padding: 4px 10px; font-size: 0.7rem; background: var(--dark); border: 1px solid var(--border); border-radius: 4px; color: var(--white); cursor: pointer;">📄 Sample</button>
+                        <button id="clearBtn" style="padding: 4px 10px; font-size: 0.7rem; background: var(--dark); border: 1px solid var(--border); border-radius: 4px; color: var(--white); cursor: pointer;">🗑️ Clear</button>
+                    </div>
+                </div>
+                <textarea id="inputCode" placeholder="Paste your JavaScript code here..." style="width: 100%; height: 380px; padding: 12px; font-size: 0.8rem; background: var(--dark); border: 1px solid var(--border); border-radius: 8px; color: var(--white); font-family: 'Courier New', monospace; resize: vertical; line-height: 1.5;"></textarea>
+                
+                <div style="display: flex; gap: 15px; margin-top: 8px; font-size: 0.7rem; color: var(--gray);">
+                    <span>Size: <span id="inputSize" style="color: var(--primary);">0 B</span></span>
+                    <span>Lines: <span id="inputLines" style="color: var(--primary);">0</span></span>
+                </div>
+
+                <!-- Options -->
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; margin-top: 12px; border: 1px solid var(--border);">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 10px;">Obfuscation Options</div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.75rem;">
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                            <input type="checkbox" id="renameVars" checked>
+                            <span style="color: var(--white);">Rename Variables</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                            <input type="checkbox" id="encodeStrings" checked>
+                            <span style="color: var(--white);">Encode Strings</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                            <input type="checkbox" id="removeComments" checked>
+                            <span style="color: var(--white);">Remove Comments</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                            <input type="checkbox" id="removeWhitespace" checked>
+                            <span style="color: var(--white);">Remove Whitespace</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                            <input type="checkbox" id="shuffleArrays">
+                            <span style="color: var(--white);">Shuffle Arrays</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                            <input type="checkbox" id="wrapCode">
+                            <span style="color: var(--white);">Wrap in Function</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button id="obfuscateBtn" style="width: 100%; margin-top: 12px; padding: 12px; background: var(--primary); border: none; border-radius: 6px; color: white; cursor: pointer; font-size: 0.9rem; font-weight: 500;">🔒 Obfuscate Code</button>
+            </div>
+
+            <!-- Right: Output -->
+            <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <label style="font-size: 0.8rem; color: var(--gray);">Obfuscated Output</label>
+                    <div style="display: flex; gap: 6px;">
+                        <button id="copyBtn" style="padding: 4px 10px; font-size: 0.7rem; background: var(--primary); border: none; border-radius: 4px; color: white; cursor: pointer;">📋 Copy</button>
+                        <button id="downloadBtn" style="padding: 4px 10px; font-size: 0.7rem; background: var(--dark); border: 1px solid var(--border); border-radius: 4px; color: var(--white); cursor: pointer;">💾 Download</button>
+                    </div>
+                </div>
+                <textarea id="outputCode" readonly placeholder="Obfuscated code will appear here..." style="width: 100%; height: 380px; padding: 12px; font-size: 0.8rem; background: var(--dark); border: 1px solid var(--border); border-radius: 8px; color: var(--white); font-family: 'Courier New', monospace; resize: vertical; line-height: 1.5;"></textarea>
+                
+                <div style="display: flex; gap: 15px; margin-top: 8px; font-size: 0.7rem; color: var(--gray);">
+                    <span>Size: <span id="outputSize" style="color: var(--primary);">0 B</span></span>
+                    <span>Lines: <span id="outputLines" style="color: var(--primary);">0</span></span>
+                </div>
+
+                <!-- Stats -->
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; margin-top: 12px; border: 1px solid var(--border);">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 10px;">Obfuscation Stats</div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+                        <div>
+                            <div style="font-size: 0.7rem; color: var(--gray); margin-bottom: 4px;">Size Change</div>
+                            <div style="font-size: 1rem; color: var(--primary); font-weight: 600;" id="sizeChange">0 B</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.7rem; color: var(--gray); margin-bottom: 4px;">Variables</div>
+                            <div style="font-size: 1rem; color: var(--primary); font-weight: 600;" id="varsRenamed">0</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.7rem; color: var(--gray); margin-bottom: 4px;">Strings</div>
+                            <div style="font-size: 1rem; color: var(--primary); font-weight: 600;" id="stringsEncoded">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Warning -->
+                <div style="background: rgba(251, 146, 60, 0.1); border: 1px solid rgba(251, 146, 60, 0.3); border-radius: 8px; padding: 12px; margin-top: 12px;">
+                    <div style="font-size: 0.75rem; color: #fb923c; line-height: 1.5;">
+                        ⚠️ <strong>Note:</strong> Obfuscation makes code harder to read but doesn't provide complete security. Always test obfuscated code before deployment.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>JavaScript Obfuscator</h2>
+            <p>Obfuscate JavaScript code to protect it from reverse engineering and unauthorized copying. Renames variables, encodes strings, removes comments, and makes code harder to understand while maintaining functionality.</p>
+            <p><strong>Features:</strong> Variable renaming, string encoding, comment removal, whitespace removal, array shuffling, function wrapping, obfuscation statistics.</p>
+            <p><strong>Use Cases:</strong> Code protection, intellectual property security, prevent code theft, client-side security, commercial applications.</p>
+            <p><strong>Privacy:</strong> All obfuscation happens in your browser. No code is sent to any server.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        const inputCode = document.getElementById('inputCode');
+        const outputCode = document.getElementById('outputCode');
+        const obfuscateBtn = document.getElementById('obfuscateBtn');
+        const copyBtn = document.getElementById('copyBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const loadSampleBtn = document.getElementById('loadSampleBtn');
+        const clearBtn = document.getElementById('clearBtn');
+
+        let varsRenamed = 0;
+        let stringsEncoded = 0;
+
+        // Update stats on input
+        inputCode.addEventListener('input', updateStats);
+
+        function updateStats() {
+            const input = inputCode.value;
+            const output = outputCode.value;
+            
+            const inputBytes = new Blob([input]).size;
+            const outputBytes = new Blob([output]).size;
+            const inputLines = input ? input.split('\n').length : 0;
+            const outputLines = output ? output.split('\n').length : 0;
+            
+            document.getElementById('inputSize').textContent = formatBytes(inputBytes);
+            document.getElementById('inputLines').textContent = inputLines;
+            
+            document.getElementById('outputSize').textContent = formatBytes(outputBytes);
+            document.getElementById('outputLines').textContent = outputLines;
+            
+            if (output) {
+                const change = outputBytes - inputBytes;
+                const sign = change >= 0 ? '+' : '';
+                document.getElementById('sizeChange').textContent = sign + formatBytes(Math.abs(change));
+                document.getElementById('varsRenamed').textContent = varsRenamed;
+                document.getElementById('stringsEncoded').textContent = stringsEncoded;
+            } else {
+                document.getElementById('sizeChange').textContent = '0 B';
+                document.getElementById('varsRenamed').textContent = '0';
+                document.getElementById('stringsEncoded').textContent = '0';
+            }
+        }
+
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 B';
+            const k = 1024;
+            const sizes = ['B', 'KB', 'MB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Obfuscate
+        obfuscateBtn.addEventListener('click', obfuscateCode);
+
+        function obfuscateCode() {
+            const input = inputCode.value.trim();
+            
+            if (!input) {
+                showToast('Please enter some code', true);
+                return;
+            }
+
+            try {
+                let code = input;
+                varsRenamed = 0;
+                stringsEncoded = 0;
+
+                const renameVars = document.getElementById('renameVars').checked;
+                const encodeStrings = document.getElementById('encodeStrings').checked;
+                const removeComments = document.getElementById('removeComments').checked;
+                const removeWhitespace = document.getElementById('removeWhitespace').checked;
+                const shuffleArrays = document.getElementById('shuffleArrays').checked;
+                const wrapCode = document.getElementById('wrapCode').checked;
+
+                // Remove comments
+                if (removeComments) {
+                    code = code.replace(/\/\*[\s\S]*?\*\//g, '');
+                    code = code.replace(/\/\/.*/g, '');
+                }
+
+                // Encode strings
+                if (encodeStrings) {
+                    code = code.replace(/'([^']*)'/g, (match, str) => {
+                        stringsEncoded++;
+                        return encodeString(str);
+                    });
+                    code = code.replace(/"([^"]*)"/g, (match, str) => {
+                        stringsEncoded++;
+                        return encodeString(str);
+                    });
+                }
+
+                // Rename variables
+                if (renameVars) {
+                    const varMap = new Map();
+                    let varCounter = 0;
+                    
+                    // Find variable declarations
+                    const varPattern = /\b(var|let|const)\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/g;
+                    let match;
+                    
+                    while ((match = varPattern.exec(code)) !== null) {
+                        const varName = match[2];
+                        if (!varMap.has(varName) && !isReservedWord(varName)) {
+                            varMap.set(varName, '_0x' + varCounter.toString(16));
+                            varCounter++;
+                        }
+                    }
+                    
+                    // Replace variables
+                    varMap.forEach((newName, oldName) => {
+                        const regex = new RegExp('\\b' + oldName + '\\b', 'g');
+                        code = code.replace(regex, newName);
+                        varsRenamed++;
+                    });
+                }
+
+                // Shuffle array elements (simple implementation)
+                if (shuffleArrays) {
+                    code = code.replace(/\[([^\]]+)\]/g, (match, content) => {
+                        const items = content.split(',').map(s => s.trim());
+                        if (items.length > 1 && items.every(item => /^['"]/.test(item) || /^\d+$/.test(item))) {
+                            return '[' + shuffleArray(items).join(',') + ']';
+                        }
+                        return match;
+                    });
+                }
+
+                // Remove whitespace
+                if (removeWhitespace) {
+                    code = code
+                        .replace(/\s+/g, ' ')
+                        .replace(/\s*{\s*/g, '{')
+                        .replace(/\s*}\s*/g, '}')
+                        .replace(/\s*\(\s*/g, '(')
+                        .replace(/\s*\)\s*/g, ')')
+                        .replace(/\s*;\s*/g, ';')
+                        .replace(/\s*,\s*/g, ',')
+                        .replace(/\s*=\s*/g, '=')
+                        .trim();
+                }
+
+                // Wrap in self-executing function
+                if (wrapCode) {
+                    code = '(function(){' + code + '})();';
+                }
+
+                outputCode.value = code;
+                updateStats();
+                showToast('Code obfuscated successfully!');
+            } catch (error) {
+                showToast('Error obfuscating code: ' + error.message, true);
+            }
+        }
+
+        function encodeString(str) {
+            // Convert to hex encoding
+            let encoded = '';
+            for (let i = 0; i < str.length; i++) {
+                encoded += '\\x' + str.charCodeAt(i).toString(16).padStart(2, '0');
+            }
+            return '"' + encoded + '"';
+        }
+
+        function isReservedWord(word) {
+            const reserved = [
+                'break', 'case', 'catch', 'class', 'const', 'continue', 'debugger', 'default',
+                'delete', 'do', 'else', 'export', 'extends', 'finally', 'for', 'function',
+                'if', 'import', 'in', 'instanceof', 'let', 'new', 'return', 'super', 'switch',
+                'this', 'throw', 'try', 'typeof', 'var', 'void', 'while', 'with', 'yield',
+                'console', 'document', 'window', 'alert', 'prompt', 'confirm'
+            ];
+            return reserved.includes(word);
+        }
+
+        function shuffleArray(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        // Copy
+        copyBtn.addEventListener('click', () => {
+            if (!outputCode.value) {
+                showToast('No output to copy', true);
+                return;
+            }
+
+            navigator.clipboard.writeText(outputCode.value).then(() => {
+                showToast('Copied to clipboard!');
+            }).catch(() => {
+                showToast('Failed to copy', true);
+            });
+        });
+
+        // Download
+        downloadBtn.addEventListener('click', () => {
+            if (!outputCode.value) {
+                showToast('No output to download', true);
+                return;
+            }
+
+            const blob = new Blob([outputCode.value], { type: 'text/javascript' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'obfuscated_' + Date.now() + '.js';
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('File downloaded!');
+        });
+
+        // Load sample
+        loadSampleBtn.addEventListener('click', () => {
+            inputCode.value = `// User authentication function
+function authenticateUser(username, password) {
+    const apiKey = "sk_live_12345abcdef";
+    const secretToken = "my_secret_token_2024";
+    
+    if (username === "admin" && password === "password123") {
+        console.log("Login successful!");
+        return true;
+    }
+    
+    return false;
+}
+
+// Calculate discount
+function calculateDiscount(price, discountPercent) {
+    const discount = price * (discountPercent / 100);
+    const finalPrice = price - discount;
+    return finalPrice;
+}
+
+const userLoggedIn = authenticateUser("admin", "password123");
+const finalAmount = calculateDiscount(100, 20);
+console.log("Final amount: $" + finalAmount);`;
+            updateStats();
+            showToast('Sample loaded!');
+        });
+
+        // Clear
+        clearBtn.addEventListener('click', () => {
+            inputCode.value = '';
+            outputCode.value = '';
+            varsRenamed = 0;
+            stringsEncoded = 0;
+            updateStats();
+            showToast('Cleared');
+        });
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show' + (isError ? ' error' : '');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // Initialize
+        updateStats();
+    </script>
+</body>
+</html>

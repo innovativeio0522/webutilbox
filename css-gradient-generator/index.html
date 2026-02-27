@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Gradient Generator with Live Preview - Copy Code Instantly | ToolKit Pro</title>
+    <meta name="description" content="CSS gradient generator with live preview and instant code copy. Create linear and radial gradients in browser. No signup, works offline, real-time preview.">
+    <meta name="keywords" content="css gradient generator live preview, gradient generator copy code, css gradient maker instant, linear gradient generator browser, radial gradient tool online, gradient css code generator, real time gradient preview">
+    <link rel="canonical" href="https://yourdomain.com/css-gradient-generator">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/tool-specific.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>🌈 CSS Gradient Generator</h1>
+        <p class="subtitle">Create beautiful CSS gradients with live preview. Copy code instantly.</p>
+
+        <div class="workspace">
+            <div class="preview-box" id="preview"></div>
+            
+            <div class="controls">
+                <div class="control-group">
+                    <label>Type:</label>
+                    <select id="gradientType" onchange="updateGradient()">
+                        <option value="linear">Linear</option>
+                        <option value="radial">Radial</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label>Direction:</label>
+                    <input type="number" id="angle" value="135" min="0" max="360" onchange="updateGradient()">
+                    <span>degrees</span>
+                </div>
+                <div class="control-group">
+                    <label>Color 1:</label>
+                    <input type="color" id="color1" value="#667eea" onchange="updateGradient()">
+                </div>
+                <div class="control-group">
+                    <label>Color 2:</label>
+                    <input type="color" id="color2" value="#764ba2" onchange="updateGradient()">
+                </div>
+            </div>
+            
+            <button class="btn btn-success" onclick="copyCSS()">Copy CSS Code</button>
+            
+            <div class="output-container" style="margin-top:20px;">
+                <div class="output-content" id="cssCode"></div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>CSS Gradient Generator with Live Preview and Instant Code Copy</h2>
+            <p>Create beautiful CSS gradients with real-time preview and instant code generation. This browser-based gradient maker lets you design linear and radial gradients visually, then copy the CSS code with one click.</p>
+            <p><strong>Features:</strong> Live preview updates as you adjust colors and angles, supports linear and radial gradients, instant CSS code generation, no signup required, works offline after first load.</p>
+            <p><strong>Perfect for:</strong> Web designers, frontend developers, UI/UX designers creating backgrounds, buttons, cards, and modern web interfaces. Export clean, production-ready CSS code instantly.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        function updateGradient() {
+            const type = document.getElementById('gradientType').value;
+            const angle = document.getElementById('angle').value;
+            const color1 = document.getElementById('color1').value;
+            const color2 = document.getElementById('color2').value;
+            
+            let gradient;
+            if (type === 'linear') {
+                gradient = `linear-gradient(${angle}deg, ${color1} 0%, ${color2} 100%)`;
+            } else {
+                gradient = `radial-gradient(circle, ${color1} 0%, ${color2} 100%)`;
+            }
+            
+            document.getElementById('preview').style.background = gradient;
+            document.getElementById('cssCode').textContent = `background: ${gradient};`;
+        }
+
+        function copyCSS() {
+            const text = document.getElementById('cssCode').textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('CSS copied to clipboard!');
+            });
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        updateGradient();
+    </script>
+</body>
+</html>

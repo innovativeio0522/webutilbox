@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Format Converter - Convert JPG, PNG, WebP, GIF, SVG Online | ToolKit Pro</title>
+    <meta name="description" content="Convert images between JPG, PNG, WebP, GIF, and SVG formats online for free. Works offline in your browser.">
+    <meta name="keywords" content="image converter, convert image format, jpg to png, png to jpg, webp converter">
+    <link rel="canonical" href="https://yourdomain.com/image-format-converter">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/tool-specific.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>🔄 Image Format Converter</h1>
+        <p class="subtitle">Convert images between JPG, PNG, WebP, GIF, and SVG formats. Customize size and quality.</p>
+
+        <div class="workspace">
+            <!-- Upload Area -->
+            <div style="margin-bottom: 15px;">
+                <div style="border: 2px dashed var(--border); border-radius: 8px; padding: 25px; text-align: center; cursor: pointer; transition: all 0.3s;" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                    <div style="font-size: 2rem; margin-bottom: 5px;">📁</div>
+                    <div style="font-size: 0.9rem; color: var(--white); margin-bottom: 3px;">Click to upload or drag and drop</div>
+                    <div style="font-size: 0.75rem; color: var(--gray);">JPG, PNG, WebP, GIF, SVG</div>
+                </div>
+                <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="handleFile(this.files[0])">
+            </div>
+
+            <!-- Controls -->
+            <div id="controls" style="display: none;">
+                <!-- Output Format -->
+                <div style="margin-bottom: 12px;">
+                    <label style="font-size: 0.8rem; margin-bottom: 6px; display: block;">Convert To</label>
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;">
+                        <button onclick="setOutputFormat('png')" id="fmt-png" class="format-btn active" style="padding: 8px; background: var(--primary); border: 1px solid var(--primary); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: white;">PNG</button>
+                        <button onclick="setOutputFormat('jpeg')" id="fmt-jpeg" class="format-btn" style="padding: 8px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: var(--white);">JPG</button>
+                        <button onclick="setOutputFormat('webp')" id="fmt-webp" class="format-btn" style="padding: 8px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: var(--white);">WebP</button>
+                        <button onclick="setOutputFormat('gif')" id="fmt-gif" class="format-btn" style="padding: 8px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: var(--white);">GIF</button>
+                    </div>
+                </div>
+
+                <!-- Size & Quality Controls -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+                    <div>
+                        <label style="font-size: 0.8rem; margin-bottom: 4px; display: block;">Width (px)</label>
+                        <input type="number" id="width" value="512" oninput="updatePreview()" style="width: 100%; padding: 8px; font-size: 0.9rem;">
+                    </div>
+                    <div>
+                        <label style="font-size: 0.8rem; margin-bottom: 4px; display: block;">Height (px)</label>
+                        <input type="number" id="height" value="512" oninput="updatePreview()" style="width: 100%; padding: 8px; font-size: 0.9rem;">
+                    </div>
+                    <div id="qualityControl" style="display: none;">
+                        <label style="font-size: 0.8rem; margin-bottom: 4px; display: block;">Quality</label>
+                        <input type="number" id="quality" value="90" min="1" max="100" oninput="updatePreview()" style="width: 100%; padding: 8px; font-size: 0.9rem;">
+                    </div>
+                    <div id="scaleControl">
+                        <label style="font-size: 0.8rem; margin-bottom: 4px; display: block;">Scale</label>
+                        <select id="scale" onchange="applyScale()" style="width: 100%; padding: 8px; font-size: 0.9rem; background: var(--light); border: 1px solid var(--border); color: var(--white); border-radius: 6px;">
+                            <option value="1">1x</option>
+                            <option value="2">2x</option>
+                            <option value="3">3x</option>
+                            <option value="4">4x</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Background Options -->
+                <div style="margin-bottom: 12px;">
+                    <label style="font-size: 0.8rem; margin-bottom: 6px; display: block;">Background</label>
+                    <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px;">
+                        <button onclick="setBackground('transparent')" class="bg-btn active" id="bg-transparent" style="padding: 8px; background: linear-gradient(45deg, #ccc 25%, transparent 25%, transparent 75%, #ccc 75%, #ccc), linear-gradient(45deg, #ccc 25%, white 25%, white 75%, #ccc 75%, #ccc); background-size: 10px 10px; background-position: 0 0, 5px 5px; border: 2px solid var(--primary); border-radius: 6px; cursor: pointer; height: 36px;"></button>
+                        <button onclick="setBackground('#ffffff')" class="bg-btn" id="bg-white" style="padding: 8px; background: #ffffff; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; height: 36px;"></button>
+                        <button onclick="setBackground('#000000')" class="bg-btn" id="bg-black" style="padding: 8px; background: #000000; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; height: 36px;"></button>
+                        <button onclick="setBackground('#f97316')" class="bg-btn" id="bg-orange" style="padding: 8px; background: #f97316; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; height: 36px;"></button>
+                        <input type="color" id="customColor" onchange="setBackground(this.value)" style="width: 100%; height: 36px; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; background: var(--light);">
+                    </div>
+                </div>
+
+                <!-- Preview -->
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; text-align: center; margin-bottom: 12px; border: 1px solid var(--border); min-height: 180px; display: flex; align-items: center; justify-content: center;">
+                    <canvas id="canvas" style="max-width: 100%; max-height: 150px; border-radius: 6px;"></canvas>
+                </div>
+
+                <!-- Download Button -->
+                <button class="btn btn-success" onclick="downloadImage()" style="width: 100%; padding: 10px; font-size: 0.95rem;" id="downloadBtn">Download PNG</button>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Image Format Converter - Convert Between Image Formats</h2>
+            <p>Convert images between JPG, PNG, WebP, GIF, and SVG formats. Customize output size, quality, and background color. All conversion happens in your browser - no files uploaded to any server.</p>
+            <p><strong>Supported Formats:</strong> JPG/JPEG, PNG, WebP, GIF, SVG. Convert any format to any other format.</p>
+            <p><strong>Use Cases:</strong> Web optimization, format compatibility, file size reduction, transparency support.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        let imageData = null;
+        let currentBackground = 'transparent';
+        let outputFormat = 'png';
+        let originalWidth = 512;
+        let originalHeight = 512;
+        let isSVG = false;
+
+        // Drag and drop
+        const dropZone = document.getElementById('dropZone');
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = 'var(--primary)';
+            dropZone.style.background = 'rgba(249, 115, 22, 0.1)';
+        });
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.style.borderColor = 'var(--border)';
+            dropZone.style.background = 'transparent';
+        });
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = 'var(--border)';
+            dropZone.style.background = 'transparent';
+            if (e.dataTransfer.files.length) {
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        function handleFile(file) {
+            if (!file || !file.type.startsWith('image/')) {
+                showToast('Please select an image file', true);
+                return;
+            }
+
+            isSVG = file.name.endsWith('.svg') || file.type === 'image/svg+xml';
+
+            if (isSVG) {
+                // Handle SVG
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    imageData = e.target.result;
+                    const parser = new DOMParser();
+                    const svgDoc = parser.parseFromString(imageData, 'image/svg+xml');
+                    const svgElement = svgDoc.querySelector('svg');
+                    
+                    if (svgElement) {
+                        originalWidth = parseInt(svgElement.getAttribute('width')) || 512;
+                        originalHeight = parseInt(svgElement.getAttribute('height')) || 512;
+                        
+                        if (!svgElement.getAttribute('width') && svgElement.getAttribute('viewBox')) {
+                            const viewBox = svgElement.getAttribute('viewBox').split(' ');
+                            originalWidth = parseInt(viewBox[2]);
+                            originalHeight = parseInt(viewBox[3]);
+                        }
+                        
+                        document.getElementById('width').value = originalWidth;
+                        document.getElementById('height').value = originalHeight;
+                    }
+                    
+                    document.getElementById('controls').style.display = 'block';
+                    updatePreview();
+                };
+                reader.readAsText(file);
+            } else {
+                // Handle raster images
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        imageData = img;
+                        originalWidth = img.width;
+                        originalHeight = img.height;
+                        document.getElementById('width').value = originalWidth;
+                        document.getElementById('height').value = originalHeight;
+                        document.getElementById('controls').style.display = 'block';
+                        updatePreview();
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function setOutputFormat(format) {
+            outputFormat = format;
+            
+            // Update button styles
+            document.querySelectorAll('.format-btn').forEach(btn => {
+                btn.style.background = 'var(--light)';
+                btn.style.borderColor = 'var(--border)';
+                btn.style.color = 'var(--white)';
+            });
+            const activeBtn = document.getElementById('fmt-' + format);
+            activeBtn.style.background = 'var(--primary)';
+            activeBtn.style.borderColor = 'var(--primary)';
+            activeBtn.style.color = 'white';
+            
+            // Show/hide quality control (only for JPEG and WebP)
+            const qualityControl = document.getElementById('qualityControl');
+            const scaleControl = document.getElementById('scaleControl');
+            if (format === 'jpeg' || format === 'webp') {
+                qualityControl.style.display = 'block';
+                scaleControl.style.display = 'none';
+            } else {
+                qualityControl.style.display = 'none';
+                scaleControl.style.display = 'block';
+            }
+            
+            // Update download button text
+            document.getElementById('downloadBtn').textContent = 'Download ' + format.toUpperCase();
+            
+            updatePreview();
+        }
+
+        function applyScale() {
+            const scale = parseFloat(document.getElementById('scale').value);
+            document.getElementById('width').value = Math.round(originalWidth * scale);
+            document.getElementById('height').value = Math.round(originalHeight * scale);
+            updatePreview();
+        }
+
+        function setBackground(color) {
+            currentBackground = color;
+            
+            // Update button styles
+            document.querySelectorAll('.bg-btn').forEach(btn => {
+                btn.style.borderWidth = '1px';
+                btn.style.borderColor = 'var(--border)';
+            });
+            
+            const activeBtn = document.getElementById('bg-' + (color === 'transparent' ? 'transparent' : color.replace('#', '')));
+            if (activeBtn) {
+                activeBtn.style.borderWidth = '2px';
+                activeBtn.style.borderColor = 'var(--primary)';
+            }
+            
+            updatePreview();
+        }
+
+        function updatePreview() {
+            if (!imageData) return;
+
+            const width = parseInt(document.getElementById('width').value) || originalWidth;
+            const height = parseInt(document.getElementById('height').value) || originalHeight;
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = width;
+            canvas.height = height;
+
+            // Fill background
+            if (currentBackground !== 'transparent') {
+                ctx.fillStyle = currentBackground;
+                ctx.fillRect(0, 0, width, height);
+            } else {
+                ctx.clearRect(0, 0, width, height);
+            }
+
+            if (isSVG) {
+                // Draw SVG
+                const img = new Image();
+                const blob = new Blob([imageData], { type: 'image/svg+xml' });
+                const url = URL.createObjectURL(blob);
+                
+                img.onload = () => {
+                    ctx.drawImage(img, 0, 0, width, height);
+                    URL.revokeObjectURL(url);
+                };
+                img.src = url;
+            } else {
+                // Draw raster image
+                ctx.drawImage(imageData, 0, 0, width, height);
+            }
+        }
+
+        function downloadImage() {
+            const canvas = document.getElementById('canvas');
+            const quality = (document.getElementById('quality').value / 100) || 0.9;
+            
+            let mimeType = 'image/png';
+            let extension = 'png';
+            
+            if (outputFormat === 'jpeg') {
+                mimeType = 'image/jpeg';
+                extension = 'jpg';
+            } else if (outputFormat === 'webp') {
+                mimeType = 'image/webp';
+                extension = 'webp';
+            } else if (outputFormat === 'gif') {
+                mimeType = 'image/gif';
+                extension = 'gif';
+            }
+            
+            canvas.toBlob((blob) => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'converted_' + Date.now() + '.' + extension;
+                a.click();
+                URL.revokeObjectURL(url);
+                showToast(outputFormat.toUpperCase() + ' downloaded!');
+            }, mimeType, quality);
+        }
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show' + (isError ? ' error' : '');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>

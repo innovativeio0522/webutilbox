@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Resizer - Resize Images Online Free | ToolKit Pro</title>
+    <meta name="description" content="Resize images online for free. Change image dimensions, maintain aspect ratio. Works offline in your browser.">
+    <meta name="keywords" content="image resizer, resize image online, change image size, image dimensions">
+    <link rel="canonical" href="https://yourdomain.com/image-resizer">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/tool-specific.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>📐 Image Resizer</h1>
+        <p class="subtitle">Resize images to custom dimensions. Maintain aspect ratio or set custom width and height.</p>
+
+        <div class="workspace">
+            <!-- Upload Area -->
+            <div style="margin-bottom: 15px;">
+                <div style="border: 2px dashed var(--border); border-radius: 8px; padding: 25px; text-align: center; cursor: pointer; transition: all 0.3s;" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                    <div style="font-size: 2rem; margin-bottom: 5px;">📁</div>
+                    <div style="font-size: 0.9rem; color: var(--white); margin-bottom: 3px;">Click to upload or drag and drop</div>
+                    <div style="font-size: 0.75rem; color: var(--gray);">JPG, PNG, WebP</div>
+                </div>
+                <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="handleFile(this.files[0])">
+            </div>
+
+            <!-- Controls -->
+            <div id="controls" style="display: none;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                    <div>
+                        <label style="font-size: 0.8rem; margin-bottom: 4px; display: block;">Width (px)</label>
+                        <input type="number" id="width" oninput="updateFromWidth()" style="width: 100%; padding: 8px; font-size: 0.9rem;">
+                    </div>
+                    <div>
+                        <label style="font-size: 0.8rem; margin-bottom: 4px; display: block;">Height (px)</label>
+                        <input type="number" id="height" oninput="updateFromHeight()" style="width: 100%; padding: 8px; font-size: 0.9rem;">
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 10px;">
+                    <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                        <input type="checkbox" id="maintainRatio" checked onchange="toggleRatio()">
+                        <span style="font-size: 0.8rem;">Maintain aspect ratio</span>
+                    </label>
+                </div>
+
+                <!-- Quick Sizes -->
+                <div style="margin-bottom: 12px;">
+                    <div style="font-size: 0.75rem; color: var(--gray); margin-bottom: 6px;">Quick Sizes:</div>
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;">
+                        <button onclick="setSize(1920, 1080)" style="padding: 6px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: var(--white);">1920×1080</button>
+                        <button onclick="setSize(1280, 720)" style="padding: 6px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: var(--white);">1280×720</button>
+                        <button onclick="setSize(800, 600)" style="padding: 6px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: var(--white);">800×600</button>
+                        <button onclick="setSize(500, 500)" style="padding: 6px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: var(--white);">500×500</button>
+                    </div>
+                </div>
+
+                <!-- Preview -->
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; text-align: center; margin-bottom: 12px; border: 1px solid var(--border);">
+                    <img id="preview" style="max-width: 100%; max-height: 150px; border-radius: 6px;">
+                    <div style="margin-top: 6px; font-size: 0.8rem; color: var(--gray);" id="previewSize">-</div>
+                </div>
+
+                <button class="btn btn-success" onclick="downloadImage()" style="width: 100%; padding: 10px; font-size: 0.95rem;">Download Resized Image</button>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Image Resizer - Resize Images Online</h2>
+            <p>Resize images to custom dimensions. Maintain aspect ratio or set custom width and height. All processing happens in your browser - no upload to server.</p>
+            <p><strong>Use Cases:</strong> Social media images, website optimization, thumbnails, profile pictures, email attachments.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        let originalImage = null;
+        let aspectRatio = 1;
+
+        // Drag and drop
+        const dropZone = document.getElementById('dropZone');
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = 'var(--primary)';
+            dropZone.style.background = 'rgba(249, 115, 22, 0.1)';
+        });
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.style.borderColor = 'var(--border)';
+            dropZone.style.background = 'transparent';
+        });
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = 'var(--border)';
+            dropZone.style.background = 'transparent';
+            if (e.dataTransfer.files.length) {
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        function handleFile(file) {
+            if (!file || !file.type.startsWith('image/')) {
+                showToast('Please select an image', true);
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                originalImage = new Image();
+                originalImage.onload = () => {
+                    aspectRatio = originalImage.width / originalImage.height;
+                    document.getElementById('width').value = originalImage.width;
+                    document.getElementById('height').value = originalImage.height;
+                    document.getElementById('controls').style.display = 'block';
+                    resizeImage();
+                };
+                originalImage.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function updateFromWidth() {
+            if (document.getElementById('maintainRatio').checked) {
+                const width = parseInt(document.getElementById('width').value);
+                document.getElementById('height').value = Math.round(width / aspectRatio);
+            }
+            resizeImage();
+        }
+
+        function updateFromHeight() {
+            if (document.getElementById('maintainRatio').checked) {
+                const height = parseInt(document.getElementById('height').value);
+                document.getElementById('width').value = Math.round(height * aspectRatio);
+            }
+            resizeImage();
+        }
+
+        function toggleRatio() {
+            if (document.getElementById('maintainRatio').checked) {
+                updateFromWidth();
+            }
+        }
+
+        function setSize(w, h) {
+            document.getElementById('width').value = w;
+            document.getElementById('height').value = h;
+            document.getElementById('maintainRatio').checked = false;
+            resizeImage();
+        }
+
+        function resizeImage() {
+            if (!originalImage) return;
+
+            const width = parseInt(document.getElementById('width').value) || originalImage.width;
+            const height = parseInt(document.getElementById('height').value) || originalImage.height;
+
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(originalImage, 0, 0, width, height);
+
+            document.getElementById('preview').src = canvas.toDataURL();
+            document.getElementById('previewSize').textContent = `${width} × ${height} px`;
+        }
+
+        function downloadImage() {
+            const canvas = document.createElement('canvas');
+            const width = parseInt(document.getElementById('width').value);
+            const height = parseInt(document.getElementById('height').value);
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(originalImage, 0, 0, width, height);
+
+            canvas.toBlob((blob) => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `resized_${width}x${height}.png`;
+                a.click();
+                URL.revokeObjectURL(url);
+                showToast('Image downloaded!');
+            });
+        }
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show' + (isError ? ' error' : '');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>

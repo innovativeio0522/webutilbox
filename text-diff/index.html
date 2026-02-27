@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Diff Checker - Compare Two Texts Online | ToolKit Pro</title>
+    <meta name="description" content="Compare two texts and see differences instantly. Free online text diff tool highlights additions, deletions, and changes. Perfect for code review and document comparison.">
+    <meta name="keywords" content="text diff, compare text online, text difference checker, diff tool, text comparison, code diff, document compare">
+    <link rel="canonical" href="https://yourdomain.com/text-diff">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/tool-specific.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>🔄 Text Diff Checker</h1>
+        <p class="subtitle">Compare two texts and see differences highlighted. Perfect for code review, document comparison, and version control.</p>
+
+        <div class="workspace">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                <!-- Left Text -->
+                <div>
+                    <label style="font-size: 0.9rem; margin-bottom: 8px;">Original Text</label>
+                    <textarea id="text1" placeholder="Paste original text here..." oninput="compareDiff()" style="min-height: 200px; font-size: 0.9rem;"></textarea>
+                </div>
+                
+                <!-- Right Text -->
+                <div>
+                    <label style="font-size: 0.9rem; margin-bottom: 8px;">Modified Text</label>
+                    <textarea id="text2" placeholder="Paste modified text here..." oninput="compareDiff()" style="min-height: 200px; font-size: 0.9rem;"></textarea>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="compareDiff()">Compare</button>
+                <button class="btn btn-secondary" onclick="clearAll()">Clear All</button>
+                <button class="btn btn-secondary" onclick="swapTexts()">Swap Texts</button>
+            </div>
+
+            <div class="stats-bar" id="statsBar" style="display:none;">
+                <div class="stat">➕ Added: <span class="stat-value" id="addedCount">0</span> lines</div>
+                <div class="stat">➖ Removed: <span class="stat-value" id="removedCount">0</span> lines</div>
+                <div class="stat">🔄 Changed: <span class="stat-value" id="changedCount">0</span> lines</div>
+                <div class="stat">✅ Identical: <span class="stat-value" id="identicalCount">0</span> lines</div>
+            </div>
+
+            <div class="output-container show" id="diffOutput" style="margin-top: 15px; display: none;">
+                <div class="output-label">Differences</div>
+                <div id="diffContent" style="font-family: 'Courier New', monospace; font-size: 0.85rem; line-height: 1.6;"></div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Text Diff Checker - Compare Texts and Find Differences</h2>
+            <p>This free text diff tool compares two texts line by line and highlights the differences. Perfect for comparing code versions, document revisions, configuration files, or any text content. The tool shows additions in green, deletions in red, and unchanged lines in gray.</p>
+            <p><strong>How to Use:</strong> Paste your original text in the left box and the modified text in the right box. Click "Compare" or the tool will automatically detect differences as you type. Added lines are shown in green, removed lines in red, and identical lines in gray.</p>
+            <p><strong>Use Cases:</strong> Code review, document comparison, version control, configuration file changes, text editing, proofreading, content updates, merge conflict resolution.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        function compareDiff() {
+            const text1 = document.getElementById('text1').value;
+            const text2 = document.getElementById('text2').value;
+            
+            if (!text1 && !text2) {
+                document.getElementById('diffOutput').style.display = 'none';
+                document.getElementById('statsBar').style.display = 'none';
+                return;
+            }
+            
+            const lines1 = text1.split('\n');
+            const lines2 = text2.split('\n');
+            
+            const diff = computeDiff(lines1, lines2);
+            displayDiff(diff);
+            
+            // Calculate stats
+            let added = 0, removed = 0, changed = 0, identical = 0;
+            diff.forEach(item => {
+                if (item.type === 'added') added++;
+                else if (item.type === 'removed') removed++;
+                else if (item.type === 'changed') changed++;
+                else identical++;
+            });
+            
+            document.getElementById('addedCount').textContent = added;
+            document.getElementById('removedCount').textContent = removed;
+            document.getElementById('changedCount').textContent = changed;
+            document.getElementById('identicalCount').textContent = identical;
+            document.getElementById('statsBar').style.display = 'flex';
+            document.getElementById('diffOutput').style.display = 'block';
+        }
+        
+        function computeDiff(lines1, lines2) {
+            const result = [];
+            const maxLen = Math.max(lines1.length, lines2.length);
+            
+            for (let i = 0; i < maxLen; i++) {
+                const line1 = lines1[i];
+                const line2 = lines2[i];
+                
+                if (line1 === undefined) {
+                    result.push({ type: 'added', line: line2, num: i + 1 });
+                } else if (line2 === undefined) {
+                    result.push({ type: 'removed', line: line1, num: i + 1 });
+                } else if (line1 === line2) {
+                    result.push({ type: 'identical', line: line1, num: i + 1 });
+                } else {
+                    result.push({ type: 'changed', line1: line1, line2: line2, num: i + 1 });
+                }
+            }
+            
+            return result;
+        }
+        
+        function displayDiff(diff) {
+            const content = document.getElementById('diffContent');
+            let html = '';
+            
+            diff.forEach(item => {
+                if (item.type === 'added') {
+                    html += `<div style="background: rgba(52, 211, 153, 0.15); padding: 4px 8px; margin: 2px 0; border-left: 3px solid #34d399;">
+                        <span style="color: #34d399; font-weight: bold; margin-right: 10px;">+</span>
+                        <span style="color: #34d399;">${escapeHtml(item.line)}</span>
+                    </div>`;
+                } else if (item.type === 'removed') {
+                    html += `<div style="background: rgba(248, 113, 113, 0.15); padding: 4px 8px; margin: 2px 0; border-left: 3px solid #f87171;">
+                        <span style="color: #f87171; font-weight: bold; margin-right: 10px;">-</span>
+                        <span style="color: #f87171;">${escapeHtml(item.line)}</span>
+                    </div>`;
+                } else if (item.type === 'changed') {
+                    html += `<div style="background: rgba(248, 113, 113, 0.15); padding: 4px 8px; margin: 2px 0; border-left: 3px solid #f87171;">
+                        <span style="color: #f87171; font-weight: bold; margin-right: 10px;">-</span>
+                        <span style="color: #f87171;">${escapeHtml(item.line1)}</span>
+                    </div>`;
+                    html += `<div style="background: rgba(52, 211, 153, 0.15); padding: 4px 8px; margin: 2px 0; border-left: 3px solid #34d399;">
+                        <span style="color: #34d399; font-weight: bold; margin-right: 10px;">+</span>
+                        <span style="color: #34d399;">${escapeHtml(item.line2)}</span>
+                    </div>`;
+                } else {
+                    html += `<div style="padding: 4px 8px; margin: 2px 0; color: var(--gray);">
+                        <span style="margin-right: 10px; opacity: 0.5;"> </span>
+                        ${escapeHtml(item.line)}
+                    </div>`;
+                }
+            });
+            
+            content.innerHTML = html || '<div style="color: var(--gray);">No differences found</div>';
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        function swapTexts() {
+            const text1 = document.getElementById('text1').value;
+            const text2 = document.getElementById('text2').value;
+            
+            document.getElementById('text1').value = text2;
+            document.getElementById('text2').value = text1;
+            
+            compareDiff();
+            showToast('Texts swapped');
+        }
+        
+        function clearAll() {
+            document.getElementById('text1').value = '';
+            document.getElementById('text2').value = '';
+            document.getElementById('diffOutput').style.display = 'none';
+            document.getElementById('statsBar').style.display = 'none';
+            showToast('Cleared');
+        }
+        
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show' + (isError ? ' error' : '');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>

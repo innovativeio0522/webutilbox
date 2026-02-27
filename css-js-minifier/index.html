@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS & JS Minifier - Compress Code Online | ToolKit Pro</title>
+    <meta name="description" content="Minify CSS and JavaScript code to reduce file size. Remove whitespace, comments, and optimize code for production. Free online minifier.">
+    <meta name="keywords" content="css minifier, js minifier, minify css, minify javascript, code compression, optimize css">
+    <link rel="canonical" href="https://yourdomain.com/css-js-minifier">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/tool-specific.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>⚡ CSS & JS Minifier</h1>
+        <p class="subtitle">Compress and optimize CSS and JavaScript code for production.</p>
+
+        <div style="margin-bottom: 15px; text-align: center;">
+            <div style="display: inline-flex; background: var(--light); border-radius: 8px; padding: 4px; border: 1px solid var(--border);">
+                <button id="cssTab" class="tab-btn active" style="padding: 8px 20px; background: var(--primary); border: none; border-radius: 6px; color: white; cursor: pointer; font-size: 0.85rem; font-weight: 500;">CSS Minifier</button>
+                <button id="jsTab" class="tab-btn" style="padding: 8px 20px; background: transparent; border: none; border-radius: 6px; color: var(--white); cursor: pointer; font-size: 0.85rem; font-weight: 500;">JS Minifier</button>
+            </div>
+        </div>
+
+        <div class="workspace" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <!-- Left: Input -->
+            <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <label style="font-size: 0.8rem; color: var(--gray);">Input Code</label>
+                    <div style="display: flex; gap: 6px;">
+                        <button id="loadSampleBtn" style="padding: 4px 10px; font-size: 0.7rem; background: var(--dark); border: 1px solid var(--border); border-radius: 4px; color: var(--white); cursor: pointer;">📄 Sample</button>
+                        <button id="clearBtn" style="padding: 4px 10px; font-size: 0.7rem; background: var(--dark); border: 1px solid var(--border); border-radius: 4px; color: var(--white); cursor: pointer;">🗑️ Clear</button>
+                    </div>
+                </div>
+                <textarea id="inputCode" placeholder="Paste your CSS or JavaScript code here..." style="width: 100%; height: 450px; padding: 12px; font-size: 0.8rem; background: var(--dark); border: 1px solid var(--border); border-radius: 8px; color: var(--white); font-family: 'Courier New', monospace; resize: vertical; line-height: 1.5;"></textarea>
+                
+                <div style="display: flex; gap: 15px; margin-top: 8px; font-size: 0.7rem; color: var(--gray);">
+                    <span>Size: <span id="inputSize" style="color: var(--primary);">0 B</span></span>
+                    <span>Lines: <span id="inputLines" style="color: var(--primary);">0</span></span>
+                    <span>Characters: <span id="inputChars" style="color: var(--primary);">0</span></span>
+                </div>
+
+                <button id="minifyBtn" style="width: 100%; margin-top: 12px; padding: 12px; background: var(--primary); border: none; border-radius: 6px; color: white; cursor: pointer; font-size: 0.9rem; font-weight: 500;">⚡ Minify Code</button>
+            </div>
+
+            <!-- Right: Output -->
+            <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <label style="font-size: 0.8rem; color: var(--gray);">Minified Output</label>
+                    <div style="display: flex; gap: 6px;">
+                        <button id="copyBtn" style="padding: 4px 10px; font-size: 0.7rem; background: var(--primary); border: none; border-radius: 4px; color: white; cursor: pointer;">📋 Copy</button>
+                        <button id="downloadBtn" style="padding: 4px 10px; font-size: 0.7rem; background: var(--dark); border: 1px solid var(--border); border-radius: 4px; color: var(--white); cursor: pointer;">💾 Download</button>
+                    </div>
+                </div>
+                <textarea id="outputCode" readonly placeholder="Minified code will appear here..." style="width: 100%; height: 450px; padding: 12px; font-size: 0.8rem; background: var(--dark); border: 1px solid var(--border); border-radius: 8px; color: var(--white); font-family: 'Courier New', monospace; resize: vertical; line-height: 1.5;"></textarea>
+                
+                <div style="display: flex; gap: 15px; margin-top: 8px; font-size: 0.7rem; color: var(--gray);">
+                    <span>Size: <span id="outputSize" style="color: var(--primary);">0 B</span></span>
+                    <span>Lines: <span id="outputLines" style="color: var(--primary);">0</span></span>
+                    <span>Characters: <span id="outputChars" style="color: var(--primary);">0</span></span>
+                </div>
+
+                <!-- Stats -->
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; margin-top: 12px; border: 1px solid var(--border);">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 10px;">Compression Stats</div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <div>
+                            <div style="font-size: 0.7rem; color: var(--gray); margin-bottom: 4px;">Size Reduced</div>
+                            <div style="font-size: 1.2rem; color: #10b981; font-weight: 600;" id="sizeReduced">0 B</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.7rem; color: var(--gray); margin-bottom: 4px;">Compression</div>
+                            <div style="font-size: 1.2rem; color: var(--primary); font-weight: 600;" id="compressionPercent">0%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>CSS & JS Minifier</h2>
+            <p>Minify and compress CSS and JavaScript code to reduce file size and improve website performance. Removes whitespace, comments, and unnecessary characters while preserving functionality.</p>
+            <p><strong>Features:</strong> CSS minification, JavaScript minification, compression statistics, file size comparison, download minified files.</p>
+            <p><strong>Use Cases:</strong> Production deployment, website optimization, reduce bandwidth, faster page loads, CDN preparation.</p>
+            <p><strong>Privacy:</strong> All minification happens in your browser. No code is sent to any server.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        const cssTab = document.getElementById('cssTab');
+        const jsTab = document.getElementById('jsTab');
+        const inputCode = document.getElementById('inputCode');
+        const outputCode = document.getElementById('outputCode');
+        const minifyBtn = document.getElementById('minifyBtn');
+        const copyBtn = document.getElementById('copyBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const loadSampleBtn = document.getElementById('loadSampleBtn');
+        const clearBtn = document.getElementById('clearBtn');
+
+        let currentMode = 'css';
+
+        // Tab switching
+        cssTab.addEventListener('click', () => switchTab('css'));
+        jsTab.addEventListener('click', () => switchTab('js'));
+
+        function switchTab(mode) {
+            currentMode = mode;
+            
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.style.background = 'transparent';
+            });
+            
+            if (mode === 'css') {
+                cssTab.style.background = 'var(--primary)';
+                inputCode.placeholder = 'Paste your CSS code here...';
+            } else {
+                jsTab.style.background = 'var(--primary)';
+                inputCode.placeholder = 'Paste your JavaScript code here...';
+            }
+            
+            inputCode.value = '';
+            outputCode.value = '';
+            updateStats();
+        }
+
+        // Update stats on input
+        inputCode.addEventListener('input', updateStats);
+
+        function updateStats() {
+            const input = inputCode.value;
+            const output = outputCode.value;
+            
+            const inputBytes = new Blob([input]).size;
+            const outputBytes = new Blob([output]).size;
+            const inputLines = input ? input.split('\n').length : 0;
+            const outputLines = output ? output.split('\n').length : 0;
+            
+            document.getElementById('inputSize').textContent = formatBytes(inputBytes);
+            document.getElementById('inputLines').textContent = inputLines;
+            document.getElementById('inputChars').textContent = input.length;
+            
+            document.getElementById('outputSize').textContent = formatBytes(outputBytes);
+            document.getElementById('outputLines').textContent = outputLines;
+            document.getElementById('outputChars').textContent = output.length;
+            
+            if (output) {
+                const reduced = inputBytes - outputBytes;
+                const percent = inputBytes > 0 ? ((reduced / inputBytes) * 100).toFixed(1) : 0;
+                document.getElementById('sizeReduced').textContent = formatBytes(reduced);
+                document.getElementById('compressionPercent').textContent = percent + '%';
+            } else {
+                document.getElementById('sizeReduced').textContent = '0 B';
+                document.getElementById('compressionPercent').textContent = '0%';
+            }
+        }
+
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 B';
+            const k = 1024;
+            const sizes = ['B', 'KB', 'MB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Minify
+        minifyBtn.addEventListener('click', minifyCode);
+
+        function minifyCode() {
+            const input = inputCode.value.trim();
+            
+            if (!input) {
+                showToast('Please enter some code', true);
+                return;
+            }
+
+            try {
+                let minified;
+                
+                if (currentMode === 'css') {
+                    minified = minifyCSS(input);
+                } else {
+                    minified = minifyJS(input);
+                }
+                
+                outputCode.value = minified;
+                updateStats();
+                showToast('Code minified successfully!');
+            } catch (error) {
+                showToast('Error minifying code: ' + error.message, true);
+            }
+        }
+
+        function minifyCSS(css) {
+            return css
+                .replace(/\/\*[\s\S]*?\*\//g, '')
+                .replace(/\s+/g, ' ')
+                .replace(/\s*{\s*/g, '{')
+                .replace(/\s*}\s*/g, '}')
+                .replace(/\s*:\s*/g, ':')
+                .replace(/\s*;\s*/g, ';')
+                .replace(/\s*,\s*/g, ',')
+                .replace(/;\}/g, '}')
+                .replace(/\s*>\s*/g, '>')
+                .replace(/\s*\+\s*/g, '+')
+                .replace(/\s*~\s*/g, '~')
+                .trim();
+        }
+
+        function minifyJS(js) {
+            return js
+                .replace(/\/\*[\s\S]*?\*\//g, '')
+                .replace(/\/\/.*/g, '')
+                .replace(/\s+/g, ' ')
+                .replace(/\s*{\s*/g, '{')
+                .replace(/\s*}\s*/g, '}')
+                .replace(/\s*\(\s*/g, '(')
+                .replace(/\s*\)\s*/g, ')')
+                .replace(/\s*;\s*/g, ';')
+                .replace(/\s*,\s*/g, ',')
+                .replace(/\s*=\s*/g, '=')
+                .replace(/\s*:\s*/g, ':')
+                .replace(/\s*\?\s*/g, '?')
+                .replace(/\s*\|\|\s*/g, '||')
+                .replace(/\s*&&\s*/g, '&&')
+                .replace(/\s*\+\s*/g, '+')
+                .replace(/\s*-\s*/g, '-')
+                .replace(/\s*\*\s*/g, '*')
+                .replace(/\s*\/\s*/g, '/')
+                .replace(/\s*<\s*/g, '<')
+                .replace(/\s*>\s*/g, '>')
+                .replace(/\s*!\s*/g, '!')
+                .trim();
+        }
+
+        // Copy
+        copyBtn.addEventListener('click', () => {
+            if (!outputCode.value) {
+                showToast('No output to copy', true);
+                return;
+            }
+
+            navigator.clipboard.writeText(outputCode.value).then(() => {
+                showToast('Copied to clipboard!');
+            }).catch(() => {
+                showToast('Failed to copy', true);
+            });
+        });
+
+        // Download
+        downloadBtn.addEventListener('click', () => {
+            if (!outputCode.value) {
+                showToast('No output to download', true);
+                return;
+            }
+
+            const extension = currentMode === 'css' ? '.min.css' : '.min.js';
+            const mimeType = currentMode === 'css' ? 'text/css' : 'text/javascript';
+            
+            const blob = new Blob([outputCode.value], { type: mimeType });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'minified_' + Date.now() + extension;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('File downloaded!');
+        });
+
+        // Load sample
+        loadSampleBtn.addEventListener('click', () => {
+            if (currentMode === 'css') {
+                inputCode.value = `/* Main Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}`;
+            } else {
+                inputCode.value = `// Sample JavaScript
+function calculateTotal(items) {
+    let total = 0;
+    
+    for (let i = 0; i < items.length; i++) {
+        total += items[i].price * items[i].quantity;
+    }
+    
+    return total;
+}
+
+const cart = [
+    { name: 'Product 1', price: 10, quantity: 2 },
+    { name: 'Product 2', price: 15, quantity: 1 }
+];
+
+const total = calculateTotal(cart);
+console.log('Total: $' + total);`;
+            }
+            updateStats();
+            showToast('Sample loaded!');
+        });
+
+        // Clear
+        clearBtn.addEventListener('click', () => {
+            inputCode.value = '';
+            outputCode.value = '';
+            updateStats();
+            showToast('Cleared');
+        });
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show' + (isError ? ' error' : '');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // Initialize
+        updateStats();
+    </script>
+</body>
+</html>

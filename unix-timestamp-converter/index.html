@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unix Timestamp Converter - Convert Timestamp to Date Online | ToolKit Pro</title>
+    <meta name="description" content="Convert Unix timestamps to readable dates and vice versa. Free timestamp converter with timezone support. Convert epoch time instantly.">
+    <meta name="keywords" content="unix timestamp converter, epoch converter, timestamp to date, convert unix time">
+    <link rel="canonical" href="https://yourdomain.com/unix-timestamp-converter">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/tool-specific.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>⏰ Unix Timestamp Converter</h1>
+        <p class="subtitle">Convert Unix timestamps to readable dates and dates to Unix timestamps.</p>
+
+        <div class="workspace">
+            <!-- Current Timestamp -->
+            <div style="margin-bottom: 20px; padding: 15px; background: var(--light); border-radius: 10px; border: 1px solid var(--border); text-align: center;">
+                <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 5px;">Current Unix Timestamp</div>
+                <div id="currentTimestamp" style="font-size: 1.8rem; font-weight: bold; color: var(--primary); font-family: 'Courier New', monospace;"></div>
+                <div id="currentDate" style="font-size: 0.9rem; color: var(--gray); margin-top: 5px;"></div>
+            </div>
+
+            <!-- Timestamp to Date -->
+            <div style="margin-bottom: 20px;">
+                <label style="font-size: 0.9rem; margin-bottom: 8px; display: block;">Unix Timestamp</label>
+                <div style="display: flex; gap: 8px;">
+                    <input type="number" id="timestampInput" placeholder="1234567890" oninput="convertTimestamp()" style="flex: 1; padding: 10px; font-size: 1rem; font-family: 'Courier New', monospace;">
+                    <button class="btn btn-primary" onclick="useNow()" style="padding: 10px 16px; font-size: 0.85rem;">Now</button>
+                </div>
+            </div>
+
+            <div class="output-container show" style="margin-bottom: 20px;">
+                <div class="output-label">Converted Date & Time</div>
+                <div id="convertedDate" style="font-size: 1rem; color: var(--white); margin-bottom: 8px;">-</div>
+                <div style="display: grid; gap: 6px; font-size: 0.85rem; color: var(--gray);">
+                    <div>📅 Date: <span id="dateOnly">-</span></div>
+                    <div>🕐 Time: <span id="timeOnly">-</span></div>
+                    <div>🌍 UTC: <span id="utcTime">-</span></div>
+                    <div>📍 ISO 8601: <span id="isoTime">-</span></div>
+                </div>
+            </div>
+
+            <!-- Date to Timestamp -->
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 0.9rem; margin-bottom: 8px; display: block;">Date & Time</label>
+                <input type="datetime-local" id="dateInput" oninput="convertDate()" style="width: 100%; padding: 10px; font-size: 0.95rem;">
+            </div>
+
+            <div class="output-container show">
+                <div class="output-label">Unix Timestamp</div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div id="convertedTimestamp" style="font-size: 1.3rem; color: var(--primary); font-weight: bold; font-family: 'Courier New', monospace;">-</div>
+                    <button class="btn btn-success" onclick="copyTimestamp()" style="padding: 8px 16px; font-size: 0.85rem;">Copy</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Unix Timestamp Converter - Convert Epoch Time to Date</h2>
+            <p>Convert Unix timestamps (epoch time) to human-readable dates and vice versa. Unix timestamp is the number of seconds since January 1, 1970 00:00:00 UTC.</p>
+            <p><strong>What is Unix Timestamp?</strong> Also known as epoch time or POSIX time, it's a system for tracking time as a running total of seconds. It's widely used in programming and databases.</p>
+            <p><strong>Use Cases:</strong> Database timestamps, API responses, log files, scheduling systems, date calculations, time zone conversions.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        function updateCurrentTimestamp() {
+            const now = Math.floor(Date.now() / 1000);
+            document.getElementById('currentTimestamp').textContent = now;
+            document.getElementById('currentDate').textContent = new Date().toLocaleString();
+        }
+
+        function convertTimestamp() {
+            const timestamp = parseInt(document.getElementById('timestampInput').value);
+            
+            if (!timestamp || isNaN(timestamp)) {
+                clearTimestampOutput();
+                return;
+            }
+            
+            const date = new Date(timestamp * 1000);
+            
+            document.getElementById('convertedDate').textContent = date.toLocaleString();
+            document.getElementById('dateOnly').textContent = date.toLocaleDateString();
+            document.getElementById('timeOnly').textContent = date.toLocaleTimeString();
+            document.getElementById('utcTime').textContent = date.toUTCString();
+            document.getElementById('isoTime').textContent = date.toISOString();
+        }
+
+        function clearTimestampOutput() {
+            document.getElementById('convertedDate').textContent = '-';
+            document.getElementById('dateOnly').textContent = '-';
+            document.getElementById('timeOnly').textContent = '-';
+            document.getElementById('utcTime').textContent = '-';
+            document.getElementById('isoTime').textContent = '-';
+        }
+
+        function convertDate() {
+            const dateInput = document.getElementById('dateInput').value;
+            
+            if (!dateInput) {
+                document.getElementById('convertedTimestamp').textContent = '-';
+                return;
+            }
+            
+            const timestamp = Math.floor(new Date(dateInput).getTime() / 1000);
+            document.getElementById('convertedTimestamp').textContent = timestamp;
+        }
+
+        function useNow() {
+            const now = Math.floor(Date.now() / 1000);
+            document.getElementById('timestampInput').value = now;
+            convertTimestamp();
+            showToast('Current timestamp loaded');
+        }
+
+        function copyTimestamp() {
+            const timestamp = document.getElementById('convertedTimestamp').textContent;
+            if (timestamp === '-') return;
+            
+            navigator.clipboard.writeText(timestamp).then(() => {
+                showToast('Timestamp copied!');
+            });
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show';
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // Update current timestamp every second
+        updateCurrentTimestamp();
+        setInterval(updateCurrentTimestamp, 1000);
+    </script>
+</body>
+</html>

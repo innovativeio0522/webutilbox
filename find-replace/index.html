@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find and Replace Tool - Advanced Text Search with Regex | ToolKit Pro</title>
+    <meta name="description" content="Find and replace text with advanced regex support. Bulk text replacement, case-sensitive search, whole word matching. Free online find and replace tool.">
+    <meta name="keywords" content="find and replace, text search replace, regex find replace, bulk text replace, advanced search replace online">
+    <link rel="canonical" href="https://yourdomain.com/find-replace">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/tool-specific.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>🔍 Find & Replace</h1>
+        <p class="subtitle">Advanced text search and replace with regex support, case sensitivity, and whole word matching.</p>
+
+        <div class="workspace">
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 15px; align-items: start;">
+                <!-- Left: Text Input -->
+                <div>
+                    <label style="font-size: 0.9rem; margin-bottom: 8px;">Input Text</label>
+                    <textarea id="inputText" placeholder="Paste your text here..." style="min-height: 300px; font-size: 0.9rem;"></textarea>
+                </div>
+                
+                <!-- Right: Options -->
+                <div>
+                    <div style="display: grid; gap: 10px;">
+                        <div>
+                            <label style="font-size: 0.85rem; margin-bottom: 6px;">Find:</label>
+                            <input type="text" id="findText" placeholder="Text to find..." style="padding: 10px; font-size: 0.9rem;">
+                        </div>
+                        
+                        <div>
+                            <label style="font-size: 0.85rem; margin-bottom: 6px;">Replace with:</label>
+                            <input type="text" id="replaceText" placeholder="Replacement text..." style="padding: 10px; font-size: 0.9rem;">
+                        </div>
+                        
+                        <div style="background: var(--light); padding: 10px; border-radius: 8px; border: 1px solid var(--border);">
+                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; margin-bottom: 8px;">
+                                <input type="checkbox" id="caseSensitive">
+                                <span style="font-size: 0.85rem;">Case Sensitive</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; margin-bottom: 8px;">
+                                <input type="checkbox" id="wholeWord">
+                                <span style="font-size: 0.85rem;">Match Whole Word</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                                <input type="checkbox" id="useRegex">
+                                <span style="font-size: 0.85rem;">Use Regex</span>
+                            </label>
+                        </div>
+                        
+                        <div class="button-group" style="display: grid; gap: 8px;">
+                            <button class="btn btn-primary" onclick="findMatches()" style="width: 100%; padding: 10px;">Find</button>
+                            <button class="btn btn-success" onclick="replaceAll()" style="width: 100%; padding: 10px;">Replace All</button>
+                            <button class="btn btn-secondary" onclick="copyResult()" style="width: 100%; padding: 8px; font-size: 0.85rem;">Copy Result</button>
+                            <button class="btn btn-secondary" onclick="clearAll()" style="width: 100%; padding: 8px; font-size: 0.85rem;">Clear</button>
+                        </div>
+                        
+                        <div id="matchStats" style="background: var(--light); padding: 10px; border-radius: 8px; border: 1px solid var(--border); display: none;">
+                            <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 5px;">Matches Found:</div>
+                            <div style="font-size: 1.5rem; font-weight: bold; color: var(--primary);" id="matchCount">0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="output-container show" id="outputContainer" style="margin-top: 15px; display: none;">
+                <div class="output-label">Result</div>
+                <div class="output-content" id="outputText" style="white-space: pre-wrap; font-size: 0.9rem;"></div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Find and Replace Tool - Advanced Text Search with Regex</h2>
+            <p>This free find and replace tool helps you search and replace text with advanced options including regex support, case-sensitive matching, and whole word search. Perfect for bulk text editing, code refactoring, and document processing.</p>
+            <p><strong>Features:</strong> Case-sensitive search, whole word matching, regular expression (regex) support, match counter, bulk replace all occurrences, real-time preview.</p>
+            <p><strong>Regex Examples:</strong> Use \d+ for numbers, \w+ for words, [a-z]+ for lowercase letters, ^start for line beginning, end$ for line ending, (group) for capture groups.</p>
+            <p><strong>Use Cases:</strong> Code refactoring, bulk text editing, document cleanup, data formatting, removing duplicates, pattern matching, text normalization, content migration.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        function findMatches() {
+            const text = document.getElementById('inputText').value;
+            const find = document.getElementById('findText').value;
+            
+            if (!text || !find) {
+                showToast('Enter text and search term', true);
+                return;
+            }
+            
+            try {
+                const regex = buildRegex(find);
+                const matches = text.match(regex);
+                const count = matches ? matches.length : 0;
+                
+                document.getElementById('matchCount').textContent = count;
+                document.getElementById('matchStats').style.display = 'block';
+                
+                if (count > 0) {
+                    // Highlight matches
+                    let highlighted = text.replace(regex, (match) => `⟪${match}⟫`);
+                    document.getElementById('outputText').textContent = highlighted;
+                    document.getElementById('outputContainer').style.display = 'block';
+                    showToast(`Found ${count} match${count !== 1 ? 'es' : ''}`);
+                } else {
+                    document.getElementById('outputText').textContent = 'No matches found';
+                    document.getElementById('outputContainer').style.display = 'block';
+                    showToast('No matches found', true);
+                }
+            } catch (e) {
+                showToast('Invalid regex pattern', true);
+            }
+        }
+        
+        function replaceAll() {
+            const text = document.getElementById('inputText').value;
+            const find = document.getElementById('findText').value;
+            const replace = document.getElementById('replaceText').value;
+            
+            if (!text || !find) {
+                showToast('Enter text and search term', true);
+                return;
+            }
+            
+            try {
+                const regex = buildRegex(find);
+                const matches = text.match(regex);
+                const count = matches ? matches.length : 0;
+                
+                if (count === 0) {
+                    showToast('No matches to replace', true);
+                    return;
+                }
+                
+                const result = text.replace(regex, replace);
+                
+                document.getElementById('outputText').textContent = result;
+                document.getElementById('outputContainer').style.display = 'block';
+                document.getElementById('matchCount').textContent = count;
+                document.getElementById('matchStats').style.display = 'block';
+                
+                showToast(`Replaced ${count} occurrence${count !== 1 ? 's' : ''}`);
+            } catch (e) {
+                showToast('Invalid regex pattern', true);
+            }
+        }
+        
+        function buildRegex(pattern) {
+            const caseSensitive = document.getElementById('caseSensitive').checked;
+            const wholeWord = document.getElementById('wholeWord').checked;
+            const useRegex = document.getElementById('useRegex').checked;
+            
+            let regexPattern = pattern;
+            
+            if (!useRegex) {
+                // Escape special regex characters
+                regexPattern = pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            }
+            
+            if (wholeWord) {
+                regexPattern = `\\b${regexPattern}\\b`;
+            }
+            
+            const flags = caseSensitive ? 'g' : 'gi';
+            return new RegExp(regexPattern, flags);
+        }
+        
+        function copyResult() {
+            const result = document.getElementById('outputText').textContent;
+            
+            if (!result || result === 'No matches found') {
+                showToast('Nothing to copy', true);
+                return;
+            }
+            
+            navigator.clipboard.writeText(result).then(() => {
+                showToast('Result copied to clipboard!');
+            });
+        }
+        
+        function clearAll() {
+            document.getElementById('inputText').value = '';
+            document.getElementById('findText').value = '';
+            document.getElementById('replaceText').value = '';
+            document.getElementById('outputContainer').style.display = 'none';
+            document.getElementById('matchStats').style.display = 'none';
+            showToast('Cleared');
+        }
+        
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show' + (isError ? ' error' : '');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>

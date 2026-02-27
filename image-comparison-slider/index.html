@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Comparison Slider - Before After Tool | ToolKit Pro</title>
+    <meta name="description" content="Compare two images with an interactive slider. Perfect for before/after comparisons, design changes, and progress tracking. Works offline.">
+    <meta name="keywords" content="image comparison, before after slider, compare images, image diff, photo comparison">
+    <link rel="canonical" href="https://yourdomain.com/image-comparison-slider">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/tool-specific.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>⚖️ Image Comparison Slider</h1>
+        <p class="subtitle">Compare two images with an interactive before/after slider.</p>
+
+        <div class="workspace" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <!-- Left: Upload Controls -->
+            <div>
+                <!-- Before Image -->
+                <div style="margin-bottom: 12px;">
+                    <label style="font-size: 0.8rem; margin-bottom: 6px; display: block; color: var(--gray);">Before Image</label>
+                    <div style="border: 2px dashed var(--border); border-radius: 8px; padding: 20px; text-align: center; cursor: pointer; transition: all 0.3s;" id="dropZoneBefore" onclick="document.getElementById('fileInputBefore').click()">
+                        <div style="font-size: 1.5rem; margin-bottom: 5px;">📷</div>
+                        <div style="font-size: 0.8rem; color: var(--white); margin-bottom: 3px;">Upload Before Image</div>
+                        <div style="font-size: 0.7rem; color: var(--gray);">JPG, PNG, WebP</div>
+                    </div>
+                    <input type="file" id="fileInputBefore" accept="image/*" style="display: none;" onchange="handleFile('before', this.files[0])">
+                    <div id="beforePreview" style="display: none; margin-top: 8px; text-align: center;">
+                        <img id="beforeThumb" style="max-width: 100%; max-height: 100px; border-radius: 6px; border: 1px solid var(--border);">
+                        <div style="font-size: 0.7rem; color: var(--primary); margin-top: 4px;">✓ Before image loaded</div>
+                    </div>
+                </div>
+
+                <!-- After Image -->
+                <div style="margin-bottom: 12px;">
+                    <label style="font-size: 0.8rem; margin-bottom: 6px; display: block; color: var(--gray);">After Image</label>
+                    <div style="border: 2px dashed var(--border); border-radius: 8px; padding: 20px; text-align: center; cursor: pointer; transition: all 0.3s;" id="dropZoneAfter" onclick="document.getElementById('fileInputAfter').click()">
+                        <div style="font-size: 1.5rem; margin-bottom: 5px;">📷</div>
+                        <div style="font-size: 0.8rem; color: var(--white); margin-bottom: 3px;">Upload After Image</div>
+                        <div style="font-size: 0.7rem; color: var(--gray);">JPG, PNG, WebP</div>
+                    </div>
+                    <input type="file" id="fileInputAfter" accept="image/*" style="display: none;" onchange="handleFile('after', this.files[0])">
+                    <div id="afterPreview" style="display: none; margin-top: 8px; text-align: center;">
+                        <img id="afterThumb" style="max-width: 100%; max-height: 100px; border-radius: 6px; border: 1px solid var(--border);">
+                        <div style="font-size: 0.7rem; color: var(--primary); margin-top: 4px;">✓ After image loaded</div>
+                    </div>
+                </div>
+
+                <!-- Settings -->
+                <div id="settings" style="display: none; background: var(--light); border-radius: 8px; padding: 12px; border: 1px solid var(--border); margin-bottom: 12px;">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 10px;">Slider Settings</div>
+                    
+                    <!-- Slider Position -->
+                    <div style="margin-bottom: 10px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                            <label style="font-size: 0.75rem;">Slider Position</label>
+                            <span style="font-size: 0.75rem; color: var(--primary);" id="sliderPos-val">50%</span>
+                        </div>
+                        <input type="range" id="sliderPosition" min="0" max="100" value="50" oninput="updateSliderPosition(this.value)" style="width: 100%;">
+                    </div>
+
+                    <!-- Labels -->
+                    <div style="margin-bottom: 10px;">
+                        <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                            <input type="checkbox" id="showLabels" checked onchange="toggleLabels()">
+                            <span style="font-size: 0.75rem;">Show Before/After Labels</span>
+                        </label>
+                    </div>
+
+                    <!-- Label Text -->
+                    <div id="labelInputs">
+                        <div style="margin-bottom: 8px;">
+                            <label style="font-size: 0.75rem; margin-bottom: 4px; display: block;">Before Label</label>
+                            <input type="text" id="beforeLabel" value="BEFORE" oninput="updateComparison()" style="width: 100%; padding: 6px; font-size: 0.75rem; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white);">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.75rem; margin-bottom: 4px; display: block;">After Label</label>
+                            <input type="text" id="afterLabel" value="AFTER" oninput="updateComparison()" style="width: 100%; padding: 6px; font-size: 0.75rem; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white);">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Download Button -->
+                <button onclick="downloadComparison()" id="downloadBtn" class="btn btn-success" style="width: 100%; padding: 10px; font-size: 0.95rem; display: none;">💾 Download Comparison</button>
+            </div>
+
+            <!-- Right: Comparison Preview -->
+            <div>
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; border: 1px solid var(--border);">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 10px;">Comparison Preview</div>
+                    
+                    <!-- Comparison Container -->
+                    <div id="comparisonContainer" style="display: none; position: relative; overflow: hidden; border-radius: 6px; background: #000; user-select: none;">
+                        <!-- Before Image (full) -->
+                        <img id="beforeImage" style="display: block; width: 100%; height: auto; position: relative;">
+                        
+                        <!-- After Image (clipped) -->
+                        <div id="afterContainer" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden; clip-path: inset(0 0 0 50%);">
+                            <img id="afterImage" style="display: block; width: 100%; height: auto;">
+                        </div>
+                        
+                        <!-- Slider Line -->
+                        <div id="sliderLine" style="position: absolute; top: 0; bottom: 0; left: 50%; width: 3px; background: var(--primary); cursor: ew-resize; z-index: 10;">
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 40px; height: 40px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.3);">
+                                <span style="color: white; font-size: 1.2rem;">⇔</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Labels -->
+                        <div id="beforeLabelDiv" style="position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); color: white; padding: 6px 12px; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">BEFORE</div>
+                        <div id="afterLabelDiv" style="position: absolute; top: 10px; right: 10px; background: rgba(249, 115, 22, 0.9); color: white; padding: 6px 12px; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">AFTER</div>
+                    </div>
+
+                    <!-- Placeholder -->
+                    <div id="placeholder" style="text-align: center; padding: 60px 20px; color: var(--gray); font-size: 0.85rem;">
+                        <div style="font-size: 2rem; margin-bottom: 10px;">⚖️</div>
+                        <div>Upload both images to see comparison</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Image Comparison Slider</h2>
+            <p>Compare two images side-by-side with an interactive slider. Perfect for before/after comparisons, design changes, photo edits, and progress tracking.</p>
+            <p><strong>How to use:</strong> Upload a "before" image and an "after" image. Drag the slider left and right to compare the images. Customize labels and download the comparison.</p>
+            <p><strong>Use Cases:</strong> Photo editing comparisons, design mockups vs final, weight loss progress, construction progress, product improvements, image quality tests.</p>
+            <p><strong>Privacy:</strong> All processing happens in your browser. No images are uploaded to any server.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        let beforeImg = null;
+        let afterImg = null;
+        let isDragging = false;
+
+        // Drag and drop for before
+        const dropZoneBefore = document.getElementById('dropZoneBefore');
+        dropZoneBefore.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZoneBefore.style.borderColor = 'var(--primary)';
+            dropZoneBefore.style.background = 'rgba(249, 115, 22, 0.1)';
+        });
+        dropZoneBefore.addEventListener('dragleave', () => {
+            dropZoneBefore.style.borderColor = 'var(--border)';
+            dropZoneBefore.style.background = 'transparent';
+        });
+        dropZoneBefore.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZoneBefore.style.borderColor = 'var(--border)';
+            dropZoneBefore.style.background = 'transparent';
+            if (e.dataTransfer.files.length) {
+                handleFile('before', e.dataTransfer.files[0]);
+            }
+        });
+
+        // Drag and drop for after
+        const dropZoneAfter = document.getElementById('dropZoneAfter');
+        dropZoneAfter.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZoneAfter.style.borderColor = 'var(--primary)';
+            dropZoneAfter.style.background = 'rgba(249, 115, 22, 0.1)';
+        });
+        dropZoneAfter.addEventListener('dragleave', () => {
+            dropZoneAfter.style.borderColor = 'var(--border)';
+            dropZoneAfter.style.background = 'transparent';
+        });
+        dropZoneAfter.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZoneAfter.style.borderColor = 'var(--border)';
+            dropZoneAfter.style.background = 'transparent';
+            if (e.dataTransfer.files.length) {
+                handleFile('after', e.dataTransfer.files[0]);
+            }
+        });
+
+        function handleFile(type, file) {
+            if (!file || !file.type.startsWith('image/')) {
+                showToast('Please select an image', true);
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                if (type === 'before') {
+                    beforeImg = e.target.result;
+                    document.getElementById('beforeThumb').src = beforeImg;
+                    document.getElementById('beforePreview').style.display = 'block';
+                } else {
+                    afterImg = e.target.result;
+                    document.getElementById('afterThumb').src = afterImg;
+                    document.getElementById('afterPreview').style.display = 'block';
+                }
+
+                if (beforeImg && afterImg) {
+                    initComparison();
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function initComparison() {
+            document.getElementById('beforeImage').src = beforeImg;
+            document.getElementById('afterImage').src = afterImg;
+            document.getElementById('comparisonContainer').style.display = 'block';
+            document.getElementById('placeholder').style.display = 'none';
+            document.getElementById('settings').style.display = 'block';
+            document.getElementById('downloadBtn').style.display = 'block';
+
+            // Setup slider dragging
+            const sliderLine = document.getElementById('sliderLine');
+            const container = document.getElementById('comparisonContainer');
+
+            sliderLine.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                e.preventDefault();
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                updateSliderFromMouse(e.clientX);
+            });
+
+            document.addEventListener('mouseup', () => {
+                isDragging = false;
+            });
+
+            container.addEventListener('click', (e) => {
+                if (e.target !== sliderLine && !sliderLine.contains(e.target)) {
+                    updateSliderFromMouse(e.clientX);
+                }
+            });
+
+            updateComparison();
+            showToast('Comparison ready! Drag the slider to compare');
+        }
+
+        function updateSliderFromMouse(clientX) {
+            const container = document.getElementById('comparisonContainer');
+            const rect = container.getBoundingClientRect();
+            const x = clientX - rect.left;
+            const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+            
+            document.getElementById('sliderPosition').value = percentage;
+            document.getElementById('sliderPos-val').textContent = Math.round(percentage) + '%';
+            updateSliderPosition(percentage);
+        }
+
+        function updateSliderPosition(percentage) {
+            document.getElementById('sliderPos-val').textContent = Math.round(percentage) + '%';
+            
+            const sliderLine = document.getElementById('sliderLine');
+            const afterContainer = document.getElementById('afterContainer');
+            
+            sliderLine.style.left = percentage + '%';
+            afterContainer.style.clipPath = `inset(0 0 0 ${percentage}%)`;
+        }
+
+        function toggleLabels() {
+            const show = document.getElementById('showLabels').checked;
+            document.getElementById('beforeLabelDiv').style.display = show ? 'block' : 'none';
+            document.getElementById('afterLabelDiv').style.display = show ? 'block' : 'none';
+            document.getElementById('labelInputs').style.display = show ? 'block' : 'none';
+        }
+
+        function updateComparison() {
+            const beforeLabel = document.getElementById('beforeLabel').value;
+            const afterLabel = document.getElementById('afterLabel').value;
+            
+            document.getElementById('beforeLabelDiv').textContent = beforeLabel;
+            document.getElementById('afterLabelDiv').textContent = afterLabel;
+        }
+
+        function downloadComparison() {
+            const container = document.getElementById('comparisonContainer');
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            const beforeImage = document.getElementById('beforeImage');
+            const afterImage = document.getElementById('afterImage');
+            
+            canvas.width = beforeImage.naturalWidth;
+            canvas.height = beforeImage.naturalHeight;
+
+            const sliderPos = parseFloat(document.getElementById('sliderPosition').value) / 100;
+
+            // Draw before image
+            ctx.drawImage(beforeImage, 0, 0);
+
+            // Draw after image (clipped)
+            ctx.save();
+            ctx.beginPath();
+            ctx.rect(canvas.width * sliderPos, 0, canvas.width * (1 - sliderPos), canvas.height);
+            ctx.clip();
+            ctx.drawImage(afterImage, 0, 0);
+            ctx.restore();
+
+            // Draw slider line
+            ctx.strokeStyle = '#f97316';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.moveTo(canvas.width * sliderPos, 0);
+            ctx.lineTo(canvas.width * sliderPos, canvas.height);
+            ctx.stroke();
+
+            // Draw labels if enabled
+            if (document.getElementById('showLabels').checked) {
+                const fontSize = Math.max(20, canvas.width / 30);
+                ctx.font = `bold ${fontSize}px Arial`;
+                
+                // Before label
+                const beforeText = document.getElementById('beforeLabel').value;
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+                const beforeWidth = ctx.measureText(beforeText).width;
+                ctx.fillRect(20, 20, beforeWidth + 24, fontSize + 16);
+                ctx.fillStyle = 'white';
+                ctx.fillText(beforeText, 32, 20 + fontSize);
+                
+                // After label
+                const afterText = document.getElementById('afterLabel').value;
+                ctx.fillStyle = 'rgba(249, 115, 22, 0.9)';
+                const afterWidth = ctx.measureText(afterText).width;
+                ctx.fillRect(canvas.width - afterWidth - 44, 20, afterWidth + 24, fontSize + 16);
+                ctx.fillStyle = 'white';
+                ctx.fillText(afterText, canvas.width - afterWidth - 32, 20 + fontSize);
+            }
+
+            canvas.toBlob((blob) => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'comparison_' + Date.now() + '.png';
+                a.click();
+                URL.revokeObjectURL(url);
+                showToast('Comparison downloaded!');
+            });
+        }
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show' + (isError ? ' error' : '');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>

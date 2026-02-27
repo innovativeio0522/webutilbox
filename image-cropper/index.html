@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Cropper - Crop Images Online Free | ToolKit Pro</title>
+    <meta name="description" content="Crop images online for free. Select custom area or use aspect ratio presets. Works offline in your browser.">
+    <meta name="keywords" content="image cropper, crop image online, image crop tool, photo cropper">
+    <link rel="canonical" href="https://yourdomain.com/image-cropper">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/tool-specific.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>✂️ Image Cropper</h1>
+        <p class="subtitle">Crop images with custom selection or aspect ratio presets. Works offline in your browser.</p>
+
+        <div class="workspace" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <!-- Left: Upload & Crop Area -->
+            <div>
+                <div id="uploadArea" style="margin-bottom: 12px;">
+                    <div style="border: 2px dashed var(--border); border-radius: 8px; padding: 25px; text-align: center; cursor: pointer; transition: all 0.3s;" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                        <div style="font-size: 2rem; margin-bottom: 5px;">📁</div>
+                        <div style="font-size: 0.85rem; color: var(--white); margin-bottom: 3px;">Click to upload</div>
+                        <div style="font-size: 0.7rem; color: var(--gray);">JPG, PNG, WebP</div>
+                    </div>
+                    <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="handleFile(this.files[0])">
+                </div>
+
+                <!-- Crop Canvas -->
+                <div id="cropArea" style="display: none; position: relative; background: var(--light); border-radius: 8px; padding: 10px; border: 1px solid var(--border);">
+                    <canvas id="canvas" style="max-width: 100%; cursor: crosshair; display: block; border-radius: 6px;"></canvas>
+                </div>
+            </div>
+
+            <!-- Right: Controls & Preview -->
+            <div id="controls" style="display: none;">
+                <!-- Aspect Ratio -->
+                <div style="margin-bottom: 12px;">
+                    <label style="font-size: 0.75rem; margin-bottom: 6px; display: block; color: var(--gray);">Aspect Ratio</label>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 6px;">
+                        <button onclick="setAspectRatio('free')" id="ratio-free" class="ratio-btn active" style="padding: 6px; background: var(--primary); border: 1px solid var(--primary); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: white;">Free</button>
+                        <button onclick="setAspectRatio('1:1')" id="ratio-1:1" class="ratio-btn" style="padding: 6px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: var(--white);">1:1</button>
+                        <button onclick="setAspectRatio('4:3')" id="ratio-4:3" class="ratio-btn" style="padding: 6px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: var(--white);">4:3</button>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;">
+                        <button onclick="setAspectRatio('16:9')" id="ratio-16:9" class="ratio-btn" style="padding: 6px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: var(--white);">16:9</button>
+                        <button onclick="setAspectRatio('3:2')" id="ratio-3:2" class="ratio-btn" style="padding: 6px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: var(--white);">3:2</button>
+                        <button onclick="setAspectRatio('9:16')" id="ratio-9:16" class="ratio-btn" style="padding: 6px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: var(--white);">9:16</button>
+                    </div>
+                </div>
+
+                <!-- Crop Info -->
+                <div style="background: var(--light); border-radius: 8px; padding: 10px; margin-bottom: 12px; border: 1px solid var(--border);">
+                    <div style="font-size: 0.75rem; color: var(--gray); margin-bottom: 6px;">Selection</div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.75rem;">
+                        <div>
+                            <span style="color: var(--gray);">Position:</span>
+                            <span style="color: var(--white); margin-left: 4px;" id="cropPos">-</span>
+                        </div>
+                        <div>
+                            <span style="color: var(--gray);">Size:</span>
+                            <span style="color: var(--white); margin-left: 4px;" id="cropSize">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preview -->
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; text-align: center; margin-bottom: 12px; border: 1px solid var(--border);">
+                    <div style="font-size: 0.75rem; color: var(--gray); margin-bottom: 8px;">Preview</div>
+                    <canvas id="preview" style="max-width: 100%; max-height: 150px; border-radius: 6px; background: repeating-conic-gradient(#ddd 0% 25%, white 0% 50%) 50% / 10px 10px;"></canvas>
+                </div>
+
+                <!-- Actions -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                    <button class="btn btn-secondary" onclick="resetCrop()" style="padding: 8px; font-size: 0.85rem;">🔄 Reset</button>
+                    <button class="btn btn-success" onclick="downloadCropped()" style="padding: 8px; font-size: 0.85rem;">💾 Download</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Image Cropper - Crop Images Online</h2>
+            <p>Crop images with custom selection or use aspect ratio presets like 1:1 (square), 16:9 (widescreen), 4:3 (standard), and more. Perfect for social media posts, profile pictures, and thumbnails.</p>
+            <p><strong>How to use:</strong> Upload an image, drag to select the area you want to crop, choose an aspect ratio preset if needed, and download the cropped image.</p>
+            <p><strong>Privacy:</strong> All cropping happens in your browser. No files uploaded to any server.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        let originalImage = null;
+        let canvas, ctx, previewCanvas, previewCtx;
+        let cropStart = null;
+        let cropEnd = null;
+        let isDragging = false;
+        let aspectRatio = null;
+
+        // Drag and drop
+        const dropZone = document.getElementById('dropZone');
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = 'var(--primary)';
+            dropZone.style.background = 'rgba(249, 115, 22, 0.1)';
+        });
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.style.borderColor = 'var(--border)';
+            dropZone.style.background = 'transparent';
+        });
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = 'var(--border)';
+            dropZone.style.background = 'transparent';
+            if (e.dataTransfer.files.length) {
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        function handleFile(file) {
+            if (!file || !file.type.startsWith('image/')) {
+                showToast('Please select an image', true);
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                originalImage = new Image();
+                originalImage.onload = () => {
+                    initCanvas();
+                    document.getElementById('uploadArea').style.display = 'none';
+                    document.getElementById('cropArea').style.display = 'block';
+                    document.getElementById('controls').style.display = 'block';
+                };
+                originalImage.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function initCanvas() {
+            canvas = document.getElementById('canvas');
+            ctx = canvas.getContext('2d');
+            previewCanvas = document.getElementById('preview');
+            previewCtx = previewCanvas.getContext('2d');
+
+            const maxWidth = 450;
+            const scale = Math.min(1, maxWidth / originalImage.width);
+            canvas.width = originalImage.width * scale;
+            canvas.height = originalImage.height * scale;
+
+            drawImage();
+
+            // Mouse events
+            canvas.addEventListener('mousedown', startCrop);
+            canvas.addEventListener('mousemove', updateCrop);
+            canvas.addEventListener('mouseup', endCrop);
+            canvas.addEventListener('mouseleave', endCrop);
+
+            // Initialize with full image selection
+            cropStart = { x: 0, y: 0 };
+            cropEnd = { x: canvas.width, y: canvas.height };
+            drawCropArea();
+            updatePreview();
+        }
+
+        function drawImage() {
+            ctx.drawImage(originalImage, 0, 0, canvas.width, canvas.height);
+        }
+
+        function startCrop(e) {
+            const rect = canvas.getBoundingClientRect();
+            cropStart = {
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top
+            };
+            isDragging = true;
+        }
+
+        function updateCrop(e) {
+            if (!isDragging) return;
+
+            const rect = canvas.getBoundingClientRect();
+            let x = e.clientX - rect.left;
+            let y = e.clientY - rect.top;
+
+            if (aspectRatio) {
+                const width = Math.abs(x - cropStart.x);
+                const height = width / aspectRatio;
+                y = cropStart.y + (y > cropStart.y ? height : -height);
+            }
+
+            cropEnd = { x, y };
+            drawCropArea();
+        }
+
+        function endCrop() {
+            if (isDragging) {
+                isDragging = false;
+                updatePreview();
+            }
+        }
+
+        function drawCropArea() {
+            drawImage();
+
+            if (!cropStart || !cropEnd) return;
+
+            const x = Math.min(cropStart.x, cropEnd.x);
+            const y = Math.min(cropStart.y, cropEnd.y);
+            const width = Math.abs(cropEnd.x - cropStart.x);
+            const height = Math.abs(cropEnd.y - cropStart.y);
+
+            // Darken outside area
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+            ctx.fillRect(0, 0, canvas.width, y);
+            ctx.fillRect(0, y, x, height);
+            ctx.fillRect(x + width, y, canvas.width - x - width, height);
+            ctx.fillRect(0, y + height, canvas.width, canvas.height - y - height);
+
+            // Draw selection border
+            ctx.strokeStyle = '#f97316';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(x, y, width, height);
+
+            // Update info
+            const scale = originalImage.width / canvas.width;
+            const realWidth = Math.round(width * scale);
+            const realHeight = Math.round(height * scale);
+            document.getElementById('cropPos').textContent = `${Math.round(x * scale)}, ${Math.round(y * scale)}`;
+            document.getElementById('cropSize').textContent = `${realWidth} × ${realHeight}`;
+        }
+
+        function updatePreview() {
+            if (!cropStart || !cropEnd) return;
+
+            const x = Math.min(cropStart.x, cropEnd.x);
+            const y = Math.min(cropStart.y, cropEnd.y);
+            const width = Math.abs(cropEnd.x - cropStart.x);
+            const height = Math.abs(cropEnd.y - cropStart.y);
+
+            if (width === 0 || height === 0) return;
+
+            const scale = originalImage.width / canvas.width;
+            const sx = x * scale;
+            const sy = y * scale;
+            const sWidth = width * scale;
+            const sHeight = height * scale;
+
+            previewCanvas.width = sWidth;
+            previewCanvas.height = sHeight;
+            previewCtx.drawImage(originalImage, sx, sy, sWidth, sHeight, 0, 0, sWidth, sHeight);
+        }
+
+        function setAspectRatio(ratio) {
+            // Update button styles
+            document.querySelectorAll('.ratio-btn').forEach(btn => {
+                btn.style.background = 'var(--light)';
+                btn.style.borderColor = 'var(--border)';
+                btn.style.color = 'var(--white)';
+            });
+            const activeBtn = document.getElementById('ratio-' + ratio);
+            activeBtn.style.background = 'var(--primary)';
+            activeBtn.style.borderColor = 'var(--primary)';
+            activeBtn.style.color = 'white';
+
+            if (ratio === 'free') {
+                aspectRatio = null;
+            } else {
+                const parts = ratio.split(':');
+                aspectRatio = parseInt(parts[0]) / parseInt(parts[1]);
+            }
+
+            // Reset crop to center with new aspect ratio
+            if (aspectRatio) {
+                const centerX = canvas.width / 2;
+                const centerY = canvas.height / 2;
+                const size = Math.min(canvas.width, canvas.height) * 0.7;
+                const width = aspectRatio > 1 ? size : size * aspectRatio;
+                const height = aspectRatio > 1 ? size / aspectRatio : size;
+
+                cropStart = { x: centerX - width / 2, y: centerY - height / 2 };
+                cropEnd = { x: centerX + width / 2, y: centerY + height / 2 };
+                drawCropArea();
+                updatePreview();
+            }
+        }
+
+        function resetCrop() {
+            cropStart = { x: 0, y: 0 };
+            cropEnd = { x: canvas.width, y: canvas.height };
+            drawCropArea();
+            updatePreview();
+        }
+
+        function downloadCropped() {
+            if (!previewCanvas.width || !previewCanvas.height) {
+                showToast('Please select an area to crop', true);
+                return;
+            }
+
+            previewCanvas.toBlob((blob) => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'cropped_' + Date.now() + '.png';
+                a.click();
+                URL.revokeObjectURL(url);
+                showToast('Image downloaded!');
+            });
+        }
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show' + (isError ? ' error' : '');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>

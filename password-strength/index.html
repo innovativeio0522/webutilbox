@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Strength Checker - Test Password Security Online | ToolKit Pro</title>
+    <meta name="description" content="Check password strength instantly. Free password strength tester shows security score, crack time, and improvement suggestions. Test your password security online.">
+    <meta name="keywords" content="password strength checker, password security test, check password strength online, password strength meter">
+    <link rel="canonical" href="https://yourdomain.com/password-strength">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/tool-specific.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>💪 Password Strength Checker</h1>
+        <p class="subtitle">Test your password strength and get instant feedback on security. See estimated crack time and improvement suggestions.</p>
+
+        <div class="workspace">
+            <!-- Password Input -->
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 0.9rem; margin-bottom: 8px;">Enter Password to Test</label>
+                <div style="position: relative;">
+                    <input type="password" id="passwordInput" placeholder="Type your password..." oninput="checkStrength()" style="padding: 15px; font-size: 1.1rem; padding-right: 50px;">
+                    <button onclick="togglePassword()" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 1.3rem; color: var(--gray);" id="toggleBtn">👁️</button>
+                </div>
+            </div>
+
+            <!-- Strength Meter -->
+            <div id="strengthMeter" style="display: none; margin-bottom: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <span style="font-size: 0.9rem; color: var(--gray);">Password Strength:</span>
+                    <span id="strengthLabel" style="font-size: 1.1rem; font-weight: bold;"></span>
+                </div>
+                <div style="height: 12px; background: var(--border); border-radius: 6px; overflow: hidden;">
+                    <div id="strengthBar" style="height: 100%; width: 0%; transition: all 0.3s; border-radius: 6px;"></div>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-bar" id="statsBar" style="display: none; margin-bottom: 20px;">
+                <div class="stat">📏 Length: <span class="stat-value" id="lengthStat">0</span></div>
+                <div class="stat">🔢 Score: <span class="stat-value" id="scoreStat">0</span>/100</div>
+                <div class="stat">⏱️ Crack Time: <span class="stat-value" id="crackTime">-</span></div>
+            </div>
+
+            <!-- Requirements Checklist -->
+            <div class="output-container show" id="requirementsBox" style="display: none; margin-bottom: 15px;">
+                <div class="output-label">Security Requirements</div>
+                <div id="requirementsList" style="display: grid; gap: 8px; font-size: 0.9rem;"></div>
+            </div>
+
+            <!-- Suggestions -->
+            <div class="output-container show" id="suggestionsBox" style="display: none;">
+                <div class="output-label">💡 Suggestions to Improve</div>
+                <div id="suggestionsList" style="display: grid; gap: 6px; font-size: 0.85rem;"></div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Password Strength Checker - Test Your Password Security</h2>
+            <p>This free password strength checker analyzes your password and provides a security score, estimated crack time, and suggestions for improvement. The tool checks for length, character variety, common patterns, and dictionary words.</p>
+            <p><strong>Strong Password Tips:</strong> Use at least 12 characters, mix uppercase and lowercase letters, include numbers and symbols, avoid dictionary words, don't use personal information, avoid common patterns (123, abc, qwerty).</p>
+            <p><strong>Security Criteria:</strong> Length (minimum 8, recommended 12+), uppercase letters, lowercase letters, numbers, special characters, no common patterns, no dictionary words.</p>
+            <p><strong>Privacy:</strong> All password checking happens in your browser. Your password is never sent to any server or stored anywhere.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        const commonPasswords = ['password', '123456', '12345678', 'qwerty', 'abc123', 'monkey', '1234567', 'letmein', 'trustno1', 'dragon', 'baseball', 'iloveyou', 'master', 'sunshine', 'ashley', 'bailey', 'passw0rd', 'shadow', '123123', '654321', 'superman', 'qazwsx', 'michael', 'football'];
+
+        function togglePassword() {
+            const input = document.getElementById('passwordInput');
+            const btn = document.getElementById('toggleBtn');
+            if (input.type === 'password') {
+                input.type = 'text';
+                btn.textContent = '🙈';
+            } else {
+                input.type = 'password';
+                btn.textContent = '👁️';
+            }
+        }
+
+        function checkStrength() {
+            const password = document.getElementById('passwordInput').value;
+            
+            if (!password) {
+                hideAll();
+                return;
+            }
+
+            let score = 0;
+            const checks = {
+                length: password.length >= 8,
+                lengthGood: password.length >= 12,
+                lengthGreat: password.length >= 16,
+                uppercase: /[A-Z]/.test(password),
+                lowercase: /[a-z]/.test(password),
+                numbers: /[0-9]/.test(password),
+                symbols: /[^A-Za-z0-9]/.test(password),
+                noCommon: !commonPasswords.includes(password.toLowerCase()),
+                noSequential: !hasSequential(password),
+                noRepeating: !hasRepeating(password)
+            };
+
+            // Calculate score
+            if (checks.length) score += 10;
+            if (checks.lengthGood) score += 15;
+            if (checks.lengthGreat) score += 10;
+            if (checks.uppercase) score += 10;
+            if (checks.lowercase) score += 10;
+            if (checks.numbers) score += 10;
+            if (checks.symbols) score += 15;
+            if (checks.noCommon) score += 10;
+            if (checks.noSequential) score += 5;
+            if (checks.noRepeating) score += 5;
+
+            // Display results
+            displayStrength(score, password.length);
+            displayRequirements(checks);
+            displaySuggestions(checks, password);
+            
+            document.getElementById('strengthMeter').style.display = 'block';
+            document.getElementById('statsBar').style.display = 'flex';
+            document.getElementById('requirementsBox').style.display = 'block';
+            document.getElementById('suggestionsBox').style.display = 'block';
+        }
+
+        function displayStrength(score, length) {
+            const bar = document.getElementById('strengthBar');
+            const label = document.getElementById('strengthLabel');
+            const crackTime = document.getElementById('crackTime');
+            
+            let strength, color, time;
+            
+            if (score < 30) {
+                strength = 'Very Weak';
+                color = '#f87171';
+                time = 'Instant';
+            } else if (score < 50) {
+                strength = 'Weak';
+                color = '#fb923c';
+                time = 'Minutes';
+            } else if (score < 70) {
+                strength = 'Fair';
+                color = '#fbbf24';
+                time = 'Hours';
+            } else if (score < 85) {
+                strength = 'Good';
+                color = '#a3e635';
+                time = 'Days';
+            } else {
+                strength = 'Strong';
+                color = '#34d399';
+                time = 'Years';
+            }
+            
+            bar.style.width = score + '%';
+            bar.style.background = color;
+            label.textContent = strength;
+            label.style.color = color;
+            
+            document.getElementById('lengthStat').textContent = length;
+            document.getElementById('scoreStat').textContent = score;
+            crackTime.textContent = time;
+        }
+
+        function displayRequirements(checks) {
+            const list = document.getElementById('requirementsList');
+            const requirements = [
+                { check: checks.length, text: 'At least 8 characters' },
+                { check: checks.lengthGood, text: 'At least 12 characters (recommended)' },
+                { check: checks.uppercase, text: 'Contains uppercase letters (A-Z)' },
+                { check: checks.lowercase, text: 'Contains lowercase letters (a-z)' },
+                { check: checks.numbers, text: 'Contains numbers (0-9)' },
+                { check: checks.symbols, text: 'Contains special characters (!@#$%^&*)' },
+                { check: checks.noCommon, text: 'Not a common password' },
+                { check: checks.noSequential, text: 'No sequential characters (abc, 123)' }
+            ];
+            
+            let html = '';
+            requirements.forEach(req => {
+                const icon = req.check ? '✓' : '✗';
+                const color = req.check ? 'var(--secondary)' : 'var(--danger)';
+                html += `<div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="color: ${color}; font-size: 1.2rem; font-weight: bold;">${icon}</span>
+                    <span style="color: ${req.check ? 'var(--white)' : 'var(--gray)'};">${req.text}</span>
+                </div>`;
+            });
+            
+            list.innerHTML = html;
+        }
+
+        function displaySuggestions(checks, password) {
+            const suggestions = [];
+            
+            if (!checks.lengthGood) suggestions.push('Use at least 12 characters for better security');
+            if (!checks.uppercase) suggestions.push('Add uppercase letters (A-Z)');
+            if (!checks.lowercase) suggestions.push('Add lowercase letters (a-z)');
+            if (!checks.numbers) suggestions.push('Include numbers (0-9)');
+            if (!checks.symbols) suggestions.push('Add special characters (!@#$%^&*)');
+            if (!checks.noCommon) suggestions.push('Avoid common passwords');
+            if (!checks.noSequential) suggestions.push('Avoid sequential patterns (abc, 123)');
+            if (!checks.noRepeating) suggestions.push('Avoid repeating characters (aaa, 111)');
+            
+            const list = document.getElementById('suggestionsList');
+            
+            if (suggestions.length === 0) {
+                list.innerHTML = '<div style="color: var(--secondary);">✓ Excellent! Your password meets all security requirements.</div>';
+            } else {
+                let html = '';
+                suggestions.forEach(suggestion => {
+                    html += `<div style="padding: 6px 10px; background: var(--light); border-radius: 6px; border-left: 3px solid var(--warning);">
+                        ${suggestion}
+                    </div>`;
+                });
+                list.innerHTML = html;
+            }
+        }
+
+        function hasSequential(str) {
+            const sequences = ['abc', 'bcd', 'cde', 'def', 'efg', 'fgh', 'ghi', 'hij', 'ijk', 'jkl', 'klm', 'lmn', 'mno', 'nop', 'opq', 'pqr', 'qrs', 'rst', 'stu', 'tuv', 'uvw', 'vwx', 'wxy', 'xyz', '123', '234', '345', '456', '567', '678', '789', 'qwerty', 'asdfgh', 'zxcvbn'];
+            return sequences.some(seq => str.toLowerCase().includes(seq));
+        }
+
+        function hasRepeating(str) {
+            return /(.)\1{2,}/.test(str);
+        }
+
+        function hideAll() {
+            document.getElementById('strengthMeter').style.display = 'none';
+            document.getElementById('statsBar').style.display = 'none';
+            document.getElementById('requirementsBox').style.display = 'none';
+            document.getElementById('suggestionsBox').style.display = 'none';
+        }
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show' + (isError ? ' error' : '');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>

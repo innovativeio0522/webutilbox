@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Metadata Viewer & Remover - View and Remove EXIF Data | ToolKit Pro</title>
+    <meta name="description" content="View and remove image metadata (EXIF data) online. Check camera info, GPS location, date. Remove metadata for privacy. Works offline.">
+    <meta name="keywords" content="exif viewer, metadata remover, image privacy, remove exif data">
+    <link rel="canonical" href="https://yourdomain.com/image-metadata">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/tool-specific.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>🔍 Image Metadata Viewer & Remover</h1>
+        <p class="subtitle">View EXIF data (camera, location, date) and remove metadata for privacy protection.</p>
+
+        <div class="workspace" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <!-- Left: Upload & Preview -->
+            <div>
+                <div id="uploadArea" style="margin-bottom: 12px;">
+                    <div style="border: 2px dashed var(--border); border-radius: 8px; padding: 25px; text-align: center; cursor: pointer; transition: all 0.3s;" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                        <div style="font-size: 2rem; margin-bottom: 5px;">📁</div>
+                        <div style="font-size: 0.85rem; color: var(--white); margin-bottom: 3px;">Click to upload</div>
+                        <div style="font-size: 0.7rem; color: var(--gray);">JPG, PNG (JPG has more metadata)</div>
+                    </div>
+                    <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="handleFile(this.files[0])">
+                </div>
+
+                <!-- Preview -->
+                <div id="previewArea" style="display: none; background: var(--light); border-radius: 8px; padding: 12px; text-align: center; border: 1px solid var(--border);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <div style="font-size: 0.75rem; color: var(--gray);">Image Preview</div>
+                        <button onclick="uploadNew()" style="padding: 4px 10px; font-size: 0.7rem; background: var(--primary); border: none; border-radius: 4px; color: white; cursor: pointer;">📁 Upload New</button>
+                    </div>
+                    <img id="preview" style="max-width: 100%; max-height: 300px; border-radius: 6px;">
+                    <div style="margin-top: 8px; font-size: 0.75rem; color: var(--gray);" id="fileInfo">-</div>
+                </div>
+            </div>
+
+            <!-- Right: Metadata & Actions -->
+            <div id="controls" style="display: none;">
+                <!-- Metadata Status -->
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; margin-bottom: 12px; border: 1px solid var(--border);">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 8px;">Metadata Status</div>
+                    <div id="metadataStatus" style="font-size: 0.8rem; color: var(--white);">
+                        <div style="margin-bottom: 4px;">Total Fields: <span style="color: var(--primary);" id="totalFields">0</span></div>
+                        <div>Has GPS Location: <span style="color: var(--primary);" id="hasGPS">No</span></div>
+                    </div>
+                </div>
+
+                <!-- Important Metadata -->
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; margin-bottom: 12px; border: 1px solid var(--border); max-height: 200px; overflow-y: auto;">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 8px;">Key Information</div>
+                    <div id="keyMetadata" style="font-size: 0.75rem; color: var(--white);">
+                        <div style="color: var(--gray); text-align: center; padding: 20px;">No metadata found or not supported</div>
+                    </div>
+                </div>
+
+                <!-- All Metadata -->
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; margin-bottom: 12px; border: 1px solid var(--border);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <div style="font-size: 0.85rem; color: var(--gray);">All Metadata</div>
+                        <button onclick="toggleAllMetadata()" id="toggleBtn" style="padding: 2px 8px; font-size: 0.7rem; background: var(--dark); border: 1px solid var(--border); border-radius: 4px; color: var(--white); cursor: pointer;">Show All</button>
+                    </div>
+                    <div id="allMetadata" style="display: none; max-height: 150px; overflow-y: auto; font-size: 0.7rem; color: var(--white); background: var(--dark); padding: 8px; border-radius: 4px;">
+                        -
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div style="display: grid; grid-template-columns: 1fr; gap: 8px;">
+                    <button onclick="removeMetadata()" class="btn btn-primary" style="padding: 10px; font-size: 0.9rem;">🗑️ Remove All Metadata & Download</button>
+                    <div style="font-size: 0.7rem; color: var(--gray); text-align: center; margin-top: 4px;">
+                        ⚠️ Removes all EXIF data including GPS location
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Image Metadata Viewer & Remover - Protect Your Privacy</h2>
+            <p>View hidden metadata (EXIF data) in your images including camera model, date taken, GPS location, and more. Remove all metadata to protect your privacy before sharing photos online.</p>
+            <p><strong>What is EXIF data?</strong> EXIF (Exchangeable Image File Format) is metadata embedded in images by cameras and smartphones. It can include sensitive information like GPS coordinates showing where the photo was taken.</p>
+            <p><strong>Why remove metadata?</strong> Protect your privacy by removing location data, camera serial numbers, and other identifying information before posting photos online.</p>
+            <p><strong>Privacy:</strong> All processing happens in your browser. No files uploaded to any server.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
+    <script>
+        let originalFile = null;
+        let originalImage = null;
+        let allExifData = {};
+
+        // Drag and drop
+        const dropZone = document.getElementById('dropZone');
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = 'var(--primary)';
+            dropZone.style.background = 'rgba(249, 115, 22, 0.1)';
+        });
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.style.borderColor = 'var(--border)';
+            dropZone.style.background = 'transparent';
+        });
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = 'var(--border)';
+            dropZone.style.background = 'transparent';
+            if (e.dataTransfer.files.length) {
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        function handleFile(file) {
+            if (!file || !file.type.startsWith('image/')) {
+                showToast('Please select an image', true);
+                return;
+            }
+
+            originalFile = file;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                originalImage = new Image();
+                originalImage.onload = () => {
+                    document.getElementById('preview').src = e.target.result;
+                    document.getElementById('fileInfo').textContent = 
+                        `${originalImage.width} × ${originalImage.height} px • ${formatSize(file.size)} • ${file.type.split('/')[1].toUpperCase()}`;
+                    
+                    // Extract EXIF data
+                    extractMetadata(originalImage);
+                    
+                    document.getElementById('uploadArea').style.display = 'none';
+                    document.getElementById('previewArea').style.display = 'block';
+                    document.getElementById('controls').style.display = 'block';
+                };
+                originalImage.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function extractMetadata(img) {
+            if (typeof EXIF === 'undefined') {
+                showToast('Loading EXIF library...', false);
+                setTimeout(() => extractMetadata(img), 500);
+                return;
+            }
+
+            EXIF.getData(img, function() {
+                allExifData = EXIF.getAllTags(this);
+                displayMetadata();
+            });
+        }
+
+        function displayMetadata() {
+            const keyFields = ['Make', 'Model', 'DateTime', 'DateTimeOriginal', 'GPSLatitude', 'GPSLongitude', 
+                               'GPSLatitudeRef', 'GPSLongitudeRef', 'Software', 'Orientation'];
+            
+            const totalFields = Object.keys(allExifData).length;
+            const hasGPS = allExifData.GPSLatitude || allExifData.GPSLongitude;
+
+            document.getElementById('totalFields').textContent = totalFields;
+            document.getElementById('hasGPS').textContent = hasGPS ? 'Yes ⚠️' : 'No';
+            document.getElementById('hasGPS').style.color = hasGPS ? '#ef4444' : 'var(--primary)';
+
+            // Display key metadata
+            const keyMetadataDiv = document.getElementById('keyMetadata');
+            if (totalFields === 0) {
+                keyMetadataDiv.innerHTML = '<div style="color: var(--gray); text-align: center; padding: 20px;">No metadata found</div>';
+            } else {
+                let html = '';
+                keyFields.forEach(field => {
+                    if (allExifData[field]) {
+                        let value = allExifData[field];
+                        
+                        // Format GPS coordinates
+                        if (field === 'GPSLatitude' || field === 'GPSLongitude') {
+                            value = formatGPS(value, allExifData[field + 'Ref']);
+                        }
+                        
+                        // Format arrays
+                        if (Array.isArray(value)) {
+                            value = value.join(', ');
+                        }
+                        
+                        html += `<div style="margin-bottom: 6px; display: flex; justify-content: space-between;">
+                            <span style="color: var(--gray);">${field}:</span>
+                            <span style="color: var(--white); text-align: right; max-width: 60%; word-break: break-word;">${value}</span>
+                        </div>`;
+                    }
+                });
+                keyMetadataDiv.innerHTML = html || '<div style="color: var(--gray); text-align: center; padding: 20px;">No key metadata found</div>';
+            }
+
+            // Display all metadata
+            const allMetadataDiv = document.getElementById('allMetadata');
+            if (totalFields === 0) {
+                allMetadataDiv.textContent = 'No metadata found';
+            } else {
+                let html = '';
+                for (const [key, value] of Object.entries(allExifData)) {
+                    let displayValue = value;
+                    if (Array.isArray(value)) {
+                        displayValue = value.join(', ');
+                    } else if (typeof value === 'object') {
+                        displayValue = JSON.stringify(value);
+                    }
+                    html += `<div style="margin-bottom: 4px;"><strong>${key}:</strong> ${displayValue}</div>`;
+                }
+                allMetadataDiv.innerHTML = html;
+            }
+        }
+
+        function formatGPS(coords, ref) {
+            if (!coords || coords.length < 3) return 'N/A';
+            const degrees = coords[0];
+            const minutes = coords[1];
+            const seconds = coords[2];
+            return `${degrees}° ${minutes}' ${seconds}" ${ref || ''}`;
+        }
+
+        function toggleAllMetadata() {
+            const div = document.getElementById('allMetadata');
+            const btn = document.getElementById('toggleBtn');
+            if (div.style.display === 'none') {
+                div.style.display = 'block';
+                btn.textContent = 'Hide All';
+            } else {
+                div.style.display = 'none';
+                btn.textContent = 'Show All';
+            }
+        }
+
+        function removeMetadata() {
+            if (!originalImage) return;
+
+            // Create canvas and draw image (this removes EXIF data)
+            const canvas = document.createElement('canvas');
+            canvas.width = originalImage.width;
+            canvas.height = originalImage.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(originalImage, 0, 0);
+
+            // Convert to blob and download
+            canvas.toBlob((blob) => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'no_metadata_' + (originalFile.name || 'image.jpg');
+                a.click();
+                URL.revokeObjectURL(url);
+                showToast('Image downloaded without metadata!');
+            }, 'image/jpeg', 0.95);
+        }
+
+        function formatSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+        }
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show' + (isError ? ' error' : '');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        function uploadNew() {
+            document.getElementById('fileInput').click();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discount Calculator - Calculate Sale Price & Savings | ToolKit Pro</title>
+    <meta name="description" content="Calculate discounts, sale prices, and savings. Find final price after discount, percentage off, and amount saved. Free online discount calculator.">
+    <meta name="keywords" content="discount calculator, sale price calculator, percentage off, savings calculator, price after discount">
+    <link rel="canonical" href="https://yourdomain.com/discount-calculator">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/tool-specific.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>💰 Discount Calculator</h1>
+        <p class="subtitle">Calculate sale prices, discounts, and savings instantly.</p>
+
+        <div class="workspace" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <!-- Left: Input -->
+            <div>
+                <div style="background: var(--light); border-radius: 8px; padding: 15px; border: 1px solid var(--border);">
+                    <div style="margin-bottom: 15px;">
+                        <label style="font-size: 0.75rem; margin-bottom: 6px; display: block; color: var(--gray);">Calculation Mode</label>
+                        <select id="calcMode" style="width: 100%; padding: 10px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); font-size: 0.85rem;">
+                            <option value="discount">Calculate Final Price (Original + Discount %)</option>
+                            <option value="savings">Calculate Discount % (Original + Final Price)</option>
+                            <option value="original">Calculate Original Price (Final + Discount %)</option>
+                        </select>
+                    </div>
+
+                    <!-- Mode 1: Calculate Final Price -->
+                    <div id="mode1" class="calc-mode">
+                        <div style="margin-bottom: 12px;">
+                            <label style="font-size: 0.75rem; margin-bottom: 6px; display: block; color: var(--gray);">Original Price ($)</label>
+                            <input type="number" id="originalPrice1" placeholder="100" min="0" step="0.01" style="width: 100%; padding: 10px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); font-size: 0.9rem;">
+                        </div>
+                        <div style="margin-bottom: 12px;">
+                            <label style="font-size: 0.75rem; margin-bottom: 6px; display: block; color: var(--gray);">Discount Percentage (%)</label>
+                            <input type="number" id="discountPercent1" placeholder="20" min="0" max="100" step="0.01" style="width: 100%; padding: 10px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); font-size: 0.9rem;">
+                        </div>
+                        <div style="margin-bottom: 12px;">
+                            <label style="font-size: 0.75rem; margin-bottom: 6px; display: block; color: var(--gray);">Additional Discount (%) - Optional</label>
+                            <input type="number" id="additionalDiscount" placeholder="0" min="0" max="100" step="0.01" style="width: 100%; padding: 10px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); font-size: 0.9rem;">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.75rem; margin-bottom: 6px; display: block; color: var(--gray);">Tax (%) - Optional</label>
+                            <input type="number" id="taxPercent" placeholder="0" min="0" max="100" step="0.01" style="width: 100%; padding: 10px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); font-size: 0.9rem;">
+                        </div>
+                    </div>
+
+                    <!-- Mode 2: Calculate Discount % -->
+                    <div id="mode2" class="calc-mode" style="display: none;">
+                        <div style="margin-bottom: 12px;">
+                            <label style="font-size: 0.75rem; margin-bottom: 6px; display: block; color: var(--gray);">Original Price ($)</label>
+                            <input type="number" id="originalPrice2" placeholder="100" min="0" step="0.01" style="width: 100%; padding: 10px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); font-size: 0.9rem;">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.75rem; margin-bottom: 6px; display: block; color: var(--gray);">Final Price ($)</label>
+                            <input type="number" id="finalPrice2" placeholder="80" min="0" step="0.01" style="width: 100%; padding: 10px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); font-size: 0.9rem;">
+                        </div>
+                    </div>
+
+                    <!-- Mode 3: Calculate Original Price -->
+                    <div id="mode3" class="calc-mode" style="display: none;">
+                        <div style="margin-bottom: 12px;">
+                            <label style="font-size: 0.75rem; margin-bottom: 6px; display: block; color: var(--gray);">Final Price ($)</label>
+                            <input type="number" id="finalPrice3" placeholder="80" min="0" step="0.01" style="width: 100%; padding: 10px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); font-size: 0.9rem;">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.75rem; margin-bottom: 6px; display: block; color: var(--gray);">Discount Percentage (%)</label>
+                            <input type="number" id="discountPercent3" placeholder="20" min="0" max="100" step="0.01" style="width: 100%; padding: 10px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); font-size: 0.9rem;">
+                        </div>
+                    </div>
+                </div>
+
+                <button id="calculateBtn" style="width: 100%; margin-top: 12px; padding: 12px; background: var(--primary); border: none; border-radius: 6px; color: white; cursor: pointer; font-size: 0.9rem; font-weight: 500;">Calculate</button>
+                <button id="clearBtn" style="width: 100%; margin-top: 8px; padding: 10px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); cursor: pointer; font-size: 0.85rem;">Clear All</button>
+            </div>
+
+            <!-- Right: Results -->
+            <div>
+                <div style="background: var(--light); border-radius: 8px; padding: 15px; border: 1px solid var(--border); margin-bottom: 12px;">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 12px;">Results</div>
+                    
+                    <div id="results" style="display: none;">
+                        <!-- Mode 1 Results -->
+                        <div id="results1" class="result-mode">
+                            <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid var(--border);">
+                                <div style="font-size: 0.7rem; color: var(--gray); margin-bottom: 4px;">Original Price</div>
+                                <div style="font-size: 1.5rem; color: var(--white); font-weight: 600;">$<span id="resOriginal1">0.00</span></div>
+                            </div>
+                            
+                            <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid var(--border);">
+                                <div style="font-size: 0.7rem; color: var(--gray); margin-bottom: 4px;">Discount Amount</div>
+                                <div style="font-size: 1.3rem; color: #ef4444; font-weight: 600;">-$<span id="resDiscount">0.00</span></div>
+                                <div style="font-size: 0.7rem; color: var(--gray); margin-top: 2px;">(<span id="resDiscountPercent">0</span>% off)</div>
+                            </div>
+                            
+                            <div id="additionalDiscountSection" style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid var(--border); display: none;">
+                                <div style="font-size: 0.7rem; color: var(--gray); margin-bottom: 4px;">Additional Discount</div>
+                                <div style="font-size: 1.1rem; color: #ef4444; font-weight: 600;">-$<span id="resAdditionalDiscount">0.00</span></div>
+                                <div style="font-size: 0.7rem; color: var(--gray); margin-top: 2px;">(<span id="resAdditionalPercent">0</span>% off)</div>
+                            </div>
+                            
+                            <div id="taxSection" style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid var(--border); display: none;">
+                                <div style="font-size: 0.7rem; color: var(--gray); margin-bottom: 4px;">Tax Amount</div>
+                                <div style="font-size: 1.1rem; color: #fb923c; font-weight: 600;">+$<span id="resTax">0.00</span></div>
+                                <div style="font-size: 0.7rem; color: var(--gray); margin-top: 2px;">(<span id="resTaxPercent">0</span>%)</div>
+                            </div>
+                            
+                            <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid var(--border);">
+                                <div style="font-size: 0.7rem; color: var(--gray); margin-bottom: 4px;">Total Savings</div>
+                                <div style="font-size: 1.3rem; color: #10b981; font-weight: 600;">$<span id="resTotalSavings">0.00</span></div>
+                            </div>
+                            
+                            <div style="background: linear-gradient(135deg, var(--primary) 0%, #fb923c 100%); padding: 15px; border-radius: 8px; text-align: center;">
+                                <div style="font-size: 0.75rem; color: rgba(255,255,255,0.9); margin-bottom: 4px;">Final Price</div>
+                                <div style="font-size: 2rem; color: white; font-weight: 700;">$<span id="resFinal1">0.00</span></div>
+                            </div>
+                        </div>
+
+                        <!-- Mode 2 Results -->
+                        <div id="results2" class="result-mode" style="display: none;">
+                            <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid var(--border);">
+                                <div style="font-size: 0.7rem; color: var(--gray); margin-bottom: 4px;">Original Price</div>
+                                <div style="font-size: 1.5rem; color: var(--white); font-weight: 600;">$<span id="resOriginal2">0.00</span></div>
+                            </div>
+                            
+                            <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid var(--border);">
+                                <div style="font-size: 0.7rem; color: var(--gray); margin-bottom: 4px;">Final Price</div>
+                                <div style="font-size: 1.5rem; color: var(--white); font-weight: 600;">$<span id="resFinal2">0.00</span></div>
+                            </div>
+                            
+                            <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid var(--border);">
+                                <div style="font-size: 0.7rem; color: var(--gray); margin-bottom: 4px;">You Saved</div>
+                                <div style="font-size: 1.3rem; color: #10b981; font-weight: 600;">$<span id="resSaved2">0.00</span></div>
+                            </div>
+                            
+                            <div style="background: linear-gradient(135deg, var(--primary) 0%, #fb923c 100%); padding: 15px; border-radius: 8px; text-align: center;">
+                                <div style="font-size: 0.75rem; color: rgba(255,255,255,0.9); margin-bottom: 4px;">Discount Percentage</div>
+                                <div style="font-size: 2rem; color: white; font-weight: 700;"><span id="resDiscountPercent2">0</span>%</div>
+                            </div>
+                        </div>
+
+                        <!-- Mode 3 Results -->
+                        <div id="results3" class="result-mode" style="display: none;">
+                            <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid var(--border);">
+                                <div style="font-size: 0.7rem; color: var(--gray); margin-bottom: 4px;">Final Price</div>
+                                <div style="font-size: 1.5rem; color: var(--white); font-weight: 600;">$<span id="resFinal3">0.00</span></div>
+                            </div>
+                            
+                            <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid var(--border);">
+                                <div style="font-size: 0.7rem; color: var(--gray); margin-bottom: 4px;">Discount Applied</div>
+                                <div style="font-size: 1.3rem; color: #ef4444; font-weight: 600;"><span id="resDiscountPercent3">0</span>%</div>
+                            </div>
+                            
+                            <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid var(--border);">
+                                <div style="font-size: 0.7rem; color: var(--gray); margin-bottom: 4px;">You Saved</div>
+                                <div style="font-size: 1.3rem; color: #10b981; font-weight: 600;">$<span id="resSaved3">0.00</span></div>
+                            </div>
+                            
+                            <div style="background: linear-gradient(135deg, var(--primary) 0%, #fb923c 100%); padding: 15px; border-radius: 8px; text-align: center;">
+                                <div style="font-size: 0.75rem; color: rgba(255,255,255,0.9); margin-bottom: 4px;">Original Price</div>
+                                <div style="font-size: 2rem; color: white; font-weight: 700;">$<span id="resOriginal3">0.00</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="placeholder" style="text-align: center; padding: 40px 20px; color: var(--gray); font-size: 0.85rem;">
+                        Enter values and click Calculate to see results
+                    </div>
+                </div>
+
+                <!-- Quick Examples -->
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; border: 1px solid var(--border);">
+                    <div style="font-size: 0.8rem; color: var(--gray); margin-bottom: 8px;">Quick Examples</div>
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <button class="example-btn" data-mode="discount" data-original="100" data-discount="20" style="padding: 8px; background: var(--dark); border: 1px solid var(--border); border-radius: 4px; color: var(--white); cursor: pointer; font-size: 0.75rem; text-align: left;">
+                            💰 $100 with 20% off
+                        </button>
+                        <button class="example-btn" data-mode="discount" data-original="250" data-discount="30" style="padding: 8px; background: var(--dark); border: 1px solid var(--border); border-radius: 4px; color: var(--white); cursor: pointer; font-size: 0.75rem; text-align: left;">
+                            🛍️ $250 with 30% off
+                        </button>
+                        <button class="example-btn" data-mode="discount" data-original="50" data-discount="15" data-additional="10" style="padding: 8px; background: var(--dark); border: 1px solid var(--border); border-radius: 4px; color: var(--white); cursor: pointer; font-size: 0.75rem; text-align: left;">
+                            🎁 $50 with 15% + 10% off
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Discount Calculator</h2>
+            <p>Calculate sale prices, discounts, and savings with ease. Perfect for shopping, sales planning, and price comparisons.</p>
+            <p><strong>Features:</strong> Multiple calculation modes, additional discount support, tax calculation, instant results, savings breakdown.</p>
+            <p><strong>Use Cases:</strong> Shopping discounts, sale price calculation, coupon stacking, price comparison, retail planning, budget management.</p>
+            <p><strong>Privacy:</strong> All calculations happen in your browser. No data is sent to any server.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        const calcMode = document.getElementById('calcMode');
+        const calculateBtn = document.getElementById('calculateBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const results = document.getElementById('results');
+        const placeholder = document.getElementById('placeholder');
+
+        // Mode switching
+        calcMode.addEventListener('change', switchMode);
+
+        function switchMode() {
+            const mode = calcMode.value;
+            document.querySelectorAll('.calc-mode').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.result-mode').forEach(el => el.style.display = 'none');
+            
+            if (mode === 'discount') {
+                document.getElementById('mode1').style.display = 'block';
+            } else if (mode === 'savings') {
+                document.getElementById('mode2').style.display = 'block';
+            } else if (mode === 'original') {
+                document.getElementById('mode3').style.display = 'block';
+            }
+            
+            results.style.display = 'none';
+            placeholder.style.display = 'block';
+        }
+
+        // Calculate
+        calculateBtn.addEventListener('click', calculate);
+
+        function calculate() {
+            const mode = calcMode.value;
+            
+            if (mode === 'discount') {
+                calculateFinalPrice();
+            } else if (mode === 'savings') {
+                calculateDiscountPercent();
+            } else if (mode === 'original') {
+                calculateOriginalPrice();
+            }
+        }
+
+        function calculateFinalPrice() {
+            const original = parseFloat(document.getElementById('originalPrice1').value);
+            const discount = parseFloat(document.getElementById('discountPercent1').value) || 0;
+            const additional = parseFloat(document.getElementById('additionalDiscount').value) || 0;
+            const tax = parseFloat(document.getElementById('taxPercent').value) || 0;
+
+            if (!original || original <= 0) {
+                showToast('Please enter a valid original price', true);
+                return;
+            }
+
+            if (discount < 0 || discount > 100) {
+                showToast('Discount must be between 0 and 100', true);
+                return;
+            }
+
+            // Calculate first discount
+            const discountAmount = (original * discount) / 100;
+            const priceAfterDiscount = original - discountAmount;
+
+            // Calculate additional discount
+            let additionalAmount = 0;
+            let priceAfterAdditional = priceAfterDiscount;
+            if (additional > 0) {
+                additionalAmount = (priceAfterDiscount * additional) / 100;
+                priceAfterAdditional = priceAfterDiscount - additionalAmount;
+            }
+
+            // Calculate tax
+            let taxAmount = 0;
+            let finalPrice = priceAfterAdditional;
+            if (tax > 0) {
+                taxAmount = (priceAfterAdditional * tax) / 100;
+                finalPrice = priceAfterAdditional + taxAmount;
+            }
+
+            const totalSavings = discountAmount + additionalAmount;
+
+            // Display results
+            document.getElementById('resOriginal1').textContent = original.toFixed(2);
+            document.getElementById('resDiscount').textContent = discountAmount.toFixed(2);
+            document.getElementById('resDiscountPercent').textContent = discount.toFixed(1);
+            document.getElementById('resTotalSavings').textContent = totalSavings.toFixed(2);
+            document.getElementById('resFinal1').textContent = finalPrice.toFixed(2);
+
+            // Show/hide additional discount
+            if (additional > 0) {
+                document.getElementById('additionalDiscountSection').style.display = 'block';
+                document.getElementById('resAdditionalDiscount').textContent = additionalAmount.toFixed(2);
+                document.getElementById('resAdditionalPercent').textContent = additional.toFixed(1);
+            } else {
+                document.getElementById('additionalDiscountSection').style.display = 'none';
+            }
+
+            // Show/hide tax
+            if (tax > 0) {
+                document.getElementById('taxSection').style.display = 'block';
+                document.getElementById('resTax').textContent = taxAmount.toFixed(2);
+                document.getElementById('resTaxPercent').textContent = tax.toFixed(1);
+            } else {
+                document.getElementById('taxSection').style.display = 'none';
+            }
+
+            document.getElementById('results1').style.display = 'block';
+            results.style.display = 'block';
+            placeholder.style.display = 'none';
+        }
+
+        function calculateDiscountPercent() {
+            const original = parseFloat(document.getElementById('originalPrice2').value);
+            const final = parseFloat(document.getElementById('finalPrice2').value);
+
+            if (!original || original <= 0 || !final || final < 0) {
+                showToast('Please enter valid prices', true);
+                return;
+            }
+
+            if (final > original) {
+                showToast('Final price cannot be greater than original price', true);
+                return;
+            }
+
+            const saved = original - final;
+            const discountPercent = (saved / original) * 100;
+
+            document.getElementById('resOriginal2').textContent = original.toFixed(2);
+            document.getElementById('resFinal2').textContent = final.toFixed(2);
+            document.getElementById('resSaved2').textContent = saved.toFixed(2);
+            document.getElementById('resDiscountPercent2').textContent = discountPercent.toFixed(1);
+
+            document.getElementById('results2').style.display = 'block';
+            results.style.display = 'block';
+            placeholder.style.display = 'none';
+        }
+
+        function calculateOriginalPrice() {
+            const final = parseFloat(document.getElementById('finalPrice3').value);
+            const discount = parseFloat(document.getElementById('discountPercent3').value);
+
+            if (!final || final <= 0 || !discount || discount <= 0 || discount >= 100) {
+                showToast('Please enter valid values', true);
+                return;
+            }
+
+            const original = final / (1 - discount / 100);
+            const saved = original - final;
+
+            document.getElementById('resFinal3').textContent = final.toFixed(2);
+            document.getElementById('resDiscountPercent3').textContent = discount.toFixed(1);
+            document.getElementById('resSaved3').textContent = saved.toFixed(2);
+            document.getElementById('resOriginal3').textContent = original.toFixed(2);
+
+            document.getElementById('results3').style.display = 'block';
+            results.style.display = 'block';
+            placeholder.style.display = 'none';
+        }
+
+        // Clear
+        clearBtn.addEventListener('click', () => {
+            document.querySelectorAll('input[type="number"]').forEach(input => input.value = '');
+            results.style.display = 'none';
+            placeholder.style.display = 'block';
+            showToast('Cleared');
+        });
+
+        // Examples
+        document.querySelectorAll('.example-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const mode = btn.dataset.mode;
+                const original = btn.dataset.original;
+                const discount = btn.dataset.discount;
+                const additional = btn.dataset.additional || '';
+
+                calcMode.value = mode;
+                switchMode();
+
+                document.getElementById('originalPrice1').value = original;
+                document.getElementById('discountPercent1').value = discount;
+                document.getElementById('additionalDiscount').value = additional;
+
+                calculate();
+            });
+        });
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show' + (isError ? ' error' : '');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>

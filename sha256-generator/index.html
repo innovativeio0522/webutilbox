@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHA-256 Hash Generator Browser Only - No Server Upload | ToolKit Pro</title>
+    <meta name="description" content="Generate SHA-256 hashes in browser without uploading data. Client-side hash generator for SHA-256, SHA-1, MD5. Privacy-focused, works offline, no data leaves browser.">
+    <meta name="keywords" content="sha256 generator browser only, hash generator no upload, client side sha256, generate hash locally, offline hash generator, browser based hash tool, sha256 privacy focused, hash text without uploading">
+    <link rel="canonical" href="https://yourdomain.com/sha256-generator">
+    <link rel="stylesheet" href="../assets/css/common.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>#️⃣ SHA-256 Hash Generator</h1>
+        <p class="subtitle">Generate SHA-256, SHA-1, and MD5 hashes from any text. Fast, secure, and private.</p>
+
+        <div class="workspace">
+            <div class="input-group">
+                <label>Input Text</label>
+                <textarea id="inputText" placeholder="Enter text to hash..."></textarea>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="generateHash('SHA-256')">SHA-256</button>
+                <button class="btn btn-primary" onclick="generateHash('SHA-1')">SHA-1</button>
+                <button class="btn btn-primary" onclick="generateHash('MD5')">MD5</button>
+            </div>
+            
+            <div class="output-container" id="sha256Output">
+                <div class="output-label">SHA-256</div>
+                <div class="output-content" id="sha256Text"></div>
+                <button class="btn btn-success" style="margin-top:10px;" onclick="copy('sha256Text')">Copy</button>
+            </div>
+            
+            <div class="output-container" id="sha1Output">
+                <div class="output-label">SHA-1</div>
+                <div class="output-content" id="sha1Text"></div>
+                <button class="btn btn-success" style="margin-top:10px;" onclick="copy('sha1Text')">Copy</button>
+            </div>
+            
+            <div class="output-container" id="md5Output">
+                <div class="output-label">MD5</div>
+                <div class="output-content" id="md5Text"></div>
+                <button class="btn btn-success" style="margin-top:10px;" onclick="copy('md5Text')">Copy</button>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Generate SHA-256 Hashes in Browser Without Uploading</h2>
+            <p>This browser-based hash generator creates SHA-256, SHA-1, and MD5 hashes entirely client-side. Your text never leaves your browser, ensuring complete privacy for sensitive data.</p>
+            <p><strong>Why use client-side hashing?</strong> Perfect for verifying file integrity, checking passwords, or generating checksums without uploading data to external servers. Uses the Web Crypto API for secure, fast hashing.</p>
+            <p><strong>Use Cases:</strong> File verification, password hashing (with salt), blockchain development, digital signatures, data integrity checks, and API authentication. All processing happens locally in your browser.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        async function generateHash(algorithm) {
+            const input = document.getElementById('inputText').value;
+            if (!input) return showToast('Please enter text to hash');
+            
+            const encoder = new TextEncoder();
+            const data = encoder.encode(input);
+            
+            if (algorithm === 'MD5') {
+                const hash = await md5(input);
+                document.getElementById('md5Text').textContent = hash;
+                document.getElementById('md5Output').classList.add('show');
+            } else {
+                const hashBuffer = await crypto.subtle.digest(algorithm, data);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+                
+                if (algorithm === 'SHA-256') {
+                    document.getElementById('sha256Text').textContent = hashHex;
+                    document.getElementById('sha256Output').classList.add('show');
+                } else if (algorithm === 'SHA-1') {
+                    document.getElementById('sha1Text').textContent = hashHex;
+                    document.getElementById('sha1Output').classList.add('show');
+                }
+            }
+            
+            showToast(algorithm + ' hash generated!');
+        }
+
+        async function md5(string) {
+            const utf8 = new TextEncoder().encode(string);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', utf8);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('').substring(0, 32);
+        }
+
+        function copy(elementId) {
+            const text = document.getElementById(elementId)?.textContent;
+            if (!text) return;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Hash copied to clipboard!');
+            });
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Tools - Browse 50+ Free Online Utilities | ToolKit Pro</title>
+    <meta name="description" content="Browse all 50+ free online tools organized by category. Developer tools, calculators, converters, and more. Privacy-focused, works offline.">
+    <link rel="canonical" href="https://yourdomain.com/Tools.html">
+    <link rel="stylesheet" href="assets/css/common.css">
+    <link rel="stylesheet" href="assets/css/home.css">
+    <style>
+        /* Compact & Modern Tools Page - Black Theme */
+        body {
+            background: #000000;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(249, 115, 22, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(251, 146, 60, 0.1) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(249, 115, 22, 0.12) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(251, 146, 60, 0.08) 0px, transparent 50%);
+            min-height: 100vh;
+        }
+        .container {
+            padding: 15px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .hero {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 1.8rem;
+            margin-bottom: 6px;
+            background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero p {
+            font-size: 0.85rem;
+            color: #9ca3af;
+        }
+        .search-box {
+            max-width: 600px;
+            margin: 20px auto;
+            position: relative;
+        }
+        .search-input {
+            width: 100%;
+            padding: 12px 80px 12px 15px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+        .search-input:focus {
+            outline: none;
+            border-color: #f97316;
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+        }
+        .search-input::placeholder {
+            color: #9ca3af;
+            opacity: 1;
+        }
+        .search-icon {
+            position: absolute;
+            right: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #f97316;
+            font-size: 1.2rem;
+            pointer-events: none;
+        }
+        .clear-search {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #9ca3af;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 5px;
+            display: none;
+        }
+        .clear-search:hover {
+            color: #f97316;
+        }
+        .search-results {
+            text-align: center;
+            color: #9ca3af;
+            font-size: 0.85rem;
+            margin-top: 10px;
+        }
+        .section.hidden {
+            display: none;
+        }
+        .tool-card.hidden {
+            display: none;
+        }
+        .section {
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(10px);
+        }
+        .section-title {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            color: #f97316;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 8px;
+        }
+        .tool-card {
+            padding: 12px 10px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+        .tool-card:hover {
+            transform: translateY(-2px);
+            background: rgba(249, 115, 22, 0.15);
+            border-color: rgba(249, 115, 22, 0.4);
+            box-shadow: 0 4px 20px rgba(249, 115, 22, 0.2);
+        }
+        .tool-icon {
+            font-size: 1.8rem;
+            margin-bottom: 6px;
+            display: block;
+        }
+        .tool-title {
+            font-size: 0.85rem;
+            margin-bottom: 3px;
+            font-weight: 600;
+            color: #f3f4f6;
+        }
+        .tool-desc {
+            font-size: 0.7rem;
+            line-height: 1.3;
+            color: #9ca3af;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .tools-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="./" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="hero">
+            <h1>All Tools</h1>
+            <p>Browse our complete collection of free online utilities, organized by category.</p>
+        </div>
+
+        <!-- Search Box -->
+        <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" class="search-input" placeholder="Search tools by name or description...">
+            <button id="clearSearch" class="clear-search">✕</button>
+        </div>
+        <div id="searchResults" class="search-results"></div>
+
+        <!-- Text Tools -->
+        <div class="section">
+            <h2 class="section-title">📝 Text Tools</h2>
+            <div class="tools-grid">
+                <a href="case-converter/" class="tool-card">
+                    <div class="tool-icon">🔤</div>
+                    <h3 class="tool-title">Case Converter</h3>
+                    <p class="tool-desc">Convert text between UPPER, lower, Title, camelCase, and more</p>
+                </a>
+                <a href="word-counter/" class="tool-card">
+                    <div class="tool-icon">📊</div>
+                    <h3 class="tool-title">Word Counter</h3>
+                    <p class="tool-desc">Count words, characters, lines, and reading time</p>
+                </a>
+                <a href="lorem-ipsum/" class="tool-card">
+                    <div class="tool-icon">📄</div>
+                    <h3 class="tool-title">Lorem Ipsum</h3>
+                    <p class="tool-desc">Generate placeholder text for designs and mockups</p>
+                </a>
+                <a href="slug-generator/" class="tool-card">
+                    <div class="tool-icon">🔗</div>
+                    <h3 class="tool-title">Slug Generator</h3>
+                    <p class="tool-desc">Create URL-friendly slugs from any text</p>
+                </a>
+                <a href="text-diff/" class="tool-card">
+                    <div class="tool-icon">🔄</div>
+                    <h3 class="tool-title">Text Diff</h3>
+                    <p class="tool-desc">Compare two texts and see differences</p>
+                </a>
+                <a href="find-replace/" class="tool-card">
+                    <div class="tool-icon">🔍</div>
+                    <h3 class="tool-title">Find & Replace</h3>
+                    <p class="tool-desc">Advanced text search and replace with regex</p>
+                </a>
+                <a href="text-sorter/" class="tool-card">
+                    <div class="tool-icon">🔤</div>
+                    <h3 class="tool-title">Text Sorter</h3>
+                    <p class="tool-desc">Sort lines alphabetically, numerically, or by length</p>
+                </a>
+            </div>
+        </div>
+
+        <!-- Developer Tools -->
+        <div class="section">
+            <h2 class="section-title">💻 Developer Tools</h2>
+            <div class="tools-grid">
+                <a href="json-formatter/" class="tool-card">
+                    <div class="tool-icon">🗂️</div>
+                    <h3 class="tool-title">JSON Formatter</h3>
+                    <p class="tool-desc">Format, validate, and minify JSON data</p>
+                </a>
+                <a href="base64-encoder/" class="tool-card">
+                    <div class="tool-icon">🔢</div>
+                    <h3 class="tool-title">Base64 Encode/Decode</h3>
+                    <p class="tool-desc">Encode and decode Base64 strings</p>
+                </a>
+                <a href="uuid-generator/" class="tool-card">
+                    <div class="tool-icon">🎲</div>
+                    <h3 class="tool-title">UUID Generator</h3>
+                    <p class="tool-desc">Generate random UUIDs/GUIDs</p>
+                </a>
+                <a href="regex-tester/" class="tool-card">
+                    <div class="tool-icon">🔍</div>
+                    <h3 class="tool-title">Regex Tester</h3>
+                    <p class="tool-desc">Test regular expressions with live matching</p>
+                </a>
+                <a href="html-entity-encoder/" class="tool-card">
+                    <div class="tool-icon">🌐</div>
+                    <h3 class="tool-title">HTML Entity Encoder</h3>
+                    <p class="tool-desc">Encode special characters to HTML entities</p>
+                </a>
+                <a href="jwt-decoder/" class="tool-card">
+                    <div class="tool-icon">🔐</div>
+                    <h3 class="tool-title">JWT Decoder</h3>
+                    <p class="tool-desc">Decode and inspect JSON Web Tokens</p>
+                </a>
+                <a href="markdown-to-html/" class="tool-card">
+                    <div class="tool-icon">📝</div>
+                    <h3 class="tool-title">Markdown to HTML</h3>
+                    <p class="tool-desc">Convert Markdown to HTML with preview</p>
+                </a>
+                <a href="json-to-csv/" class="tool-card">
+                    <div class="tool-icon">📊</div>
+                    <h3 class="tool-title">JSON to CSV</h3>
+                    <p class="tool-desc">Convert JSON data to CSV format</p>
+                </a>
+                <a href="meta-tag-generator/" class="tool-card">
+                    <div class="tool-icon">🏷️</div>
+                    <h3 class="tool-title">Meta Tag Generator</h3>
+                    <p class="tool-desc">Generate SEO and social media meta tags</p>
+                </a>
+                <a href="css-js-minifier/" class="tool-card">
+                    <div class="tool-icon">⚡</div>
+                    <h3 class="tool-title">CSS & JS Minifier</h3>
+                    <p class="tool-desc">Compress and optimize CSS/JS code</p>
+                </a>
+                <a href="js-obfuscator/" class="tool-card">
+                    <div class="tool-icon">🔒</div>
+                    <h3 class="tool-title">JS Obfuscator</h3>
+                    <p class="tool-desc">Protect JavaScript code from reverse engineering</p>
+                </a>
+                <a href="sql-formatter/" class="tool-card">
+                    <div class="tool-icon">🗄️</div>
+                    <h3 class="tool-title">SQL Formatter</h3>
+                    <p class="tool-desc">Format and beautify SQL queries</p>
+                </a>
+            </div>
+        </div>
+
+        <!-- Security Tools -->
+        <div class="section">
+            <h2 class="section-title">🛡️ Security Tools</h2>
+            <div class="tools-grid">
+                <a href="password-generator/" class="tool-card">
+                    <div class="tool-icon">🔑</div>
+                    <h3 class="tool-title">Password Generator</h3>
+                    <p class="tool-desc">Create strong, secure passwords</p>
+                </a>
+                <a href="sha256-generator/" class="tool-card">
+                    <div class="tool-icon">#️⃣</div>
+                    <h3 class="tool-title">Hash Generator</h3>
+                    <p class="tool-desc">Generate MD5, SHA-1, SHA-256 hashes</p>
+                </a>
+                <a href="password-strength/" class="tool-card">
+                    <div class="tool-icon">💪</div>
+                    <h3 class="tool-title">Password Strength</h3>
+                    <p class="tool-desc">Check how strong your password is</p>
+                </a>
+                <a href="text-encryption/" class="tool-card">
+                    <div class="tool-icon">🔒</div>
+                    <h3 class="tool-title">Text Encryption</h3>
+                    <p class="tool-desc">Encrypt and decrypt text with AES</p>
+                </a>
+            </div>
+        </div>
+
+        <!-- Converters -->
+        <div class="section">
+            <h2 class="section-title">🔄 Converters</h2>
+            <div class="tools-grid">
+                <a href="unit-converter/" class="tool-card">
+                    <div class="tool-icon">📏</div>
+                    <h3 class="tool-title">Unit Converter</h3>
+                    <p class="tool-desc">Convert length, weight, temperature, and more</p>
+                </a>
+                <a href="currency-converter/" class="tool-card">
+                    <div class="tool-icon">💱</div>
+                    <h3 class="tool-title">Currency Converter</h3>
+                    <p class="tool-desc">Convert currencies with live rates</p>
+                </a>
+                <a href="color-converter/" class="tool-card">
+                    <div class="tool-icon">🎨</div>
+                    <h3 class="tool-title">Color Converter</h3>
+                    <p class="tool-desc">Convert between HEX, RGB, HSL</p>
+                </a>
+                <a href="number-base-converter/" class="tool-card">
+                    <div class="tool-icon">🔟</div>
+                    <h3 class="tool-title">Number Base</h3>
+                    <p class="tool-desc">Convert between binary, decimal, hex</p>
+                </a>
+                <a href="unix-timestamp-converter/" class="tool-card">
+                    <div class="tool-icon">⏰</div>
+                    <h3 class="tool-title">Unix Timestamp</h3>
+                    <p class="tool-desc">Convert timestamps to readable dates</p>
+                </a>
+            </div>
+        </div>
+
+        <!-- Design Tools -->
+        <div class="section">
+            <h2 class="section-title">🎨 Design Tools</h2>
+            <div class="tools-grid">
+                <a href="css-gradient-generator/" class="tool-card">
+                    <div class="tool-icon">🌈</div>
+                    <h3 class="tool-title">Gradient Generator</h3>
+                    <p class="tool-desc">Create beautiful CSS gradients</p>
+                </a>
+                <a href="box-shadow-generator/" class="tool-card">
+                    <div class="tool-icon">📦</div>
+                    <h3 class="tool-title">Box Shadow</h3>
+                    <p class="tool-desc">Generate CSS box shadows</p>
+                </a>
+                <a href="border-radius-generator/" class="tool-card">
+                    <div class="tool-icon">⭕</div>
+                    <h3 class="tool-title">Border Radius</h3>
+                    <p class="tool-desc">Create custom border radius shapes</p>
+                </a>
+                <a href="color-shades-generator/" class="tool-card">
+                    <div class="tool-icon">🎨</div>
+                    <h3 class="tool-title">Color Shades</h3>
+                    <p class="tool-desc">Generate tints and shades of any color</p>
+                </a>
+            </div>
+        </div>
+
+        <!-- Image Tools -->
+        <div class="section">
+            <h2 class="section-title">🖼️ Image Tools</h2>
+            <div class="tools-grid">
+                <a href="image-compressor/" class="tool-card">
+                    <div class="tool-icon">📦</div>
+                    <h3 class="tool-title">Image Compressor</h3>
+                    <p class="tool-desc">Compress images to reduce file size</p>
+                </a>
+                <a href="image-resizer/" class="tool-card">
+                    <div class="tool-icon">📐</div>
+                    <h3 class="tool-title">Image Resizer</h3>
+                    <p class="tool-desc">Resize images to custom dimensions</p>
+                </a>
+                <a href="image-cropper/" class="tool-card">
+                    <div class="tool-icon">✂️</div>
+                    <h3 class="tool-title">Image Cropper</h3>
+                    <p class="tool-desc">Crop images with aspect ratio presets</p>
+                </a>
+                <a href="image-rotate-flip/" class="tool-card">
+                    <div class="tool-icon">🔄</div>
+                    <h3 class="tool-title">Rotate & Flip</h3>
+                    <p class="tool-desc">Rotate and flip images easily</p>
+                </a>
+                <a href="image-filters/" class="tool-card">
+                    <div class="tool-icon">🎨</div>
+                    <h3 class="tool-title">Image Filters</h3>
+                    <p class="tool-desc">Apply filters and effects to images</p>
+                </a>
+                <a href="image-watermark/" class="tool-card">
+                    <div class="tool-icon">💧</div>
+                    <h3 class="tool-title">Watermark Tool</h3>
+                    <p class="tool-desc">Add text or image watermark to photos</p>
+                </a>
+                <a href="meme-generator/" class="tool-card">
+                    <div class="tool-icon">😂</div>
+                    <h3 class="tool-title">Meme Generator</h3>
+                    <p class="tool-desc">Create memes with top and bottom text</p>
+                </a>
+                <a href="image-color-picker/" class="tool-card">
+                    <div class="tool-icon">🎨</div>
+                    <h3 class="tool-title">Color Picker</h3>
+                    <p class="tool-desc">Pick colors and extract palette from images</p>
+                </a>
+                <a href="image-metadata/" class="tool-card">
+                    <div class="tool-icon">🔍</div>
+                    <h3 class="tool-title">Metadata Viewer</h3>
+                    <p class="tool-desc">View and remove EXIF data for privacy</p>
+                </a>
+                <a href="image-to-base64/" class="tool-card">
+                    <div class="tool-icon">🔢</div>
+                    <h3 class="tool-title">Image to Base64</h3>
+                    <p class="tool-desc">Convert images to Base64 strings</p>
+                </a>
+                <a href="image-format-converter/" class="tool-card">
+                    <div class="tool-icon">🔄</div>
+                    <h3 class="tool-title">Format Converter</h3>
+                    <p class="tool-desc">Convert between JPG, PNG, WebP, GIF, SVG</p>
+                </a>
+                <a href="favicon-generator/" class="tool-card">
+                    <div class="tool-icon">🎯</div>
+                    <h3 class="tool-title">Favicon Generator</h3>
+                    <p class="tool-desc">Generate favicons in multiple sizes</p>
+                </a>
+                <a href="qr-barcode-generator/" class="tool-card">
+                    <div class="tool-icon">📱</div>
+                    <h3 class="tool-title">QR & Barcode Generator</h3>
+                    <p class="tool-desc">Generate QR codes and barcodes</p>
+                </a>
+                <a href="image-blur-pixelate/" class="tool-card">
+                    <div class="tool-icon">🔒</div>
+                    <h3 class="tool-title">Blur & Pixelate</h3>
+                    <p class="tool-desc">Hide sensitive areas for privacy</p>
+                </a>
+                <a href="image-comparison-slider/" class="tool-card">
+                    <div class="tool-icon">⚖️</div>
+                    <h3 class="tool-title">Comparison Slider</h3>
+                    <p class="tool-desc">Compare before/after images</p>
+                </a>
+            </div>
+        </div>
+
+        <!-- Calculators -->
+        <div class="section">
+            <h2 class="section-title">🧮 Calculators</h2>
+            <div class="tools-grid">
+                <a href="percentage-calculator/" class="tool-card">
+                    <div class="tool-icon">%</div>
+                    <h3 class="tool-title">Percentage Calculator</h3>
+                    <p class="tool-desc">Calculate percentages easily</p>
+                </a>
+                <a href="loan-calculator/" class="tool-card">
+                    <div class="tool-icon">🏦</div>
+                    <h3 class="tool-title">Loan Calculator</h3>
+                    <p class="tool-desc">Calculate EMI and interest</p>
+                </a>
+                <a href="bmi-calculator/" class="tool-card">
+                    <div class="tool-icon">⚖️</div>
+                    <h3 class="tool-title">BMI Calculator</h3>
+                    <p class="tool-desc">Calculate Body Mass Index</p>
+                </a>
+                <a href="tip-calculator/" class="tool-card">
+                    <div class="tool-icon">💵</div>
+                    <h3 class="tool-title">Tip Calculator</h3>
+                    <p class="tool-desc">Split bills and calculate tips</p>
+                </a>
+                <a href="age-calculator/" class="tool-card">
+                    <div class="tool-icon">🎂</div>
+                    <h3 class="tool-title">Age Calculator</h3>
+                    <p class="tool-desc">Calculate exact age from birthdate</p>
+                </a>
+                <a href="date-calculator/" class="tool-card">
+                    <div class="tool-icon">📅</div>
+                    <h3 class="tool-title">Date Calculator</h3>
+                    <p class="tool-desc">Calculate days between dates, add/subtract days</p>
+                </a>
+                <a href="discount-calculator/" class="tool-card">
+                    <div class="tool-icon">💰</div>
+                    <h3 class="tool-title">Discount Calculator</h3>
+                    <p class="tool-desc">Calculate sale prices, discounts, and savings</p>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const clearSearch = document.getElementById('clearSearch');
+        const searchResults = document.getElementById('searchResults');
+        const sections = document.querySelectorAll('.section');
+        const toolCards = document.querySelectorAll('.tool-card');
+
+        let totalTools = toolCards.length;
+
+        searchInput.addEventListener('input', filterTools);
+        clearSearch.addEventListener('click', () => {
+            searchInput.value = '';
+            filterTools();
+            searchInput.focus();
+        });
+
+        function filterTools() {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            
+            // Show/hide clear button
+            clearSearch.style.display = searchTerm ? 'block' : 'none';
+
+            if (!searchTerm) {
+                // Show all tools and sections
+                sections.forEach(section => section.classList.remove('hidden'));
+                toolCards.forEach(card => card.classList.remove('hidden'));
+                searchResults.textContent = '';
+                return;
+            }
+
+            let visibleCount = 0;
+            const sectionVisibility = new Map();
+
+            // Filter tool cards
+            toolCards.forEach(card => {
+                const title = card.querySelector('.tool-title').textContent.toLowerCase();
+                const desc = card.querySelector('.tool-desc').textContent.toLowerCase();
+                const matches = title.includes(searchTerm) || desc.includes(searchTerm);
+
+                if (matches) {
+                    card.classList.remove('hidden');
+                    visibleCount++;
+                    
+                    // Mark parent section as having visible tools
+                    const section = card.closest('.section');
+                    sectionVisibility.set(section, true);
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+
+            // Show/hide sections based on whether they have visible tools
+            sections.forEach(section => {
+                if (sectionVisibility.get(section)) {
+                    section.classList.remove('hidden');
+                } else {
+                    section.classList.add('hidden');
+                }
+            });
+
+            // Update search results message
+            if (visibleCount === 0) {
+                searchResults.innerHTML = '<span style="color: #ef4444;">No tools found matching "' + searchTerm + '"</span>';
+            } else if (visibleCount === totalTools) {
+                searchResults.textContent = '';
+            } else {
+                searchResults.innerHTML = 'Found <span style="color: #f97316; font-weight: 600;">' + visibleCount + '</span> tool' + (visibleCount !== 1 ? 's' : '');
+            }
+        }
+
+        // Add keyboard shortcut (Ctrl/Cmd + K to focus search)
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                searchInput.focus();
+            }
+            // ESC to clear search
+            if (e.key === 'Escape' && document.activeElement === searchInput) {
+                searchInput.value = '';
+                filterTools();
+            }
+        });
+    </script>
+</body>
+</html>

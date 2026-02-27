@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Blur & Pixelate Tool - Privacy Protection | ToolKit Pro</title>
+    <meta name="description" content="Blur or pixelate sensitive areas in images. Hide faces, license plates, and personal information. Privacy-focused tool that works offline.">
+    <meta name="keywords" content="blur image, pixelate image, censor photo, hide face, privacy tool, redact image">
+    <link rel="canonical" href="https://yourdomain.com/image-blur-pixelate">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/tool-specific.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>🔒 Image Blur & Pixelate Tool</h1>
+        <p class="subtitle">Protect privacy by blurring or pixelating sensitive areas in images.</p>
+
+        <div class="workspace" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <!-- Left: Upload & Canvas -->
+            <div>
+                <div id="uploadArea">
+                    <div style="border: 2px dashed var(--border); border-radius: 8px; padding: 25px; text-align: center; cursor: pointer; transition: all 0.3s;" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                        <div style="font-size: 2rem; margin-bottom: 5px;">📁</div>
+                        <div style="font-size: 0.85rem; color: var(--white); margin-bottom: 3px;">Click to upload or drag & drop image</div>
+                        <div style="font-size: 0.7rem; color: var(--gray);">JPG, PNG, WebP</div>
+                    </div>
+                    <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="handleFile(this.files[0])">
+                </div>
+
+                <!-- Canvas Area -->
+                <div id="canvasArea" style="display: none; background: var(--light); border-radius: 8px; padding: 12px; border: 1px solid var(--border); margin-top: 12px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <div style="font-size: 0.75rem; color: var(--gray);">Draw rectangles to blur/pixelate</div>
+                        <button onclick="uploadNew()" style="padding: 4px 10px; font-size: 0.7rem; background: var(--primary); border: none; border-radius: 4px; color: white; cursor: pointer;">📁 Upload New</button>
+                    </div>
+                    <div style="position: relative; display: inline-block; max-width: 100%;">
+                        <canvas id="canvas" style="max-width: 100%; border-radius: 6px; display: block; cursor: crosshair; border: 2px solid var(--border);"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Controls -->
+            <div id="controls" style="display: none;">
+                <!-- Effect Type -->
+                <div style="margin-bottom: 12px;">
+                    <label style="font-size: 0.8rem; margin-bottom: 6px; display: block; color: var(--gray);">Effect Type</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                        <button onclick="setEffect('blur')" id="effect-blur" class="active-effect" style="padding: 10px; background: var(--primary); border: none; border-radius: 6px; cursor: pointer; font-size: 0.85rem; color: white; font-weight: 500;">Blur</button>
+                        <button onclick="setEffect('pixelate')" id="effect-pixelate" style="padding: 10px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.85rem; color: var(--white); font-weight: 500;">Pixelate</button>
+                    </div>
+                </div>
+
+                <!-- Blur Settings -->
+                <div id="blur-settings" style="background: var(--light); border-radius: 8px; padding: 12px; margin-bottom: 12px; border: 1px solid var(--border);">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 10px;">Blur Settings</div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <label style="font-size: 0.75rem;">Blur Intensity</label>
+                        <span style="font-size: 0.75rem; color: var(--primary);" id="blurAmount-val">20px</span>
+                    </div>
+                    <input type="range" id="blurAmount" min="5" max="50" value="20" oninput="document.getElementById('blurAmount-val').textContent = this.value + 'px'" style="width: 100%;">
+                </div>
+
+                <!-- Pixelate Settings -->
+                <div id="pixelate-settings" style="display: none; background: var(--light); border-radius: 8px; padding: 12px; margin-bottom: 12px; border: 1px solid var(--border);">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 10px;">Pixelate Settings</div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <label style="font-size: 0.75rem;">Pixel Size</label>
+                        <span style="font-size: 0.75rem; color: var(--primary);" id="pixelSize-val">15px</span>
+                    </div>
+                    <input type="range" id="pixelSize" min="5" max="40" value="15" oninput="document.getElementById('pixelSize-val').textContent = this.value + 'px'" style="width: 100%;">
+                </div>
+
+                <!-- Instructions -->
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; margin-bottom: 12px; border: 1px solid var(--border);">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 8px;">Instructions</div>
+                    <div style="font-size: 0.75rem; color: var(--white); line-height: 1.6;">
+                        1. Click and drag on the image to draw rectangles<br>
+                        2. Each rectangle will be blurred/pixelated<br>
+                        3. Draw multiple areas as needed<br>
+                        4. Use "Clear Last" to undo or "Clear All" to reset
+                    </div>
+                </div>
+
+                <!-- Areas List -->
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; margin-bottom: 12px; border: 1px solid var(--border);">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 8px;">Censored Areas: <span id="areaCount">0</span></div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                        <button onclick="clearLast()" style="padding: 8px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: var(--white);">Clear Last</button>
+                        <button onclick="clearAll()" style="padding: 8px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: var(--white);">Clear All</button>
+                    </div>
+                </div>
+
+                <!-- Download Button -->
+                <button onclick="downloadImage()" class="btn btn-success" style="width: 100%; padding: 10px; font-size: 0.95rem;">💾 Download Censored Image</button>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Image Blur & Pixelate Tool</h2>
+            <p>Protect privacy by blurring or pixelating sensitive areas in your images. Perfect for hiding faces, license plates, personal information, or any content you want to censor before sharing.</p>
+            <p><strong>How to use:</strong> Upload an image, choose blur or pixelate effect, then click and drag to draw rectangles over areas you want to censor. Download the protected image when done.</p>
+            <p><strong>Use Cases:</strong> Hide faces in photos, blur license plates, censor personal information, redact documents, protect privacy in screenshots.</p>
+            <p><strong>Privacy:</strong> All processing happens in your browser. No images are uploaded to any server.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        let originalImage = null;
+        let canvas, ctx;
+        let isDrawing = false;
+        let startX, startY;
+        let currentEffect = 'blur';
+        let censoredAreas = [];
+        let tempRect = null;
+
+        // Drag and drop
+        const dropZone = document.getElementById('dropZone');
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = 'var(--primary)';
+            dropZone.style.background = 'rgba(249, 115, 22, 0.1)';
+        });
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.style.borderColor = 'var(--border)';
+            dropZone.style.background = 'transparent';
+        });
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = 'var(--border)';
+            dropZone.style.background = 'transparent';
+            if (e.dataTransfer.files.length) {
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        function handleFile(file) {
+            if (!file || !file.type.startsWith('image/')) {
+                showToast('Please select an image', true);
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                originalImage = new Image();
+                originalImage.onload = () => {
+                    initCanvas();
+                    document.getElementById('uploadArea').style.display = 'none';
+                    document.getElementById('canvasArea').style.display = 'block';
+                    document.getElementById('controls').style.display = 'block';
+                };
+                originalImage.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function initCanvas() {
+            canvas = document.getElementById('canvas');
+            ctx = canvas.getContext('2d');
+
+            const maxWidth = 500;
+            const scale = Math.min(1, maxWidth / originalImage.width);
+            canvas.width = originalImage.width * scale;
+            canvas.height = originalImage.height * scale;
+
+            censoredAreas = [];
+            updateAreaCount();
+            redrawCanvas();
+
+            // Mouse events
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', endDrawing);
+            canvas.addEventListener('mouseleave', endDrawing);
+        }
+
+        function startDrawing(e) {
+            isDrawing = true;
+            const rect = canvas.getBoundingClientRect();
+            startX = e.clientX - rect.left;
+            startY = e.clientY - rect.top;
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+
+            const rect = canvas.getBoundingClientRect();
+            const currentX = e.clientX - rect.left;
+            const currentY = e.clientY - rect.top;
+
+            tempRect = {
+                x: Math.min(startX, currentX),
+                y: Math.min(startY, currentY),
+                width: Math.abs(currentX - startX),
+                height: Math.abs(currentY - startY)
+            };
+
+            redrawCanvas();
+        }
+
+        function endDrawing(e) {
+            if (!isDrawing) return;
+            isDrawing = false;
+
+            if (tempRect && tempRect.width > 5 && tempRect.height > 5) {
+                censoredAreas.push({
+                    ...tempRect,
+                    effect: currentEffect,
+                    blurAmount: parseInt(document.getElementById('blurAmount').value),
+                    pixelSize: parseInt(document.getElementById('pixelSize').value)
+                });
+                updateAreaCount();
+            }
+
+            tempRect = null;
+            redrawCanvas();
+        }
+
+        function redrawCanvas() {
+            // Clear and draw original image
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(originalImage, 0, 0, canvas.width, canvas.height);
+
+            // Apply all censored areas
+            censoredAreas.forEach(area => {
+                applyCensor(area);
+            });
+
+            // Draw temporary rectangle outline
+            if (tempRect) {
+                ctx.strokeStyle = 'rgba(249, 115, 22, 0.8)';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([5, 5]);
+                ctx.strokeRect(tempRect.x, tempRect.y, tempRect.width, tempRect.height);
+                ctx.setLineDash([]);
+            }
+        }
+
+        function applyCensor(area) {
+            if (area.effect === 'blur') {
+                applyBlur(area);
+            } else {
+                applyPixelate(area);
+            }
+        }
+
+        function applyBlur(area) {
+            // Save the area to blur
+            const imageData = ctx.getImageData(area.x, area.y, area.width, area.height);
+            
+            // Apply blur using canvas filter
+            ctx.save();
+            ctx.filter = `blur(${area.blurAmount}px)`;
+            ctx.drawImage(canvas, area.x, area.y, area.width, area.height, area.x, area.y, area.width, area.height);
+            ctx.restore();
+        }
+
+        function applyPixelate(area) {
+            const pixelSize = area.pixelSize;
+            
+            // Get image data
+            const imageData = ctx.getImageData(area.x, area.y, area.width, area.height);
+            
+            // Pixelate
+            for (let y = 0; y < area.height; y += pixelSize) {
+                for (let x = 0; x < area.width; x += pixelSize) {
+                    // Get average color of pixel block
+                    const pixelIndex = (y * area.width + x) * 4;
+                    const r = imageData.data[pixelIndex];
+                    const g = imageData.data[pixelIndex + 1];
+                    const b = imageData.data[pixelIndex + 2];
+                    
+                    // Fill block with average color
+                    ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+                    ctx.fillRect(area.x + x, area.y + y, pixelSize, pixelSize);
+                }
+            }
+        }
+
+        function setEffect(effect) {
+            currentEffect = effect;
+            
+            // Update buttons
+            document.getElementById('effect-blur').style.background = effect === 'blur' ? 'var(--primary)' : 'var(--dark)';
+            document.getElementById('effect-blur').style.border = effect === 'blur' ? 'none' : '1px solid var(--border)';
+            document.getElementById('effect-pixelate').style.background = effect === 'pixelate' ? 'var(--primary)' : 'var(--dark)';
+            document.getElementById('effect-pixelate').style.border = effect === 'pixelate' ? 'none' : '1px solid var(--border)';
+            
+            // Show/hide settings
+            document.getElementById('blur-settings').style.display = effect === 'blur' ? 'block' : 'none';
+            document.getElementById('pixelate-settings').style.display = effect === 'pixelate' ? 'block' : 'none';
+        }
+
+        function clearLast() {
+            if (censoredAreas.length > 0) {
+                censoredAreas.pop();
+                updateAreaCount();
+                redrawCanvas();
+                showToast('Last area removed');
+            }
+        }
+
+        function clearAll() {
+            censoredAreas = [];
+            updateAreaCount();
+            redrawCanvas();
+            showToast('All areas cleared');
+        }
+
+        function updateAreaCount() {
+            document.getElementById('areaCount').textContent = censoredAreas.length;
+        }
+
+        function downloadImage() {
+            if (!originalImage) return;
+
+            // Create download canvas at full resolution
+            const downloadCanvas = document.createElement('canvas');
+            const downloadCtx = downloadCanvas.getContext('2d');
+            downloadCanvas.width = originalImage.width;
+            downloadCanvas.height = originalImage.height;
+
+            // Draw original image
+            downloadCtx.drawImage(originalImage, 0, 0);
+
+            // Scale factor
+            const scale = originalImage.width / canvas.width;
+
+            // Apply all censored areas at full resolution
+            censoredAreas.forEach(area => {
+                const scaledArea = {
+                    x: area.x * scale,
+                    y: area.y * scale,
+                    width: area.width * scale,
+                    height: area.height * scale,
+                    effect: area.effect,
+                    blurAmount: area.blurAmount * scale,
+                    pixelSize: area.pixelSize * scale
+                };
+
+                if (scaledArea.effect === 'blur') {
+                    downloadCtx.save();
+                    downloadCtx.filter = `blur(${scaledArea.blurAmount}px)`;
+                    downloadCtx.drawImage(downloadCanvas, scaledArea.x, scaledArea.y, scaledArea.width, scaledArea.height, scaledArea.x, scaledArea.y, scaledArea.width, scaledArea.height);
+                    downloadCtx.restore();
+                } else {
+                    const pixelSize = scaledArea.pixelSize;
+                    const imageData = downloadCtx.getImageData(scaledArea.x, scaledArea.y, scaledArea.width, scaledArea.height);
+                    
+                    for (let y = 0; y < scaledArea.height; y += pixelSize) {
+                        for (let x = 0; x < scaledArea.width; x += pixelSize) {
+                            const pixelIndex = (y * scaledArea.width + x) * 4;
+                            const r = imageData.data[pixelIndex];
+                            const g = imageData.data[pixelIndex + 1];
+                            const b = imageData.data[pixelIndex + 2];
+                            
+                            downloadCtx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+                            downloadCtx.fillRect(scaledArea.x + x, scaledArea.y + y, pixelSize, pixelSize);
+                        }
+                    }
+                }
+            });
+
+            downloadCanvas.toBlob((blob) => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'censored_image_' + Date.now() + '.png';
+                a.click();
+                URL.revokeObjectURL(url);
+                showToast('Image downloaded!');
+            });
+        }
+
+        function uploadNew() {
+            document.getElementById('fileInput').click();
+        }
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show' + (isError ? ' error' : '');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>

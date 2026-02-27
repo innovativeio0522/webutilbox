@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Box Shadow Generator - Create Box Shadows Online | ToolKit Pro</title>
+    <meta name="description" content="Generate CSS box shadows with live preview. Free box shadow generator with customizable offset, blur, spread, and color. Copy CSS code instantly.">
+    <meta name="keywords" content="box shadow generator, css box shadow, box shadow css generator, create box shadow">
+    <link rel="canonical" href="https://yourdomain.com/box-shadow-generator">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/tool-specific.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>📦 Box Shadow Generator</h1>
+        <p class="subtitle">Create beautiful CSS box shadows with live preview. Customize and copy the CSS code.</p>
+
+        <div class="workspace">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <!-- Left: Preview -->
+                <div>
+                    <label style="font-size: 0.9rem; margin-bottom: 10px; display: block;">Preview</label>
+                    <div style="background: var(--light); padding: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; min-height: 300px;">
+                        <div id="previewBox" style="width: 150px; height: 150px; background: var(--primary); border-radius: 8px;"></div>
+                    </div>
+                </div>
+
+                <!-- Right: Controls -->
+                <div>
+                    <label style="font-size: 0.9rem; margin-bottom: 10px; display: block;">Shadow Properties</label>
+                    
+                    <!-- Horizontal Offset -->
+                    <div style="margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span style="font-size: 0.85rem;">Horizontal Offset</span>
+                            <span style="font-size: 0.85rem; color: var(--primary);" id="hOffsetVal">0px</span>
+                        </div>
+                        <input type="range" id="hOffset" min="-50" max="50" value="0" oninput="updateShadow()" style="width: 100%;">
+                    </div>
+
+                    <!-- Vertical Offset -->
+                    <div style="margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span style="font-size: 0.85rem;">Vertical Offset</span>
+                            <span style="font-size: 0.85rem; color: var(--primary);" id="vOffsetVal">10px</span>
+                        </div>
+                        <input type="range" id="vOffset" min="-50" max="50" value="10" oninput="updateShadow()" style="width: 100%;">
+                    </div>
+
+                    <!-- Blur Radius -->
+                    <div style="margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span style="font-size: 0.85rem;">Blur Radius</span>
+                            <span style="font-size: 0.85rem; color: var(--primary);" id="blurVal">20px</span>
+                        </div>
+                        <input type="range" id="blur" min="0" max="100" value="20" oninput="updateShadow()" style="width: 100%;">
+                    </div>
+
+                    <!-- Spread Radius -->
+                    <div style="margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span style="font-size: 0.85rem;">Spread Radius</span>
+                            <span style="font-size: 0.85rem; color: var(--primary);" id="spreadVal">0px</span>
+                        </div>
+                        <input type="range" id="spread" min="-50" max="50" value="0" oninput="updateShadow()" style="width: 100%;">
+                    </div>
+
+                    <!-- Shadow Color -->
+                    <div style="margin-bottom: 15px;">
+                        <label style="font-size: 0.85rem; margin-bottom: 5px; display: block;">Shadow Color</label>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <input type="color" id="shadowColor" value="#000000" oninput="updateShadow()" style="width: 60px; height: 40px; cursor: pointer; border-radius: 6px;">
+                            <input type="text" id="shadowColorText" value="#000000" oninput="updateColorFromText()" style="flex: 1; padding: 8px; font-size: 0.9rem; font-family: 'Courier New', monospace;">
+                        </div>
+                    </div>
+
+                    <!-- Opacity -->
+                    <div style="margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span style="font-size: 0.85rem;">Opacity</span>
+                            <span style="font-size: 0.85rem; color: var(--primary);" id="opacityVal">0.5</span>
+                        </div>
+                        <input type="range" id="opacity" min="0" max="1" step="0.01" value="0.5" oninput="updateShadow()" style="width: 100%;">
+                    </div>
+
+                    <!-- Inset -->
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                            <input type="checkbox" id="inset" onchange="updateShadow()">
+                            <span style="font-size: 0.85rem;">Inset Shadow</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CSS Output -->
+            <div class="output-container show" style="margin-top: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <div class="output-label">CSS Code</div>
+                    <button class="btn btn-success" onclick="copyCss()" style="padding: 6px 16px; font-size: 0.85rem;">Copy CSS</button>
+                </div>
+                <pre id="cssCode" style="margin: 0; white-space: pre-wrap; font-size: 0.9rem; color: var(--white); font-family: 'Courier New', monospace; background: var(--input-bg); padding: 15px; border-radius: 8px;"></pre>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>CSS Box Shadow Generator - Create Beautiful Shadows</h2>
+            <p>Generate CSS box shadows with live preview. Customize horizontal offset, vertical offset, blur radius, spread radius, color, and opacity. Perfect for web designers and developers.</p>
+            <p><strong>Box Shadow Syntax:</strong> box-shadow: h-offset v-offset blur spread color inset;</p>
+            <p><strong>Use Cases:</strong> Card designs, button effects, image shadows, container depth, UI elements, material design, elevation effects.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        function updateShadow() {
+            const hOffset = document.getElementById('hOffset').value;
+            const vOffset = document.getElementById('vOffset').value;
+            const blur = document.getElementById('blur').value;
+            const spread = document.getElementById('spread').value;
+            const color = document.getElementById('shadowColor').value;
+            const opacity = document.getElementById('opacity').value;
+            const inset = document.getElementById('inset').checked;
+
+            // Update displays
+            document.getElementById('hOffsetVal').textContent = hOffset + 'px';
+            document.getElementById('vOffsetVal').textContent = vOffset + 'px';
+            document.getElementById('blurVal').textContent = blur + 'px';
+            document.getElementById('spreadVal').textContent = spread + 'px';
+            document.getElementById('opacityVal').textContent = opacity;
+            document.getElementById('shadowColorText').value = color;
+
+            // Convert hex to rgba
+            const r = parseInt(color.substr(1,2), 16);
+            const g = parseInt(color.substr(3,2), 16);
+            const b = parseInt(color.substr(5,2), 16);
+            const rgba = `rgba(${r}, ${g}, ${b}, ${opacity})`;
+
+            // Build shadow
+            const insetStr = inset ? 'inset ' : '';
+            const shadow = `${insetStr}${hOffset}px ${vOffset}px ${blur}px ${spread}px ${rgba}`;
+
+            // Apply to preview
+            document.getElementById('previewBox').style.boxShadow = shadow;
+
+            // Update CSS code
+            document.getElementById('cssCode').textContent = `box-shadow: ${shadow};`;
+        }
+
+        function updateColorFromText() {
+            const color = document.getElementById('shadowColorText').value;
+            if (/^#[0-9A-F]{6}$/i.test(color)) {
+                document.getElementById('shadowColor').value = color;
+                updateShadow();
+            }
+        }
+
+        function copyCss() {
+            const css = document.getElementById('cssCode').textContent;
+            navigator.clipboard.writeText(css).then(() => {
+                showToast('CSS copied to clipboard!');
+            });
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show';
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // Initialize
+        updateShadow();
+    </script>
+</body>
+</html>

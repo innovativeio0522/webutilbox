@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date Calculator - Calculate Days Between Dates | ToolKit Pro</title>
+    <meta name="description" content="Calculate days between dates, add or subtract days, find age, and more. Free online date calculator that works offline.">
+    <meta name="keywords" content="date calculator, days between dates, date difference, add days to date, subtract days">
+    <link rel="canonical" href="https://yourdomain.com/date-calculator">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/tool-specific.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>📅 Date Calculator</h1>
+        <p class="subtitle">Calculate days between dates, add/subtract days, and find age.</p>
+
+        <div class="workspace" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <!-- Left: Mode Selection & Inputs -->
+            <div>
+                <!-- Mode Tabs -->
+                <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                    <button id="tab-diff" style="flex: 1; padding: 10px; background: var(--primary); border: none; border-radius: 6px; cursor: pointer; font-size: 0.8rem; color: white; font-weight: 500;">Date Difference</button>
+                    <button id="tab-add" style="flex: 1; padding: 10px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.8rem; color: var(--white); font-weight: 500;">Add/Subtract</button>
+                    <button id="tab-age" style="flex: 1; padding: 10px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.8rem; color: var(--white); font-weight: 500;">Age</button>
+                </div>
+
+                <!-- Date Difference Section -->
+                <div id="diff-section">
+                    <div style="margin-bottom: 12px;">
+                        <label style="font-size: 0.8rem; margin-bottom: 6px; display: block; color: var(--gray);">From Date</label>
+                        <input type="date" id="diffFromDate" style="width: 100%; padding: 10px; font-size: 0.85rem; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white);">
+                    </div>
+                    <div style="margin-bottom: 12px;">
+                        <label style="font-size: 0.8rem; margin-bottom: 6px; display: block; color: var(--gray);">To Date</label>
+                        <input type="date" id="diffToDate" style="width: 100%; padding: 10px; font-size: 0.85rem; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white);">
+                    </div>
+                    <button id="calcDiffBtn" style="width: 100%; padding: 10px; background: var(--primary); border: none; border-radius: 6px; color: white; cursor: pointer; font-size: 0.9rem; font-weight: 500;">Calculate Difference</button>
+                </div>
+
+                <!-- Add/Subtract Section -->
+                <div id="add-section" style="display: none;">
+                    <div style="margin-bottom: 12px;">
+                        <label style="font-size: 0.8rem; margin-bottom: 6px; display: block; color: var(--gray);">Start Date</label>
+                        <input type="date" id="addStartDate" style="width: 100%; padding: 10px; font-size: 0.85rem; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white);">
+                    </div>
+                    <div style="margin-bottom: 12px;">
+                        <label style="font-size: 0.8rem; margin-bottom: 6px; display: block; color: var(--gray);">Operation</label>
+                        <select id="addOperation" style="width: 100%; padding: 10px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); font-size: 0.85rem;">
+                            <option value="add">Add</option>
+                            <option value="subtract">Subtract</option>
+                        </select>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px; margin-bottom: 12px;">
+                        <div>
+                            <label style="font-size: 0.8rem; margin-bottom: 6px; display: block; color: var(--gray);">Number</label>
+                            <input type="number" id="addNumber" value="1" min="0" style="width: 100%; padding: 10px; font-size: 0.85rem; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white);">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.8rem; margin-bottom: 6px; display: block; color: var(--gray);">Unit</label>
+                            <select id="addUnit" style="width: 100%; padding: 10px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); font-size: 0.85rem;">
+                                <option value="days">Days</option>
+                                <option value="weeks">Weeks</option>
+                                <option value="months">Months</option>
+                                <option value="years">Years</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button id="calcAddBtn" style="width: 100%; padding: 10px; background: var(--primary); border: none; border-radius: 6px; color: white; cursor: pointer; font-size: 0.9rem; font-weight: 500;">Calculate Date</button>
+                </div>
+
+                <!-- Age Section -->
+                <div id="age-section" style="display: none;">
+                    <div style="margin-bottom: 12px;">
+                        <label style="font-size: 0.8rem; margin-bottom: 6px; display: block; color: var(--gray);">Date of Birth</label>
+                        <input type="date" id="ageBirthDate" style="width: 100%; padding: 10px; font-size: 0.85rem; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white);">
+                    </div>
+                    <div style="margin-bottom: 12px;">
+                        <label style="font-size: 0.8rem; margin-bottom: 6px; display: block; color: var(--gray);">Calculate Age On</label>
+                        <input type="date" id="ageCurrentDate" style="width: 100%; padding: 10px; font-size: 0.85rem; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white);">
+                    </div>
+                    <button id="calcAgeBtn" style="width: 100%; padding: 10px; background: var(--primary); border: none; border-radius: 6px; color: white; cursor: pointer; font-size: 0.9rem; font-weight: 500;">Calculate Age</button>
+                </div>
+            </div>
+
+            <!-- Right: Results -->
+            <div>
+                <div style="background: var(--light); border-radius: 8px; padding: 15px; border: 1px solid var(--border); min-height: 400px;">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 12px;">Results</div>
+                    <div id="results" style="color: var(--white);">
+                        <div style="text-align: center; padding: 60px 20px; color: var(--gray); font-size: 0.85rem;">
+                            Select dates and click calculate to see results
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Date Calculator</h2>
+            <p>Calculate the difference between two dates, add or subtract days/weeks/months/years from a date, or calculate someone's exact age.</p>
+            <p><strong>Features:</strong> Date difference calculator, add/subtract days calculator, age calculator with years/months/days breakdown.</p>
+            <p><strong>Use Cases:</strong> Project planning, age calculation, countdown timers, deadline tracking, event planning, pregnancy due dates.</p>
+            <p><strong>Privacy:</strong> All calculations happen in your browser. No data is sent to any server.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        let currentMode = 'diff';
+
+        // Tab switching
+        document.getElementById('tab-diff').addEventListener('click', () => switchMode('diff'));
+        document.getElementById('tab-add').addEventListener('click', () => switchMode('add'));
+        document.getElementById('tab-age').addEventListener('click', () => switchMode('age'));
+
+        // Calculate buttons
+        document.getElementById('calcDiffBtn').addEventListener('click', calculateDifference);
+        document.getElementById('calcAddBtn').addEventListener('click', calculateAddSubtract);
+        document.getElementById('calcAgeBtn').addEventListener('click', calculateAge);
+
+        // Set default dates
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('diffToDate').value = today;
+        document.getElementById('addStartDate').value = today;
+        document.getElementById('ageCurrentDate').value = today;
+
+        function switchMode(mode) {
+            currentMode = mode;
+            
+            // Update tabs
+            ['diff', 'add', 'age'].forEach(m => {
+                const tab = document.getElementById(`tab-${m}`);
+                const section = document.getElementById(`${m}-section`);
+                
+                if (m === mode) {
+                    tab.style.background = 'var(--primary)';
+                    tab.style.border = 'none';
+                    section.style.display = 'block';
+                } else {
+                    tab.style.background = 'var(--dark)';
+                    tab.style.border = '1px solid var(--border)';
+                    section.style.display = 'none';
+                }
+            });
+            
+            // Clear results
+            document.getElementById('results').innerHTML = '<div style="text-align: center; padding: 60px 20px; color: var(--gray); font-size: 0.85rem;">Select dates and click calculate to see results</div>';
+        }
+
+        function calculateDifference() {
+            const fromDate = document.getElementById('diffFromDate').value;
+            const toDate = document.getElementById('diffToDate').value;
+            
+            if (!fromDate || !toDate) {
+                showToast('Please select both dates', true);
+                return;
+            }
+            
+            const from = new Date(fromDate);
+            const to = new Date(toDate);
+            
+            const diffTime = Math.abs(to - from);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            const diffWeeks = Math.floor(diffDays / 7);
+            const diffMonths = Math.floor(diffDays / 30.44);
+            const diffYears = Math.floor(diffDays / 365.25);
+            
+            // Calculate detailed breakdown
+            let years = 0, months = 0, days = 0;
+            let tempDate = new Date(from);
+            
+            while (tempDate.getFullYear() < to.getFullYear() || 
+                   (tempDate.getFullYear() === to.getFullYear() && tempDate.getMonth() < to.getMonth()) ||
+                   (tempDate.getFullYear() === to.getFullYear() && tempDate.getMonth() === to.getMonth() && tempDate.getDate() < to.getDate())) {
+                
+                if (tempDate.getMonth() === to.getMonth() && tempDate.getFullYear() === to.getFullYear()) {
+                    days = to.getDate() - tempDate.getDate();
+                    break;
+                } else if (tempDate.getFullYear() === to.getFullYear() && tempDate.getMonth() < to.getMonth()) {
+                    months++;
+                    tempDate.setMonth(tempDate.getMonth() + 1);
+                } else {
+                    years++;
+                    tempDate.setFullYear(tempDate.getFullYear() + 1);
+                }
+            }
+            
+            const resultsHTML = `
+                <div style="background: var(--dark); border-radius: 8px; padding: 20px; margin-bottom: 15px; text-align: center;">
+                    <div style="font-size: 2.5rem; color: var(--primary); font-weight: 700; margin-bottom: 8px;">${diffDays}</div>
+                    <div style="font-size: 0.9rem; color: var(--gray);">Total Days</div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
+                    <div style="background: var(--dark); border-radius: 6px; padding: 15px; text-align: center;">
+                        <div style="font-size: 1.5rem; color: var(--primary); font-weight: 600;">${diffWeeks}</div>
+                        <div style="font-size: 0.75rem; color: var(--gray);">Weeks</div>
+                    </div>
+                    <div style="background: var(--dark); border-radius: 6px; padding: 15px; text-align: center;">
+                        <div style="font-size: 1.5rem; color: var(--primary); font-weight: 600;">${diffMonths}</div>
+                        <div style="font-size: 0.75rem; color: var(--gray);">Months</div>
+                    </div>
+                </div>
+                
+                <div style="background: var(--dark); border-radius: 8px; padding: 15px;">
+                    <div style="font-size: 0.8rem; color: var(--gray); margin-bottom: 10px;">Detailed Breakdown</div>
+                    <div style="font-size: 0.9rem; color: var(--white);">
+                        ${years > 0 ? `<div>${years} year${years !== 1 ? 's' : ''}</div>` : ''}
+                        ${months > 0 ? `<div>${months} month${months !== 1 ? 's' : ''}</div>` : ''}
+                        ${days > 0 ? `<div>${days} day${days !== 1 ? 's' : ''}</div>` : ''}
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('results').innerHTML = resultsHTML;
+        }
+
+        function calculateAddSubtract() {
+            const startDate = document.getElementById('addStartDate').value;
+            const operation = document.getElementById('addOperation').value;
+            const number = parseInt(document.getElementById('addNumber').value);
+            const unit = document.getElementById('addUnit').value;
+            
+            if (!startDate || !number) {
+                showToast('Please fill all fields', true);
+                return;
+            }
+            
+            const date = new Date(startDate);
+            const multiplier = operation === 'add' ? 1 : -1;
+            
+            switch(unit) {
+                case 'days':
+                    date.setDate(date.getDate() + (number * multiplier));
+                    break;
+                case 'weeks':
+                    date.setDate(date.getDate() + (number * 7 * multiplier));
+                    break;
+                case 'months':
+                    date.setMonth(date.getMonth() + (number * multiplier));
+                    break;
+                case 'years':
+                    date.setFullYear(date.getFullYear() + (number * multiplier));
+                    break;
+            }
+            
+            const resultDate = date.toISOString().split('T')[0];
+            const formatted = date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            
+            const resultsHTML = `
+                <div style="background: var(--dark); border-radius: 8px; padding: 20px; margin-bottom: 15px; text-align: center;">
+                    <div style="font-size: 0.8rem; color: var(--gray); margin-bottom: 10px;">Result Date</div>
+                    <div style="font-size: 1.8rem; color: var(--primary); font-weight: 700; margin-bottom: 8px;">${resultDate}</div>
+                    <div style="font-size: 0.85rem; color: var(--white);">${formatted}</div>
+                </div>
+                
+                <div style="background: var(--dark); border-radius: 8px; padding: 15px;">
+                    <div style="font-size: 0.8rem; color: var(--gray); margin-bottom: 8px;">Calculation</div>
+                    <div style="font-size: 0.85rem; color: var(--white);">
+                        ${startDate} ${operation === 'add' ? '+' : '-'} ${number} ${unit} = ${resultDate}
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('results').innerHTML = resultsHTML;
+        }
+
+        function calculateAge() {
+            const birthDate = document.getElementById('ageBirthDate').value;
+            const currentDate = document.getElementById('ageCurrentDate').value;
+            
+            if (!birthDate || !currentDate) {
+                showToast('Please select both dates', true);
+                return;
+            }
+            
+            const birth = new Date(birthDate);
+            const current = new Date(currentDate);
+            
+            if (birth > current) {
+                showToast('Birth date cannot be after current date', true);
+                return;
+            }
+            
+            let years = current.getFullYear() - birth.getFullYear();
+            let months = current.getMonth() - birth.getMonth();
+            let days = current.getDate() - birth.getDate();
+            
+            if (days < 0) {
+                months--;
+                const prevMonth = new Date(current.getFullYear(), current.getMonth(), 0);
+                days += prevMonth.getDate();
+            }
+            
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+            
+            const totalDays = Math.floor((current - birth) / (1000 * 60 * 60 * 24));
+            const totalWeeks = Math.floor(totalDays / 7);
+            const totalMonths = years * 12 + months;
+            
+            const nextBirthday = new Date(current.getFullYear(), birth.getMonth(), birth.getDate());
+            if (nextBirthday < current) {
+                nextBirthday.setFullYear(current.getFullYear() + 1);
+            }
+            const daysToNextBirthday = Math.ceil((nextBirthday - current) / (1000 * 60 * 60 * 24));
+            
+            const resultsHTML = `
+                <div style="background: var(--dark); border-radius: 8px; padding: 20px; margin-bottom: 15px; text-align: center;">
+                    <div style="font-size: 0.8rem; color: var(--gray); margin-bottom: 10px;">Current Age</div>
+                    <div style="font-size: 2.5rem; color: var(--primary); font-weight: 700; margin-bottom: 8px;">${years}</div>
+                    <div style="font-size: 0.9rem; color: var(--gray);">Years Old</div>
+                </div>
+                
+                <div style="background: var(--dark); border-radius: 8px; padding: 15px; margin-bottom: 15px;">
+                    <div style="font-size: 0.8rem; color: var(--gray); margin-bottom: 10px;">Detailed Age</div>
+                    <div style="font-size: 1.1rem; color: var(--white); text-align: center;">
+                        ${years} years, ${months} months, ${days} days
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
+                    <div style="background: var(--dark); border-radius: 6px; padding: 12px; text-align: center;">
+                        <div style="font-size: 1.2rem; color: var(--primary); font-weight: 600;">${totalMonths}</div>
+                        <div style="font-size: 0.7rem; color: var(--gray);">Total Months</div>
+                    </div>
+                    <div style="background: var(--dark); border-radius: 6px; padding: 12px; text-align: center;">
+                        <div style="font-size: 1.2rem; color: var(--primary); font-weight: 600;">${totalWeeks}</div>
+                        <div style="font-size: 0.7rem; color: var(--gray);">Total Weeks</div>
+                    </div>
+                </div>
+                
+                <div style="background: var(--dark); border-radius: 8px; padding: 15px;">
+                    <div style="font-size: 0.8rem; color: var(--gray); margin-bottom: 8px;">Next Birthday</div>
+                    <div style="font-size: 0.9rem; color: var(--white);">
+                        In ${daysToNextBirthday} days (${nextBirthday.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })})
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('results').innerHTML = resultsHTML;
+        }
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show' + (isError ? ' error' : '');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>

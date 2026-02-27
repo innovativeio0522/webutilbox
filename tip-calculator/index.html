@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tip Calculator - Calculate Tips and Split Bills Online | ToolKit Pro</title>
+    <meta name="description" content="Calculate tips and split bills easily. Free tip calculator with custom percentages and bill splitting. Perfect for restaurants and group dining.">
+    <meta name="keywords" content="tip calculator, calculate tip, split bill calculator, tip percentage calculator">
+    <link rel="canonical" href="https://yourdomain.com/tip-calculator">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/tool-specific.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>💵 Tip Calculator</h1>
+        <p class="subtitle">Calculate tips and split bills among multiple people easily.</p>
+
+        <div class="workspace">
+            <!-- Bill Amount -->
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 0.9rem; margin-bottom: 8px; display: block;">Bill Amount</label>
+                <div style="position: relative;">
+                    <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 1.2rem; color: var(--gray);">$</span>
+                    <input type="number" id="billAmount" placeholder="0.00" oninput="calculate()" style="width: 100%; padding: 12px 12px 12px 30px; font-size: 1.2rem;">
+                </div>
+            </div>
+
+            <!-- Tip Percentage -->
+            <div style="margin-bottom: 15px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <label style="font-size: 0.9rem; margin: 0;">Tip Percentage</label>
+                    <span style="font-size: 1.1rem; font-weight: bold; color: var(--primary);" id="tipPercentDisplay">15%</span>
+                </div>
+                <input type="range" id="tipPercent" min="0" max="30" value="15" oninput="calculate()" style="width: 100%;">
+                <div style="display: flex; gap: 8px; margin-top: 10px;">
+                    <button onclick="setTip(10)" style="flex: 1; padding: 8px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.85rem; color: var(--white);">10%</button>
+                    <button onclick="setTip(15)" style="flex: 1; padding: 8px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.85rem; color: var(--white);">15%</button>
+                    <button onclick="setTip(18)" style="flex: 1; padding: 8px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.85rem; color: var(--white);">18%</button>
+                    <button onclick="setTip(20)" style="flex: 1; padding: 8px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.85rem; color: var(--white);">20%</button>
+                    <button onclick="setTip(25)" style="flex: 1; padding: 8px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.85rem; color: var(--white);">25%</button>
+                </div>
+            </div>
+
+            <!-- Number of People -->
+            <div style="margin-bottom: 20px;">
+                <label style="font-size: 0.9rem; margin-bottom: 8px; display: block;">Split Between</label>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <button onclick="changePeople(-1)" style="width: 45px; height: 45px; background: var(--light); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; font-size: 1.5rem; color: var(--white);">−</button>
+                    <input type="number" id="numPeople" value="1" min="1" oninput="calculate()" style="flex: 1; padding: 12px; font-size: 1.2rem; text-align: center;">
+                    <button onclick="changePeople(1)" style="width: 45px; height: 45px; background: var(--light); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; font-size: 1.5rem; color: var(--white);">+</button>
+                    <span style="font-size: 0.9rem; color: var(--gray);">people</span>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                <div style="background: var(--light); padding: 20px; border-radius: 10px; text-align: center; border: 1px solid var(--border);">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 5px;">Tip Amount</div>
+                    <div style="font-size: 2rem; font-weight: bold; color: var(--secondary);" id="tipAmount">$0.00</div>
+                </div>
+                <div style="background: var(--light); padding: 20px; border-radius: 10px; text-align: center; border: 1px solid var(--border);">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 5px;">Total Amount</div>
+                    <div style="font-size: 2rem; font-weight: bold; color: var(--primary);" id="totalAmount">$0.00</div>
+                </div>
+            </div>
+
+            <!-- Per Person -->
+            <div class="output-container show">
+                <div class="output-label">Per Person</div>
+                <div style="display: grid; gap: 10px; font-size: 0.95rem;">
+                    <div style="display: flex; justify-content: space-between; padding: 10px; background: var(--light); border-radius: 6px;">
+                        <span>Tip per person:</span>
+                        <span style="color: var(--secondary); font-weight: 600;" id="tipPerPerson">$0.00</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 10px; background: var(--light); border-radius: 6px;">
+                        <span>Total per person:</span>
+                        <span style="color: var(--primary); font-weight: 600; font-size: 1.2rem;" id="totalPerPerson">$0.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Tip Calculator - Calculate Tips and Split Bills</h2>
+            <p>Calculate tips and split bills easily with this free tip calculator. Choose from common tip percentages (10%, 15%, 18%, 20%, 25%) or use the slider for custom amounts. Perfect for restaurants, bars, and group dining.</p>
+            <p><strong>How to Use:</strong> Enter the bill amount, select or adjust the tip percentage, and specify how many people to split the bill between. The calculator instantly shows the tip amount, total, and per-person breakdown.</p>
+            <p><strong>Tipping Guidelines:</strong> 15-20% is standard for good service, 10% for basic service, 20-25% for excellent service. Adjust based on service quality and local customs.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        function calculate() {
+            const billAmount = parseFloat(document.getElementById('billAmount').value) || 0;
+            const tipPercent = parseFloat(document.getElementById('tipPercent').value) || 0;
+            const numPeople = parseInt(document.getElementById('numPeople').value) || 1;
+
+            // Update tip percent display
+            document.getElementById('tipPercentDisplay').textContent = tipPercent + '%';
+
+            // Calculate amounts
+            const tipAmount = billAmount * (tipPercent / 100);
+            const totalAmount = billAmount + tipAmount;
+            const tipPerPerson = tipAmount / numPeople;
+            const totalPerPerson = totalAmount / numPeople;
+
+            // Display results
+            document.getElementById('tipAmount').textContent = '$' + tipAmount.toFixed(2);
+            document.getElementById('totalAmount').textContent = '$' + totalAmount.toFixed(2);
+            document.getElementById('tipPerPerson').textContent = '$' + tipPerPerson.toFixed(2);
+            document.getElementById('totalPerPerson').textContent = '$' + totalPerPerson.toFixed(2);
+        }
+
+        function setTip(percent) {
+            document.getElementById('tipPercent').value = percent;
+            calculate();
+        }
+
+        function changePeople(delta) {
+            const input = document.getElementById('numPeople');
+            let value = parseInt(input.value) || 1;
+            value = Math.max(1, value + delta);
+            input.value = value;
+            calculate();
+        }
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show' + (isError ? ' error' : '');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // Initialize
+        calculate();
+    </script>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regex Tester - Test Regular Expressions Online Free | ToolKit Pro</title>
+    <meta name="description" content="Test regular expressions with live matching and highlighting. Free regex tester with match groups, flags, and real-time validation. Perfect for developers.">
+    <meta name="keywords" content="regex tester, regular expression tester, regex validator online, test regex pattern, regex match online">
+    <link rel="canonical" href="https://yourdomain.com/regex-tester">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/tool-specific.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>🔍 Regex Tester</h1>
+        <p class="subtitle">Test regular expressions with live matching, highlighting, and capture groups. Real-time validation as you type.</p>
+
+        <div class="workspace">
+            <!-- Regex Pattern -->
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 0.9rem; margin-bottom: 8px;">Regular Expression Pattern</label>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <span style="font-size: 1.5rem; color: var(--primary);">/</span>
+                    <input type="text" id="regexPattern" placeholder="Enter regex pattern..." oninput="testRegex()" style="flex: 1; padding: 12px; font-size: 1rem; font-family: 'Courier New', monospace;">
+                    <span style="font-size: 1.5rem; color: var(--primary);">/</span>
+                    <input type="text" id="regexFlags" placeholder="flags" oninput="testRegex()" maxlength="5" style="width: 80px; padding: 12px; font-size: 1rem; font-family: 'Courier New', monospace;">
+                </div>
+                <div style="display: flex; gap: 15px; margin-top: 8px; padding: 10px; background: var(--light); border-radius: 6px;">
+                    <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 0.85rem;">
+                        <input type="checkbox" id="flagG" onchange="updateFlags()">
+                        <span>g (global)</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 0.85rem;">
+                        <input type="checkbox" id="flagI" onchange="updateFlags()">
+                        <span>i (case-insensitive)</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 0.85rem;">
+                        <input type="checkbox" id="flagM" onchange="updateFlags()">
+                        <span>m (multiline)</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 0.85rem;">
+                        <input type="checkbox" id="flagS" onchange="updateFlags()">
+                        <span>s (dotAll)</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Test String -->
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 0.9rem; margin-bottom: 8px;">Test String</label>
+                <textarea id="testString" placeholder="Enter text to test against..." oninput="testRegex()" style="min-height: 150px; font-size: 0.9rem;"></textarea>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-bar" id="statsBar" style="display: none;">
+                <div class="stat">✅ Matches: <span class="stat-value" id="matchCount">0</span></div>
+                <div class="stat">📊 Groups: <span class="stat-value" id="groupCount">0</span></div>
+                <div class="stat" id="validStatus">
+                    <span style="color: var(--secondary);">✓ Valid Pattern</span>
+                </div>
+            </div>
+
+            <!-- Highlighted Output -->
+            <div class="output-container show" id="highlightOutput" style="margin-top: 15px; display: none;">
+                <div class="output-label">Highlighted Matches</div>
+                <div id="highlightedText" style="white-space: pre-wrap; font-size: 0.9rem; line-height: 1.8; font-family: 'Courier New', monospace;"></div>
+            </div>
+
+            <!-- Match Details -->
+            <div class="output-container show" id="matchDetails" style="margin-top: 15px; display: none;">
+                <div class="output-label">Match Details</div>
+                <div id="matchList" style="font-size: 0.85rem;"></div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Regex Tester - Test Regular Expressions Online</h2>
+            <p>This free regex tester helps you test and validate regular expressions with live matching and highlighting. See matches in real-time as you type, view capture groups, and test different regex flags.</p>
+            <p><strong>Common Patterns:</strong> \d (digit), \w (word character), \s (whitespace), . (any character), * (0 or more), + (1 or more), ? (0 or 1), {n} (exactly n), {n,m} (between n and m), ^ (start), $ (end), [abc] (character set), (group) (capture group).</p>
+            <p><strong>Flags:</strong> g (global - find all matches), i (case-insensitive), m (multiline - ^ and $ match line breaks), s (dotAll - . matches newlines).</p>
+            <p><strong>Use Cases:</strong> Form validation, data extraction, text parsing, search and replace, input sanitization, log analysis, URL routing, email validation, phone number formatting.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        function updateFlags() {
+            let flags = '';
+            if (document.getElementById('flagG').checked) flags += 'g';
+            if (document.getElementById('flagI').checked) flags += 'i';
+            if (document.getElementById('flagM').checked) flags += 'm';
+            if (document.getElementById('flagS').checked) flags += 's';
+            document.getElementById('regexFlags').value = flags;
+            testRegex();
+        }
+
+        function testRegex() {
+            const pattern = document.getElementById('regexPattern').value;
+            const flags = document.getElementById('regexFlags').value;
+            const testStr = document.getElementById('testString').value;
+            
+            if (!pattern) {
+                document.getElementById('statsBar').style.display = 'none';
+                document.getElementById('highlightOutput').style.display = 'none';
+                document.getElementById('matchDetails').style.display = 'none';
+                return;
+            }
+            
+            try {
+                const regex = new RegExp(pattern, flags);
+                const matches = [...testStr.matchAll(new RegExp(pattern, flags.includes('g') ? flags : flags + 'g'))];
+                
+                // Update stats
+                document.getElementById('matchCount').textContent = matches.length;
+                document.getElementById('groupCount').textContent = matches.length > 0 ? matches[0].length - 1 : 0;
+                document.getElementById('validStatus').innerHTML = '<span style="color: var(--secondary);">✓ Valid Pattern</span>';
+                document.getElementById('statsBar').style.display = 'flex';
+                
+                if (testStr && matches.length > 0) {
+                    // Highlight matches
+                    highlightMatches(testStr, matches);
+                    
+                    // Show match details
+                    showMatchDetails(matches);
+                    
+                    document.getElementById('highlightOutput').style.display = 'block';
+                    document.getElementById('matchDetails').style.display = 'block';
+                } else if (testStr) {
+                    document.getElementById('highlightedText').textContent = testStr;
+                    document.getElementById('highlightOutput').style.display = 'block';
+                    document.getElementById('matchDetails').style.display = 'none';
+                } else {
+                    document.getElementById('highlightOutput').style.display = 'none';
+                    document.getElementById('matchDetails').style.display = 'none';
+                }
+                
+            } catch (e) {
+                document.getElementById('validStatus').innerHTML = '<span style="color: var(--danger);">✗ Invalid Pattern</span>';
+                document.getElementById('matchCount').textContent = '0';
+                document.getElementById('groupCount').textContent = '0';
+                document.getElementById('statsBar').style.display = 'flex';
+                document.getElementById('highlightOutput').style.display = 'none';
+                document.getElementById('matchDetails').style.display = 'none';
+            }
+        }
+
+        function highlightMatches(text, matches) {
+            const highlighted = document.getElementById('highlightedText');
+            let result = '';
+            let lastIndex = 0;
+            
+            matches.forEach(match => {
+                const matchStart = match.index;
+                const matchEnd = matchStart + match[0].length;
+                
+                // Add text before match
+                result += escapeHtml(text.substring(lastIndex, matchStart));
+                
+                // Add highlighted match
+                result += `<span style="background: rgba(249, 115, 22, 0.3); color: var(--primary); font-weight: bold; padding: 2px 4px; border-radius: 3px;">${escapeHtml(match[0])}</span>`;
+                
+                lastIndex = matchEnd;
+            });
+            
+            // Add remaining text
+            result += escapeHtml(text.substring(lastIndex));
+            
+            highlighted.innerHTML = result;
+        }
+
+        function showMatchDetails(matches) {
+            const list = document.getElementById('matchList');
+            let html = '';
+            
+            matches.forEach((match, i) => {
+                html += `<div style="margin-bottom: 15px; padding: 12px; background: var(--light); border-radius: 6px; border-left: 3px solid var(--primary);">`;
+                html += `<div style="color: var(--primary); font-weight: bold; margin-bottom: 8px;">Match ${i + 1} (index ${match.index})</div>`;
+                html += `<div style="margin-bottom: 6px;"><span style="color: var(--gray);">Full match:</span> <code style="background: var(--input-bg); padding: 2px 6px; border-radius: 3px; color: var(--white);">${escapeHtml(match[0])}</code></div>`;
+                
+                if (match.length > 1) {
+                    html += `<div style="color: var(--gray); margin-top: 8px; margin-bottom: 4px;">Capture Groups:</div>`;
+                    for (let j = 1; j < match.length; j++) {
+                        html += `<div style="margin-left: 15px; margin-bottom: 4px;"><span style="color: var(--gray);">Group ${j}:</span> <code style="background: var(--input-bg); padding: 2px 6px; border-radius: 3px; color: var(--secondary);">${escapeHtml(match[j] || '(empty)')}</code></div>`;
+                    }
+                }
+                
+                html += `</div>`;
+            });
+            
+            list.innerHTML = html;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show' + (isError ? ' error' : '');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>

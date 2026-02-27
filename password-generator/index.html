@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Password Generator Browser Only - No Server Upload | ToolKit Pro</title>
+    <meta name="description" content="Generate secure passwords in browser only. Client-side password generator with no server upload. Cryptographically secure random passwords. Privacy-focused, works offline.">
+    <meta name="keywords" content="secure password generator browser only, password generator no server, client side password generator, generate password locally, offline password generator, browser based password tool, password generator privacy focused, cryptographically secure password">
+    <link rel="canonical" href="https://yourdomain.com/password-generator">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/tool-specific.css">
+    <style>
+        .output-content {
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+            margin: 20px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>🔑 Secure Password Generator</h1>
+        <p class="subtitle">Create strong, random passwords to protect your accounts. Fully customizable and secure.</p>
+
+        <div class="workspace">
+            <div class="options-grid">
+                <div class="option-item">
+                    <label for="passLength">Password Length: <strong id="lenVal">16</strong></label>
+                    <input type="range" id="passLength" min="8" max="64" value="16" oninput="document.getElementById('lenVal').textContent=this.value">
+                </div>
+                <div class="option-item">
+                    <input type="checkbox" id="useUpper" checked>
+                    <label for="useUpper">Uppercase Letters (ABC)</label>
+                </div>
+                <div class="option-item">
+                    <input type="checkbox" id="useLower" checked>
+                    <label for="useLower">Lowercase Letters (abc)</label>
+                </div>
+                <div class="option-item">
+                    <input type="checkbox" id="useNumbers" checked>
+                    <label for="useNumbers">Numbers (123)</label>
+                </div>
+                <div class="option-item">
+                    <input type="checkbox" id="useSymbols" checked>
+                    <label for="useSymbols">Symbols (!@#$)</label>
+                </div>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="generatePassword()">Generate Password</button>
+                <button class="btn btn-success" onclick="copyPassword()">Copy Password</button>
+            </div>
+            
+            <div class="output-container" id="outputContainer">
+                <div class="output-content" id="outputText"></div>
+                <div class="strength-indicator" id="strengthIndicator"></div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Secure Password Generator - Browser Only, No Server Upload</h2>
+            <p>Generate cryptographically secure passwords entirely in your browser. This client-side password generator uses the Web Crypto API to create truly random passwords without sending any data to servers.</p>
+            <p><strong>Why browser-based password generation?</strong> Your passwords are generated locally using cryptographically secure random number generation. No server sees your passwords, no logging, no tracking. Works offline for maximum privacy.</p>
+            <p><strong>Best Practices:</strong> Use passwords at least 16 characters long, include all character types (uppercase, lowercase, numbers, symbols), never reuse passwords across sites, and store them in a password manager.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        function generatePassword() {
+            const length = parseInt(document.getElementById('passLength').value);
+            const useUpper = document.getElementById('useUpper').checked;
+            const useLower = document.getElementById('useLower').checked;
+            const useNumbers = document.getElementById('useNumbers').checked;
+            const useSymbols = document.getElementById('useSymbols').checked;
+            
+            let charset = '';
+            if (useLower) charset += 'abcdefghijklmnopqrstuvwxyz';
+            if (useUpper) charset += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            if (useNumbers) charset += '0123456789';
+            if (useSymbols) charset += '!@#$%^&*()_+-=[]{}|;:,.<>?';
+            
+            if (!charset) return showToast('Select at least one character type');
+            
+            let password = '';
+            const array = new Uint32Array(length);
+            crypto.getRandomValues(array);
+            
+            for (let i = 0; i < length; i++) {
+                password += charset[array[i] % charset.length];
+            }
+            
+            document.getElementById('outputText').textContent = password;
+            document.getElementById('outputContainer').classList.add('show');
+            
+            // Strength calculation
+            let strength = 0;
+            if (length >= 12) strength++;
+            if (length >= 16) strength++;
+            if (useUpper && useLower) strength++;
+            if (useNumbers) strength++;
+            if (useSymbols) strength++;
+            
+            const labels = ['Very Weak', 'Weak', 'Fair', 'Good', 'Strong', 'Very Strong'];
+            const colors = ['#f56565', '#f56565', '#ed8936', '#ecc94b', '#48bb78', '#38a169'];
+            
+            const indicator = document.getElementById('strengthIndicator');
+            indicator.textContent = 'Strength: ' + labels[strength];
+            indicator.style.color = colors[strength];
+            
+            showToast('Password generated!');
+        }
+
+        function copyPassword() {
+            const text = document.getElementById('outputText')?.textContent;
+            if (!text) return showToast('Generate a password first');
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Password copied to clipboard!');
+            });
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>

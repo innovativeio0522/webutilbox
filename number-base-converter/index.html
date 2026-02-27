@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Base Converter - Binary Decimal Hex Converter | ToolKit Pro</title>
+    <meta name="description" content="Convert numbers between binary, decimal, hexadecimal, and octal. Free number base converter for programmers and students.">
+    <meta name="keywords" content="binary to decimal, hex to decimal, number base converter, binary converter online">
+    <link rel="canonical" href="https://yourdomain.com/number-base-converter">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/tool-specific.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>🔟 Number Base Converter</h1>
+        <p class="subtitle">Convert numbers between binary, decimal, hexadecimal, and octal bases.</p>
+
+        <div class="workspace">
+            <!-- Input -->
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 0.9rem; margin-bottom: 8px; display: block;">Enter Number</label>
+                <input type="text" id="inputNumber" placeholder="Enter a number..." oninput="convertAll()" style="width: 100%; padding: 12px; font-size: 1.1rem; font-family: 'Courier New', monospace;">
+                <select id="inputBase" onchange="convertAll()" style="width: 100%; padding: 10px; font-size: 0.9rem; margin-top: 8px;">
+                    <option value="10">Decimal (Base 10)</option>
+                    <option value="2">Binary (Base 2)</option>
+                    <option value="16">Hexadecimal (Base 16)</option>
+                    <option value="8">Octal (Base 8)</option>
+                </select>
+            </div>
+
+            <!-- Binary -->
+            <div class="output-container show" style="margin-bottom: 12px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <div class="output-label">Binary (Base 2)</div>
+                    <button class="btn btn-success" onclick="copy('binary')" style="padding: 4px 12px; font-size: 0.8rem;">Copy</button>
+                </div>
+                <div id="binary" style="font-family: 'Courier New', monospace; font-size: 1rem; color: var(--white); word-break: break-all;">-</div>
+            </div>
+
+            <!-- Octal -->
+            <div class="output-container show" style="margin-bottom: 12px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <div class="output-label">Octal (Base 8)</div>
+                    <button class="btn btn-success" onclick="copy('octal')" style="padding: 4px 12px; font-size: 0.8rem;">Copy</button>
+                </div>
+                <div id="octal" style="font-family: 'Courier New', monospace; font-size: 1rem; color: var(--white);">-</div>
+            </div>
+
+            <!-- Decimal -->
+            <div class="output-container show" style="margin-bottom: 12px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <div class="output-label">Decimal (Base 10)</div>
+                    <button class="btn btn-success" onclick="copy('decimal')" style="padding: 4px 12px; font-size: 0.8rem;">Copy</button>
+                </div>
+                <div id="decimal" style="font-family: 'Courier New', monospace; font-size: 1rem; color: var(--white);">-</div>
+            </div>
+
+            <!-- Hexadecimal -->
+            <div class="output-container show">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <div class="output-label">Hexadecimal (Base 16)</div>
+                    <button class="btn btn-success" onclick="copy('hex')" style="padding: 4px 12px; font-size: 0.8rem;">Copy</button>
+                </div>
+                <div id="hex" style="font-family: 'Courier New', monospace; font-size: 1rem; color: var(--white);">-</div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Number Base Converter - Binary, Decimal, Hex, Octal</h2>
+            <p>Convert numbers between different bases: binary (base 2), octal (base 8), decimal (base 10), and hexadecimal (base 16). Essential tool for programmers and computer science students.</p>
+            <p><strong>Number Systems:</strong> Binary uses 0-1, Octal uses 0-7, Decimal uses 0-9, Hexadecimal uses 0-9 and A-F.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        function convertAll() {
+            const input = document.getElementById('inputNumber').value.trim();
+            const base = parseInt(document.getElementById('inputBase').value);
+            
+            if (!input) {
+                clearAll();
+                return;
+            }
+            
+            try {
+                const decimal = parseInt(input, base);
+                
+                if (isNaN(decimal)) {
+                    clearAll();
+                    return;
+                }
+                
+                document.getElementById('binary').textContent = decimal.toString(2);
+                document.getElementById('octal').textContent = decimal.toString(8);
+                document.getElementById('decimal').textContent = decimal.toString(10);
+                document.getElementById('hex').textContent = decimal.toString(16).toUpperCase();
+            } catch (e) {
+                clearAll();
+            }
+        }
+
+        function clearAll() {
+            document.getElementById('binary').textContent = '-';
+            document.getElementById('octal').textContent = '-';
+            document.getElementById('decimal').textContent = '-';
+            document.getElementById('hex').textContent = '-';
+        }
+
+        function copy(type) {
+            const text = document.getElementById(type).textContent;
+            if (text === '-') return;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                showToast(`${type.toUpperCase()} copied!`);
+            });
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show';
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>

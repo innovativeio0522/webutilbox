@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lorem Ipsum Generator - Placeholder Text Generator Online | ToolKit Pro</title>
+    <meta name="description" content="Generate Lorem Ipsum placeholder text instantly. Create paragraphs, words, or sentences for mockups and designs. Free Lorem Ipsum generator in browser.">
+    <meta name="keywords" content="lorem ipsum generator, placeholder text generator, dummy text generator, lorem ipsum online, fake text generator, lipsum generator instant">
+    <link rel="canonical" href="https://yourdomain.com/lorem-ipsum">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/tool-specific.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>📄 Lorem Ipsum Generator</h1>
+        <p class="subtitle">Generate placeholder text for your designs and mockups. Choose paragraphs, words, or sentences.</p>
+
+        <div class="workspace">
+            <div style="display: grid; grid-template-columns: 240px 1fr; gap: 12px; align-items: start;">
+                <!-- Left: Options -->
+                <div>
+                    <div style="display: grid; gap: 6px; margin-bottom: 8px;">
+                        <div style="background: var(--light); padding: 6px 8px; border-radius: 6px; border: 1px solid var(--border);">
+                            <label style="font-size: 0.8rem; margin-bottom: 3px; display: block;">Generate:</label>
+                            <select id="generateType" onchange="updatePlaceholder()" style="width: 100%; padding: 4px; font-size: 0.85rem;">
+                                <option value="paragraphs">Paragraphs</option>
+                                <option value="words">Words</option>
+                                <option value="sentences">Sentences</option>
+                            </select>
+                        </div>
+                        <div style="background: var(--light); padding: 6px 8px; border-radius: 6px; border: 1px solid var(--border);">
+                            <label style="font-size: 0.8rem; margin-bottom: 3px; display: block;">Amount:</label>
+                            <input type="number" id="amount" value="5" min="1" max="100" style="width: 100%; padding: 4px; font-size: 0.85rem;">
+                        </div>
+                        <div style="background: var(--light); padding: 5px 8px; border-radius: 6px; border: 1px solid var(--border); display: flex; align-items: center; gap: 6px;">
+                            <input type="checkbox" id="startWithLorem" checked>
+                            <label for="startWithLorem" style="font-size: 0.8rem; margin: 0; cursor: pointer;">Start with "Lorem ipsum"</label>
+                        </div>
+                    </div>
+
+                    <div style="background: var(--light); padding: 6px 8px; border-radius: 6px; border: 1px solid var(--border); margin-bottom: 8px;">
+                        <h4 style="color: var(--primary); margin-bottom: 5px; font-size: 0.8rem;">Text Style:</h4>
+                        <div style="display: grid; gap: 2px;">
+                            <label style="display: flex; align-items: center; gap: 5px; cursor: pointer; padding: 2px; border-radius: 3px; font-size: 0.8rem;" onmouseover="this.style.background='var(--border)'" onmouseout="this.style.background='transparent'">
+                                <input type="radio" name="textType" value="classic" checked style="margin: 0;">
+                                <span>Classic Lorem</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 5px; cursor: pointer; padding: 2px; border-radius: 3px; font-size: 0.8rem;" onmouseover="this.style.background='var(--border)'" onmouseout="this.style.background='transparent'">
+                                <input type="radio" name="textType" value="cicero" style="margin: 0;">
+                                <span>Cicero (Latin)</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 5px; cursor: pointer; padding: 2px; border-radius: 3px; font-size: 0.8rem;" onmouseover="this.style.background='var(--border)'" onmouseout="this.style.background='transparent'">
+                                <input type="radio" name="textType" value="kafka" style="margin: 0;">
+                                <span>Kafka Ipsum</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 5px; cursor: pointer; padding: 2px; border-radius: 3px; font-size: 0.8rem;" onmouseover="this.style.background='var(--border)'" onmouseout="this.style.background='transparent'">
+                                <input type="radio" name="textType" value="bacon" style="margin: 0;">
+                                <span>Bacon Ipsum</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 5px; cursor: pointer; padding: 2px; border-radius: 3px; font-size: 0.8rem;" onmouseover="this.style.background='var(--border)'" onmouseout="this.style.background='transparent'">
+                                <input type="radio" name="textType" value="hipster" style="margin: 0;">
+                                <span>Hipster Ipsum</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 5px; cursor: pointer; padding: 2px; border-radius: 3px; font-size: 0.8rem;" onmouseover="this.style.background='var(--border)'" onmouseout="this.style.background='transparent'">
+                                <input type="radio" name="textType" value="corporate" style="margin: 0;">
+                                <span>Corporate Ipsum</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div style="display: grid; gap: 4px;">
+                        <button class="btn btn-primary" onclick="generateText()" style="width: 100%; padding: 8px; font-size: 0.85rem;">Generate</button>
+                        <button class="btn btn-success" onclick="copyOutput()" style="width: 100%; padding: 6px; font-size: 0.8rem;">Copy</button>
+                        <button class="btn btn-secondary" onclick="clearOutput()" style="width: 100%; padding: 6px; font-size: 0.8rem;">Clear</button>
+                    </div>
+                </div>
+
+                <!-- Right: Output -->
+                <div class="output-container show" style="min-height: 300px; max-height: 450px; overflow-y: auto;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; position: sticky; top: 0; background: var(--light); padding-bottom: 8px;">
+                        <div class="output-label" style="margin: 0; font-size: 0.85rem;">Generated Text <span id="wordCount" style="color: var(--gray); font-weight: normal; font-size: 0.8rem;"></span></div>
+                    </div>
+                    <div class="output-content" id="outputText" style="white-space: pre-wrap; color: var(--gray); font-size: 0.9rem; line-height: 1.5;">Click "Generate" to create placeholder text...</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Lorem Ipsum Generator - Create Placeholder Text Instantly</h2>
+            <p>Generate Lorem Ipsum placeholder text for your designs, mockups, and prototypes. This free Lorem Ipsum generator creates realistic dummy text in various styles including classic Lorem Ipsum, Cicero's original Latin text, and fun alternatives like Bacon Ipsum and Hipster Ipsum.</p>
+            <p><strong>What is Lorem Ipsum?</strong> Lorem Ipsum is dummy text used in the printing and typesetting industry since the 1500s. It's derived from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" by Cicero, written in 45 BC.</p>
+            <p><strong>Use Cases:</strong> Website mockups, graphic design layouts, typography testing, content placeholders, print design, app prototypes, presentation slides, template creation.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        const textLibrary = {
+            classic: {
+                start: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                words: "lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum".split(' ')
+            },
+            cicero: {
+                start: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.",
+                words: "sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium totam rem aperiam eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt".split(' ')
+            },
+            kafka: {
+                start: "One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a horrible vermin.",
+                words: "one morning when gregor samsa woke from troubled dreams he found himself transformed in his bed into a horrible vermin lay on his armour-like back and if lifted head slightly could see brown belly slightly domed divided by arches into stiff sections bedding was hardly able to cover it seemed ready slide off any moment".split(' ')
+            },
+            bacon: {
+                start: "Bacon ipsum dolor amet ribeye strip steak pork chop, beef ribs chicken turkey ham hock.",
+                words: "bacon ipsum dolor amet ribeye strip steak pork chop beef ribs chicken turkey ham hock brisket meatball kielbasa short loin picanha pork belly pastrami jerky sausage salami shank prosciutto pancetta drumstick sirloin tri-tip flank chuck tenderloin bresaola venison capicola spare ribs ground round tail fatback".split(' ')
+            },
+            hipster: {
+                start: "Artisan cold-pressed kombucha, sustainable organic farm-to-table craft beer vegan gluten-free.",
+                words: "artisan cold-pressed kombucha sustainable organic farm-to-table craft beer vegan gluten-free kale chips quinoa sriracha brooklyn fixie beard mustache vinyl typewriter messenger bag bicycle rights pour-over single-origin coffee aesthetic chambray flannel letterpress gastropub food truck locavore meditation yoga authentic ethical".split(' ')
+            },
+            corporate: {
+                start: "Synergize strategic initiatives to leverage core competencies and drive actionable insights.",
+                words: "synergize strategic initiatives leverage core competencies drive actionable insights optimize deliverables streamline workflows maximize ROI paradigm shift best practices value proposition scalable solutions innovative thinking disruptive technology thought leadership stakeholder engagement bandwidth utilization circle back touch base low-hanging fruit move needle game-changer".split(' ')
+            }
+        };
+
+        function updatePlaceholder() {
+            const type = document.getElementById('generateType').value;
+            const amountInput = document.getElementById('amount');
+            
+            if (type === 'paragraphs') {
+                amountInput.max = 50;
+                amountInput.value = Math.min(amountInput.value, 50);
+            } else if (type === 'words') {
+                amountInput.max = 1000;
+            } else {
+                amountInput.max = 100;
+            }
+        }
+
+        function generateText() {
+            const type = document.getElementById('generateType').value;
+            const amount = parseInt(document.getElementById('amount').value) || 5;
+            const startWithLorem = document.getElementById('startWithLorem').checked;
+            const textType = document.querySelector('input[name="textType"]:checked').value;
+            
+            const library = textLibrary[textType];
+            let result = [];
+            
+            if (type === 'paragraphs') {
+                for (let i = 0; i < amount; i++) {
+                    let paragraph = [];
+                    const sentenceCount = 3 + Math.floor(Math.random() * 5);
+                    
+                    for (let j = 0; j < sentenceCount; j++) {
+                        const wordCount = 8 + Math.floor(Math.random() * 12);
+                        let sentence = [];
+                        
+                        if (i === 0 && j === 0 && startWithLorem) {
+                            sentence.push(library.start);
+                        } else {
+                            for (let k = 0; k < wordCount; k++) {
+                                sentence.push(library.words[Math.floor(Math.random() * library.words.length)]);
+                            }
+                            sentence = sentence.join(' ');
+                            sentence = sentence.charAt(0).toUpperCase() + sentence.slice(1) + '.';
+                        }
+                        
+                        paragraph.push(sentence);
+                    }
+                    result.push(paragraph.join(' '));
+                }
+                result = result.join('\n\n');
+                
+            } else if (type === 'words') {
+                if (startWithLorem) {
+                    result.push(library.start.split(' ').slice(0, Math.min(amount, library.start.split(' ').length)).join(' '));
+                    const remaining = amount - library.start.split(' ').length;
+                    if (remaining > 0) {
+                        for (let i = 0; i < remaining; i++) {
+                            result.push(library.words[Math.floor(Math.random() * library.words.length)]);
+                        }
+                    }
+                } else {
+                    for (let i = 0; i < amount; i++) {
+                        result.push(library.words[Math.floor(Math.random() * library.words.length)]);
+                    }
+                }
+                result = result.join(' ');
+                
+            } else { // sentences
+                for (let i = 0; i < amount; i++) {
+                    if (i === 0 && startWithLorem) {
+                        result.push(library.start);
+                    } else {
+                        const wordCount = 8 + Math.floor(Math.random() * 12);
+                        let sentence = [];
+                        for (let j = 0; j < wordCount; j++) {
+                            sentence.push(library.words[Math.floor(Math.random() * library.words.length)]);
+                        }
+                        sentence = sentence.join(' ');
+                        sentence = sentence.charAt(0).toUpperCase() + sentence.slice(1) + '.';
+                        result.push(sentence);
+                    }
+                }
+                result = result.join(' ');
+            }
+            
+            showOutput(result);
+            
+            // Update word count
+            const wordCount = result.trim().split(/\s+/).length;
+            document.getElementById('wordCount').textContent = `(${wordCount} words)`;
+            
+            showToast('Text generated!');
+        }
+
+        function showOutput(text) {
+            const content = document.getElementById('outputText');
+            content.textContent = text;
+            content.style.color = 'var(--white)';
+        }
+
+        function copyOutput() {
+            const text = document.getElementById('outputText')?.textContent;
+            if (!text || text === 'Click "Generate Text" to create placeholder text...') {
+                return showToast('Generate text first', true);
+            }
+            
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Text copied to clipboard!');
+            });
+        }
+
+        function clearOutput() {
+            const content = document.getElementById('outputText');
+            content.textContent = 'Click "Generate Text" to create placeholder text...';
+            content.style.color = 'var(--gray)';
+            document.getElementById('wordCount').textContent = '';
+            showToast('Cleared');
+        }
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show' + (isError ? ' error' : '');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // Initialize
+        updatePlaceholder();
+    </script>
+</body>
+</html>

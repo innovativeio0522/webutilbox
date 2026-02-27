@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator - Calculate Your Exact Age Online | ToolKit Pro</title>
+    <meta name="description" content="Calculate your exact age in years, months, days, hours, and minutes. Free age calculator from birthdate. Find out how old you are instantly.">
+    <meta name="keywords" content="age calculator, calculate age from birthdate, how old am i, age calculator online">
+    <link rel="canonical" href="https://yourdomain.com/age-calculator">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/tool-specific.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>🎂 Age Calculator</h1>
+        <p class="subtitle">Calculate your exact age from your birthdate. Get age in years, months, days, and more.</p>
+
+        <div class="workspace">
+            <!-- Date Inputs -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px;">
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Date of Birth</label>
+                    <input type="date" id="birthDate" oninput="calculateAge()" style="width: 100%; padding: 10px; font-size: 0.9rem;">
+                </div>
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Calculate Age On</label>
+                    <input type="date" id="currentDate" oninput="calculateAge()" style="width: 100%; padding: 10px; font-size: 0.9rem;">
+                </div>
+            </div>
+
+            <!-- Main Age Display -->
+            <div id="mainAge" style="display: none; margin-bottom: 15px; padding: 15px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); border-radius: 10px; text-align: center;">
+                <div style="font-size: 0.8rem; color: rgba(255,255,255,0.8); margin-bottom: 3px;">Your Age</div>
+                <div style="font-size: 2rem; font-weight: bold; color: white;" id="ageYears">0</div>
+                <div style="font-size: 0.9rem; color: rgba(255,255,255,0.9);" id="ageDetails">0 months, 0 days</div>
+            </div>
+
+            <!-- Detailed Breakdown -->
+            <div id="breakdown" style="display: none;">
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 12px;">
+                    <div style="background: var(--light); padding: 12px 8px; border-radius: 8px; text-align: center; border: 1px solid var(--border);">
+                        <div style="font-size: 1.4rem; font-weight: bold; color: var(--primary);" id="totalMonths">0</div>
+                        <div style="font-size: 0.75rem; color: var(--gray);">Months</div>
+                    </div>
+                    <div style="background: var(--light); padding: 12px 8px; border-radius: 8px; text-align: center; border: 1px solid var(--border);">
+                        <div style="font-size: 1.4rem; font-weight: bold; color: var(--primary);" id="totalWeeks">0</div>
+                        <div style="font-size: 0.75rem; color: var(--gray);">Weeks</div>
+                    </div>
+                    <div style="background: var(--light); padding: 12px 8px; border-radius: 8px; text-align: center; border: 1px solid var(--border);">
+                        <div style="font-size: 1.4rem; font-weight: bold; color: var(--primary);" id="totalDays">0</div>
+                        <div style="font-size: 0.75rem; color: var(--gray);">Days</div>
+                    </div>
+                    <div style="background: var(--light); padding: 12px 8px; border-radius: 8px; text-align: center; border: 1px solid var(--border);">
+                        <div style="font-size: 1.4rem; font-weight: bold; color: var(--primary);" id="totalHours">0</div>
+                        <div style="font-size: 0.75rem; color: var(--gray);">Hours</div>
+                    </div>
+                </div>
+
+                <!-- Next Birthday -->
+                <div class="output-container show">
+                    <div class="output-label">Next Birthday</div>
+                    <div style="display: grid; gap: 6px; font-size: 0.85rem;">
+                        <div>📅 <span id="nextBirthday" style="color: var(--primary); font-weight: 600;">-</span></div>
+                        <div>⏳ <span id="daysUntil" style="color: var(--primary); font-weight: 600;">-</span> days</div>
+                        <div>🎉 <span id="dayOfWeek" style="color: var(--primary); font-weight: 600;">-</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Age Calculator - Calculate Your Exact Age</h2>
+            <p>Calculate your exact age from your date of birth. This free age calculator shows your age in years, months, days, weeks, hours, and minutes. Find out when your next birthday is and how many days until then.</p>
+            <p><strong>How to Use:</strong> Enter your date of birth and the calculator will instantly show your current age. You can also calculate your age on any specific date by changing the "Calculate Age On" field.</p>
+            <p><strong>Use Cases:</strong> Age verification, birthday planning, milestone tracking, age difference calculation, retirement planning, legal age requirements.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        // Set current date as default
+        document.getElementById('currentDate').valueAsDate = new Date();
+
+        function calculateAge() {
+            const birthDate = new Date(document.getElementById('birthDate').value);
+            const currentDate = new Date(document.getElementById('currentDate').value);
+
+            if (!document.getElementById('birthDate').value || !document.getElementById('currentDate').value) {
+                hideResults();
+                return;
+            }
+
+            if (birthDate > currentDate) {
+                showToast('Birth date cannot be in the future', true);
+                hideResults();
+                return;
+            }
+
+            // Calculate age
+            let years = currentDate.getFullYear() - birthDate.getFullYear();
+            let months = currentDate.getMonth() - birthDate.getMonth();
+            let days = currentDate.getDate() - birthDate.getDate();
+
+            if (days < 0) {
+                months--;
+                const prevMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0);
+                days += prevMonth.getDate();
+            }
+
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+
+            // Calculate totals
+            const totalDays = Math.floor((currentDate - birthDate) / (1000 * 60 * 60 * 24));
+            const totalWeeks = Math.floor(totalDays / 7);
+            const totalMonths = years * 12 + months;
+            const totalHours = totalDays * 24;
+
+            // Display main age
+            document.getElementById('ageYears').textContent = `${years} ${years === 1 ? 'Year' : 'Years'}`;
+            document.getElementById('ageDetails').textContent = `${months} ${months === 1 ? 'month' : 'months'}, ${days} ${days === 1 ? 'day' : 'days'}`;
+
+            // Display totals
+            document.getElementById('totalMonths').textContent = totalMonths.toLocaleString();
+            document.getElementById('totalWeeks').textContent = totalWeeks.toLocaleString();
+            document.getElementById('totalDays').textContent = totalDays.toLocaleString();
+            document.getElementById('totalHours').textContent = totalHours.toLocaleString();
+
+            // Calculate next birthday
+            let nextBirthday = new Date(currentDate.getFullYear(), birthDate.getMonth(), birthDate.getDate());
+            if (nextBirthday < currentDate) {
+                nextBirthday.setFullYear(currentDate.getFullYear() + 1);
+            }
+
+            const daysUntilBirthday = Math.ceil((nextBirthday - currentDate) / (1000 * 60 * 60 * 24));
+            const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+            document.getElementById('nextBirthday').textContent = nextBirthday.toLocaleDateString();
+            document.getElementById('daysUntil').textContent = `${daysUntilBirthday} days`;
+            document.getElementById('dayOfWeek').textContent = dayNames[nextBirthday.getDay()];
+
+            // Show results
+            document.getElementById('mainAge').style.display = 'block';
+            document.getElementById('breakdown').style.display = 'block';
+        }
+
+        function hideResults() {
+            document.getElementById('mainAge').style.display = 'none';
+            document.getElementById('breakdown').style.display = 'none';
+        }
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show' + (isError ? ' error' : '');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>

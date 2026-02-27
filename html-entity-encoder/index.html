@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Entity Encoder - Encode Special Characters Online | ToolKit Pro</title>
+    <meta name="description" content="Encode and decode HTML entities instantly. Convert special characters to HTML entities for safe display. Free HTML entity encoder and decoder tool.">
+    <meta name="keywords" content="html entity encoder, html entity decoder, encode html special characters, html escape online">
+    <link rel="canonical" href="https://yourdomain.com/html-entity-encoder">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/tool-specific.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>🌐 HTML Entity Encoder</h1>
+        <p class="subtitle">Encode special characters to HTML entities or decode HTML entities back to text. Prevent XSS and display special characters safely.</p>
+
+        <div class="workspace">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <!-- Left: Plain Text -->
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <label style="font-size: 0.9rem; margin: 0;">Plain Text</label>
+                        <button class="btn btn-primary" onclick="encodeText()" style="padding: 6px 16px; font-size: 0.85rem;">Encode →</button>
+                    </div>
+                    <textarea id="plainText" placeholder="Enter text with special characters..." oninput="autoEncode()" style="min-height: 250px; font-size: 0.9rem;"></textarea>
+                    <div style="display: flex; gap: 8px; margin-top: 10px;">
+                        <button class="btn btn-success" onclick="copyPlain()" style="flex: 1; padding: 8px; font-size: 0.85rem;">Copy</button>
+                        <button class="btn btn-secondary" onclick="clearPlain()" style="flex: 1; padding: 8px; font-size: 0.85rem;">Clear</button>
+                    </div>
+                </div>
+                
+                <!-- Right: HTML Entities -->
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <label style="font-size: 0.9rem; margin: 0;">HTML Entities</label>
+                        <button class="btn btn-primary" onclick="decodeText()" style="padding: 6px 16px; font-size: 0.85rem;">← Decode</button>
+                    </div>
+                    <textarea id="encodedText" placeholder="Enter HTML entities..." oninput="autoDecode()" style="min-height: 250px; font-size: 0.9rem; font-family: 'Courier New', monospace;"></textarea>
+                    <div style="display: flex; gap: 8px; margin-top: 10px;">
+                        <button class="btn btn-success" onclick="copyEncoded()" style="flex: 1; padding: 8px; font-size: 0.85rem;">Copy</button>
+                        <button class="btn btn-secondary" onclick="clearEncoded()" style="flex: 1; padding: 8px; font-size: 0.85rem;">Clear</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 15px; margin-top: 15px; padding: 12px; background: var(--light); border-radius: 8px; border: 1px solid var(--border); flex-wrap: wrap;">
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; margin: 0;">
+                    <input type="checkbox" id="autoMode" checked>
+                    <span style="font-size: 0.9rem;">Auto-convert</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; margin: 0;">
+                    <input type="checkbox" id="encodeAll">
+                    <span style="font-size: 0.9rem;">Encode all characters</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; margin: 0;">
+                    <input type="checkbox" id="useNumeric">
+                    <span style="font-size: 0.9rem;">Use numeric entities (&#38;#38;)</span>
+                </label>
+            </div>
+
+            <div class="stats-bar" id="statsBar" style="display: none; margin-top: 15px;">
+                <div class="stat">📝 Original: <span class="stat-value" id="originalChars">0</span> chars</div>
+                <div class="stat">🔢 Encoded: <span class="stat-value" id="encodedChars">0</span> chars</div>
+                <div class="stat">🔄 Entities: <span class="stat-value" id="entityCount">0</span></div>
+            </div>
+
+            <!-- Common Entities Reference -->
+            <div class="output-container show" style="margin-top: 15px;">
+                <div class="output-label">Common HTML Entities Reference</div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; font-size: 0.85rem;">
+                    <div style="padding: 8px; background: var(--light); border-radius: 6px;">
+                        <code>&lt;</code> → <code>&amp;lt;</code> or <code>&amp;#60;</code>
+                    </div>
+                    <div style="padding: 8px; background: var(--light); border-radius: 6px;">
+                        <code>&gt;</code> → <code>&amp;gt;</code> or <code>&amp;#62;</code>
+                    </div>
+                    <div style="padding: 8px; background: var(--light); border-radius: 6px;">
+                        <code>&amp;</code> → <code>&amp;amp;</code> or <code>&amp;#38;</code>
+                    </div>
+                    <div style="padding: 8px; background: var(--light); border-radius: 6px;">
+                        <code>"</code> → <code>&amp;quot;</code> or <code>&amp;#34;</code>
+                    </div>
+                    <div style="padding: 8px; background: var(--light); border-radius: 6px;">
+                        <code>'</code> → <code>&amp;apos;</code> or <code>&amp;#39;</code>
+                    </div>
+                    <div style="padding: 8px; background: var(--light); border-radius: 6px;">
+                        <code>©</code> → <code>&amp;copy;</code> or <code>&amp;#169;</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>HTML Entity Encoder - Encode Special Characters Safely</h2>
+            <p>This free HTML entity encoder converts special characters to HTML entities to prevent XSS attacks and display reserved characters safely in HTML. HTML entities are text representations of special characters that browsers interpret correctly.</p>
+            <p><strong>What are HTML Entities?</strong> HTML entities are codes that represent special characters. They start with & and end with ;. For example, &lt; represents < and &amp; represents &. They can be named (&lt;) or numeric (&#60;).</p>
+            <p><strong>Why Use HTML Entities?</strong> To display reserved HTML characters (<, >, &, ", '), prevent XSS attacks, display special symbols (©, ®, €), ensure proper character rendering, and safely embed user-generated content.</p>
+            <p><strong>Use Cases:</strong> XSS prevention, displaying code snippets, user-generated content, special character display, email templates, XML/HTML documents, form validation, content sanitization.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        let isEncoding = false;
+        let isDecoding = false;
+
+        const htmlEntities = {
+            '<': '&lt;',
+            '>': '&gt;',
+            '&': '&amp;',
+            '"': '&quot;',
+            "'": '&apos;',
+            '©': '&copy;',
+            '®': '&reg;',
+            '™': '&trade;',
+            '€': '&euro;',
+            '£': '&pound;',
+            '¥': '&yen;',
+            '¢': '&cent;',
+            '§': '&sect;',
+            '¶': '&para;',
+            '•': '&bull;',
+            '…': '&hellip;',
+            '–': '&ndash;',
+            '—': '&mdash;',
+            ' ': '&nbsp;'
+        };
+
+        function encodeText() {
+            const plain = document.getElementById('plainText').value;
+            
+            if (!plain) {
+                showToast('Enter text to encode', true);
+                return;
+            }
+            
+            const encodeAll = document.getElementById('encodeAll').checked;
+            const useNumeric = document.getElementById('useNumeric').checked;
+            
+            let encoded = '';
+            let entityCount = 0;
+            
+            for (let char of plain) {
+                if (encodeAll && char.charCodeAt(0) > 127) {
+                    encoded += `&#${char.charCodeAt(0)};`;
+                    entityCount++;
+                } else if (useNumeric && htmlEntities[char]) {
+                    encoded += `&#${char.charCodeAt(0)};`;
+                    entityCount++;
+                } else if (htmlEntities[char]) {
+                    encoded += htmlEntities[char];
+                    entityCount++;
+                } else if (encodeAll) {
+                    encoded += `&#${char.charCodeAt(0)};`;
+                    entityCount++;
+                } else {
+                    encoded += char;
+                }
+            }
+            
+            document.getElementById('encodedText').value = encoded;
+            updateStats(plain, encoded, entityCount);
+            showToast('Text encoded to HTML entities');
+        }
+        
+        function decodeText() {
+            const encoded = document.getElementById('encodedText').value;
+            
+            if (!encoded) {
+                showToast('Enter HTML entities to decode', true);
+                return;
+            }
+            
+            const textarea = document.createElement('textarea');
+            textarea.innerHTML = encoded;
+            const decoded = textarea.value;
+            
+            document.getElementById('plainText').value = decoded;
+            
+            const entityCount = (encoded.match(/&[^;]+;/g) || []).length;
+            updateStats(decoded, encoded, entityCount);
+            showToast('HTML entities decoded to text');
+        }
+        
+        function autoEncode() {
+            if (!document.getElementById('autoMode').checked || isDecoding) return;
+            
+            isEncoding = true;
+            const plain = document.getElementById('plainText').value;
+            
+            if (plain) {
+                const encodeAll = document.getElementById('encodeAll').checked;
+                const useNumeric = document.getElementById('useNumeric').checked;
+                
+                let encoded = '';
+                let entityCount = 0;
+                
+                for (let char of plain) {
+                    if (encodeAll && char.charCodeAt(0) > 127) {
+                        encoded += `&#${char.charCodeAt(0)};`;
+                        entityCount++;
+                    } else if (useNumeric && htmlEntities[char]) {
+                        encoded += `&#${char.charCodeAt(0)};`;
+                        entityCount++;
+                    } else if (htmlEntities[char]) {
+                        encoded += htmlEntities[char];
+                        entityCount++;
+                    } else if (encodeAll) {
+                        encoded += `&#${char.charCodeAt(0)};`;
+                        entityCount++;
+                    } else {
+                        encoded += char;
+                    }
+                }
+                
+                document.getElementById('encodedText').value = encoded;
+                updateStats(plain, encoded, entityCount);
+            } else {
+                document.getElementById('encodedText').value = '';
+                document.getElementById('statsBar').style.display = 'none';
+            }
+            
+            setTimeout(() => { isEncoding = false; }, 100);
+        }
+        
+        function autoDecode() {
+            if (!document.getElementById('autoMode').checked || isEncoding) return;
+            
+            isDecoding = true;
+            const encoded = document.getElementById('encodedText').value;
+            
+            if (encoded) {
+                const textarea = document.createElement('textarea');
+                textarea.innerHTML = encoded;
+                const decoded = textarea.value;
+                
+                document.getElementById('plainText').value = decoded;
+                
+                const entityCount = (encoded.match(/&[^;]+;/g) || []).length;
+                updateStats(decoded, encoded, entityCount);
+            } else {
+                document.getElementById('plainText').value = '';
+                document.getElementById('statsBar').style.display = 'none';
+            }
+            
+            setTimeout(() => { isDecoding = false; }, 100);
+        }
+        
+        function updateStats(plain, encoded, entityCount) {
+            document.getElementById('originalChars').textContent = plain.length;
+            document.getElementById('encodedChars').textContent = encoded.length;
+            document.getElementById('entityCount').textContent = entityCount;
+            document.getElementById('statsBar').style.display = 'flex';
+        }
+        
+        function copyPlain() {
+            const text = document.getElementById('plainText').value;
+            if (!text) {
+                showToast('Nothing to copy', true);
+                return;
+            }
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Plain text copied!');
+            });
+        }
+        
+        function copyEncoded() {
+            const text = document.getElementById('encodedText').value;
+            if (!text) {
+                showToast('Nothing to copy', true);
+                return;
+            }
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('HTML entities copied!');
+            });
+        }
+        
+        function clearPlain() {
+            document.getElementById('plainText').value = '';
+            if (document.getElementById('autoMode').checked) {
+                document.getElementById('encodedText').value = '';
+                document.getElementById('statsBar').style.display = 'none';
+            }
+            showToast('Cleared');
+        }
+        
+        function clearEncoded() {
+            document.getElementById('encodedText').value = '';
+            if (document.getElementById('autoMode').checked) {
+                document.getElementById('plainText').value = '';
+                document.getElementById('statsBar').style.display = 'none';
+            }
+            showToast('Cleared');
+        }
+        
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show' + (isError ? ' error' : '');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>

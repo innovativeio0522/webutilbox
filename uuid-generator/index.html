@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UUID Generator - Generate Random UUIDs Online Free | ToolKit Pro</title>
+    <meta name="description" content="Generate random UUIDs (Universally Unique Identifiers) instantly. Free UUID v4 generator for developers. Bulk generate multiple UUIDs at once.">
+    <meta name="keywords" content="uuid generator, guid generator, random uuid, uuid v4 generator, generate uuid online free">
+    <link rel="canonical" href="https://yourdomain.com/uuid-generator">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/tool-specific.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>🎲 UUID Generator</h1>
+        <p class="subtitle">Generate random UUIDs (Universally Unique Identifiers) for databases, APIs, and applications.</p>
+
+        <div class="workspace">
+            <div style="display: grid; grid-template-columns: 1fr 280px; gap: 15px; align-items: start;">
+                <!-- Left: Generated UUIDs -->
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <label style="font-size: 0.9rem; margin: 0;">Generated UUIDs</label>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="btn btn-success" onclick="copyAll()" style="padding: 6px 16px; font-size: 0.85rem;">Copy All</button>
+                            <button class="btn btn-secondary" onclick="clearAll()" style="padding: 6px 16px; font-size: 0.85rem;">Clear</button>
+                        </div>
+                    </div>
+                    <div id="uuidList" style="background: var(--input-bg); border: 2px solid var(--border); border-radius: 10px; padding: 15px; min-height: 300px; max-height: 400px; overflow-y: auto; font-family: 'Courier New', monospace; font-size: 0.9rem;">
+                        <div style="color: var(--gray); text-align: center; padding: 50px 20px;">Click "Generate" to create UUIDs...</div>
+                    </div>
+                </div>
+                
+                <!-- Right: Options -->
+                <div>
+                    <div style="display: grid; gap: 10px;">
+                        <div style="background: var(--light); padding: 12px; border-radius: 8px; border: 1px solid var(--border);">
+                            <label style="font-size: 0.85rem; margin-bottom: 8px; display: block;">Number of UUIDs:</label>
+                            <input type="number" id="uuidCount" value="1" min="1" max="100" style="width: 100%; padding: 8px; font-size: 0.9rem;">
+                        </div>
+                        
+                        <div style="background: var(--light); padding: 12px; border-radius: 8px; border: 1px solid var(--border);">
+                            <label style="font-size: 0.85rem; margin-bottom: 8px; display: block;">Format:</label>
+                            <select id="uuidFormat" style="width: 100%; padding: 8px; font-size: 0.85rem;">
+                                <option value="standard">Standard (with hyphens)</option>
+                                <option value="compact">Compact (no hyphens)</option>
+                                <option value="uppercase">Uppercase</option>
+                                <option value="braces">With Braces {}</option>
+                            </select>
+                        </div>
+                        
+                        <button class="btn btn-primary" onclick="generateUUIDs()" style="width: 100%; padding: 12px; font-size: 0.95rem;">Generate</button>
+                        
+                        <div style="background: var(--light); padding: 12px; border-radius: 8px; border: 1px solid var(--border);">
+                            <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 5px;">Total Generated:</div>
+                            <div style="font-size: 1.8rem; font-weight: bold; color: var(--primary);" id="totalCount">0</div>
+                        </div>
+                        
+                        <div style="background: var(--light); padding: 10px; border-radius: 8px; border: 1px solid var(--border);">
+                            <div style="font-size: 0.8rem; color: var(--gray); line-height: 1.4;">
+                                💡 <strong>Tip:</strong> Click any UUID to copy it individually.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>UUID Generator - Create Random UUIDs Online</h2>
+            <p>This free UUID generator creates random Version 4 UUIDs (Universally Unique Identifiers) also known as GUIDs (Globally Unique Identifiers). UUIDs are 128-bit numbers used to uniquely identify information in computer systems without requiring a central authority.</p>
+            <p><strong>What is a UUID?</strong> A UUID is a 128-bit identifier standardized by RFC 4122. Version 4 UUIDs are randomly generated and have a probability of duplication so low (1 in 2^122) that they're considered unique for practical purposes.</p>
+            <p><strong>UUID Format:</strong> Standard format is 8-4-4-4-12 hexadecimal digits (e.g., 550e8400-e29b-41d4-a716-446655440000). The tool supports multiple formats including compact (no hyphens), uppercase, and with braces.</p>
+            <p><strong>Use Cases:</strong> Database primary keys, API request IDs, session identifiers, file names, distributed systems, microservices, transaction IDs, object identifiers, cache keys, temporary tokens.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        let totalGenerated = 0;
+
+        function generateUUID() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                const r = Math.random() * 16 | 0;
+                const v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        function formatUUID(uuid, format) {
+            switch(format) {
+                case 'compact':
+                    return uuid.replace(/-/g, '');
+                case 'uppercase':
+                    return uuid.toUpperCase();
+                case 'braces':
+                    return '{' + uuid + '}';
+                default:
+                    return uuid;
+            }
+        }
+
+        function generateUUIDs() {
+            const count = parseInt(document.getElementById('uuidCount').value) || 1;
+            const format = document.getElementById('uuidFormat').value;
+            
+            if (count < 1 || count > 100) {
+                showToast('Enter a number between 1 and 100', true);
+                return;
+            }
+            
+            const uuids = [];
+            for (let i = 0; i < count; i++) {
+                const uuid = generateUUID();
+                uuids.push(formatUUID(uuid, format));
+            }
+            
+            displayUUIDs(uuids);
+            totalGenerated += count;
+            document.getElementById('totalCount').textContent = totalGenerated;
+            
+            showToast(`Generated ${count} UUID${count !== 1 ? 's' : ''}`);
+        }
+
+        function displayUUIDs(uuids) {
+            const list = document.getElementById('uuidList');
+            
+            if (list.querySelector('div[style*="color: var(--gray)"]')) {
+                list.innerHTML = '';
+            }
+            
+            uuids.forEach(uuid => {
+                const item = document.createElement('div');
+                item.style.cssText = 'padding: 8px 10px; margin-bottom: 6px; background: var(--light); border-radius: 6px; cursor: pointer; transition: all 0.2s; border: 1px solid var(--border); color: var(--white);';
+                item.textContent = uuid;
+                
+                item.onmouseover = function() {
+                    this.style.background = 'var(--border)';
+                    this.style.borderColor = 'var(--primary)';
+                };
+                item.onmouseout = function() {
+                    this.style.background = 'var(--light)';
+                    this.style.borderColor = 'var(--border)';
+                };
+                item.onclick = function() {
+                    navigator.clipboard.writeText(uuid).then(() => {
+                        showToast('UUID copied!');
+                    });
+                };
+                
+                list.appendChild(item);
+            });
+            
+            // Scroll to bottom
+            list.scrollTop = list.scrollHeight;
+        }
+
+        function copyAll() {
+            const list = document.getElementById('uuidList');
+            const items = list.querySelectorAll('div[style*="padding"]');
+            
+            if (items.length === 0) {
+                showToast('Generate UUIDs first', true);
+                return;
+            }
+            
+            const uuids = Array.from(items).map(item => item.textContent).join('\n');
+            
+            navigator.clipboard.writeText(uuids).then(() => {
+                showToast(`Copied ${items.length} UUID${items.length !== 1 ? 's' : ''}!`);
+            });
+        }
+
+        function clearAll() {
+            const list = document.getElementById('uuidList');
+            list.innerHTML = '<div style="color: var(--gray); text-align: center; padding: 50px 20px;">Click "Generate" to create UUIDs...</div>';
+            showToast('Cleared');
+        }
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show' + (isError ? ' error' : '');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // Generate one UUID on page load
+        window.onload = function() {
+            generateUUIDs();
+        };
+    </script>
+</body>
+</html>

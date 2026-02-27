@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Border Radius Generator - Create Custom Shapes Online | ToolKit Pro</title>
+    <meta name="description" content="Generate CSS border radius with live preview. Create custom rounded corners and organic shapes. Copy CSS code instantly.">
+    <meta name="keywords" content="border radius generator, css border radius, rounded corners generator, border radius css">
+    <link rel="canonical" href="https://yourdomain.com/border-radius-generator">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/tool-specific.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>⭕ Border Radius Generator</h1>
+        <p class="subtitle">Create custom border radius shapes with live preview. Generate CSS code for rounded corners.</p>
+
+        <div class="workspace">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <!-- Left: Preview -->
+                <div>
+                    <label style="font-size: 0.9rem; margin-bottom: 10px; display: block;">Preview</label>
+                    <div style="background: var(--light); padding: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; min-height: 350px;">
+                        <div id="previewBox" style="width: 200px; height: 200px; background: var(--primary);"></div>
+                    </div>
+                </div>
+
+                <!-- Right: Controls -->
+                <div>
+                    <label style="font-size: 0.9rem; margin-bottom: 10px; display: block;">Corner Radius</label>
+                    
+                    <!-- All Corners -->
+                    <div style="margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span style="font-size: 0.85rem;">All Corners</span>
+                            <span style="font-size: 0.85rem; color: var(--primary);" id="allVal">0px</span>
+                        </div>
+                        <input type="range" id="allCorners" min="0" max="100" value="0" oninput="updateAll()" style="width: 100%;">
+                    </div>
+
+                    <div style="border-top: 1px solid var(--border); padding-top: 15px; margin-bottom: 15px;">
+                        <span style="font-size: 0.85rem; color: var(--gray);">Individual Corners</span>
+                    </div>
+
+                    <!-- Top Left -->
+                    <div style="margin-bottom: 12px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span style="font-size: 0.8rem;">↖ Top Left</span>
+                            <span style="font-size: 0.8rem; color: var(--primary);" id="tlVal">0px</span>
+                        </div>
+                        <input type="range" id="topLeft" min="0" max="100" value="0" oninput="updateRadius()" style="width: 100%;">
+                    </div>
+
+                    <!-- Top Right -->
+                    <div style="margin-bottom: 12px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span style="font-size: 0.8rem;">↗ Top Right</span>
+                            <span style="font-size: 0.8rem; color: var(--primary);" id="trVal">0px</span>
+                        </div>
+                        <input type="range" id="topRight" min="0" max="100" value="0" oninput="updateRadius()" style="width: 100%;">
+                    </div>
+
+                    <!-- Bottom Right -->
+                    <div style="margin-bottom: 12px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span style="font-size: 0.8rem;">↘ Bottom Right</span>
+                            <span style="font-size: 0.8rem; color: var(--primary);" id="brVal">0px</span>
+                        </div>
+                        <input type="range" id="bottomRight" min="0" max="100" value="0" oninput="updateRadius()" style="width: 100%;">
+                    </div>
+
+                    <!-- Bottom Left -->
+                    <div style="margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span style="font-size: 0.8rem;">↙ Bottom Left</span>
+                            <span style="font-size: 0.8rem; color: var(--primary);" id="blVal">0px</span>
+                        </div>
+                        <input type="range" id="bottomLeft" min="0" max="100" value="0" oninput="updateRadius()" style="width: 100%;">
+                    </div>
+
+                    <!-- Quick Presets -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                        <button onclick="setPreset('circle')" style="padding: 8px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.85rem; color: var(--white);">Circle</button>
+                        <button onclick="setPreset('rounded')" style="padding: 8px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.85rem; color: var(--white);">Rounded</button>
+                        <button onclick="setPreset('blob')" style="padding: 8px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.85rem; color: var(--white);">Blob</button>
+                        <button onclick="setPreset('reset')" style="padding: 8px; background: var(--light); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.85rem; color: var(--white);">Reset</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CSS Output -->
+            <div class="output-container show" style="margin-top: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <div class="output-label">CSS Code</div>
+                    <button class="btn btn-success" onclick="copyCss()" style="padding: 6px 16px; font-size: 0.85rem;">Copy CSS</button>
+                </div>
+                <pre id="cssCode" style="margin: 0; white-space: pre-wrap; font-size: 0.9rem; color: var(--white); font-family: 'Courier New', monospace; background: var(--input-bg); padding: 15px; border-radius: 8px;"></pre>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>CSS Border Radius Generator - Create Custom Shapes</h2>
+            <p>Generate CSS border radius with live preview. Create circles, rounded rectangles, and organic blob shapes. Perfect for modern web design.</p>
+            <p><strong>Border Radius Syntax:</strong> border-radius: top-left top-right bottom-right bottom-left;</p>
+            <p><strong>Use Cases:</strong> Rounded buttons, circular avatars, card designs, organic shapes, modern UI elements, image styling.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        function updateAll() {
+            const value = document.getElementById('allCorners').value;
+            document.getElementById('allVal').textContent = value + 'px';
+            
+            document.getElementById('topLeft').value = value;
+            document.getElementById('topRight').value = value;
+            document.getElementById('bottomRight').value = value;
+            document.getElementById('bottomLeft').value = value;
+            
+            updateRadius();
+        }
+
+        function updateRadius() {
+            const tl = document.getElementById('topLeft').value;
+            const tr = document.getElementById('topRight').value;
+            const br = document.getElementById('bottomRight').value;
+            const bl = document.getElementById('bottomLeft').value;
+
+            // Update displays
+            document.getElementById('tlVal').textContent = tl + 'px';
+            document.getElementById('trVal').textContent = tr + 'px';
+            document.getElementById('brVal').textContent = br + 'px';
+            document.getElementById('blVal').textContent = bl + 'px';
+
+            // Apply to preview
+            const radius = `${tl}px ${tr}px ${br}px ${bl}px`;
+            document.getElementById('previewBox').style.borderRadius = radius;
+
+            // Update CSS code
+            if (tl === tr && tr === br && br === bl) {
+                document.getElementById('cssCode').textContent = `border-radius: ${tl}px;`;
+            } else {
+                document.getElementById('cssCode').textContent = `border-radius: ${radius};`;
+            }
+        }
+
+        function setPreset(type) {
+            switch(type) {
+                case 'circle':
+                    setValues(50, 50, 50, 50);
+                    break;
+                case 'rounded':
+                    setValues(20, 20, 20, 20);
+                    break;
+                case 'blob':
+                    setValues(60, 40, 70, 30);
+                    break;
+                case 'reset':
+                    setValues(0, 0, 0, 0);
+                    break;
+            }
+        }
+
+        function setValues(tl, tr, br, bl) {
+            document.getElementById('topLeft').value = tl;
+            document.getElementById('topRight').value = tr;
+            document.getElementById('bottomRight').value = br;
+            document.getElementById('bottomLeft').value = bl;
+            updateRadius();
+        }
+
+        function copyCss() {
+            const css = document.getElementById('cssCode').textContent;
+            navigator.clipboard.writeText(css).then(() => {
+                showToast('CSS copied to clipboard!');
+            });
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show';
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // Initialize
+        updateRadius();
+    </script>
+</body>
+</html>

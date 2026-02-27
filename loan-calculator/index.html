@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Calculator - Calculate EMI and Interest Online | ToolKit Pro</title>
+    <meta name="description" content="Calculate loan EMI, total interest, and payment schedule. Free loan calculator for home loans, car loans, personal loans. Instant EMI calculation.">
+    <meta name="keywords" content="loan calculator, emi calculator, loan interest calculator, calculate emi online">
+    <link rel="canonical" href="https://yourdomain.com/loan-calculator">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/tool-specific.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>🏦 Loan Calculator</h1>
+        <p class="subtitle">Calculate EMI, total interest, and payment schedule for your loan.</p>
+
+        <div class="workspace">
+            <!-- Loan Amount -->
+            <div style="margin-bottom: 15px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <label style="font-size: 0.85rem; margin: 0;">Loan Amount</label>
+                    <span style="font-size: 1rem; font-weight: 600; color: var(--primary);" id="loanAmountDisplay">$10,000</span>
+                </div>
+                <input type="range" id="loanAmount" min="1000" max="1000000" step="1000" value="10000" oninput="calculate()" style="width: 100%;">
+                <input type="number" id="loanAmountInput" value="10000" oninput="syncLoanAmount()" style="width: 100%; padding: 8px; font-size: 0.9rem; margin-top: 8px;">
+            </div>
+
+            <!-- Interest Rate -->
+            <div style="margin-bottom: 15px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <label style="font-size: 0.85rem; margin: 0;">Interest Rate (% per year)</label>
+                    <span style="font-size: 1rem; font-weight: 600; color: var(--primary);" id="interestRateDisplay">5%</span>
+                </div>
+                <input type="range" id="interestRate" min="0.1" max="20" step="0.1" value="5" oninput="calculate()" style="width: 100%;">
+                <input type="number" id="interestRateInput" value="5" step="0.1" oninput="syncInterestRate()" style="width: 100%; padding: 8px; font-size: 0.9rem; margin-top: 8px;">
+            </div>
+
+            <!-- Loan Term -->
+            <div style="margin-bottom: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <label style="font-size: 0.85rem; margin: 0;">Loan Term (years)</label>
+                    <span style="font-size: 1rem; font-weight: 600; color: var(--primary);" id="loanTermDisplay">5 years</span>
+                </div>
+                <input type="range" id="loanTerm" min="1" max="30" value="5" oninput="calculate()" style="width: 100%;">
+                <input type="number" id="loanTermInput" value="5" min="1" max="30" oninput="syncLoanTerm()" style="width: 100%; padding: 8px; font-size: 0.9rem; margin-top: 8px;">
+            </div>
+
+            <!-- Results -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 15px;">
+                <div style="background: var(--light); padding: 15px 10px; border-radius: 8px; text-align: center; border: 1px solid var(--border);">
+                    <div style="font-size: 0.75rem; color: var(--gray); margin-bottom: 5px;">Monthly EMI</div>
+                    <div style="font-size: 1.4rem; font-weight: bold; color: var(--primary);" id="monthlyEMI">$0</div>
+                </div>
+                <div style="background: var(--light); padding: 15px 10px; border-radius: 8px; text-align: center; border: 1px solid var(--border);">
+                    <div style="font-size: 0.75rem; color: var(--gray); margin-bottom: 5px;">Total Interest</div>
+                    <div style="font-size: 1.4rem; font-weight: bold; color: var(--warning);" id="totalInterest">$0</div>
+                </div>
+                <div style="background: var(--light); padding: 15px 10px; border-radius: 8px; text-align: center; border: 1px solid var(--border);">
+                    <div style="font-size: 0.75rem; color: var(--gray); margin-bottom: 5px;">Total Payment</div>
+                    <div style="font-size: 1.4rem; font-weight: bold; color: var(--secondary);" id="totalPayment">$0</div>
+                </div>
+            </div>
+
+            <!-- Breakdown -->
+            <div class="output-container show">
+                <div class="output-label">Payment Breakdown</div>
+                <div style="display: grid; gap: 8px; font-size: 0.85rem;">
+                    <div style="display: flex; justify-content: space-between; padding: 8px 10px; background: var(--light); border-radius: 6px;">
+                        <span>Principal Amount:</span>
+                        <span style="font-weight: 600;" id="principalAmount">$0</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 10px; background: var(--light); border-radius: 6px;">
+                        <span>Total Interest:</span>
+                        <span style="font-weight: 600; color: var(--warning);" id="interestAmount">$0</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 10px; background: var(--light); border-radius: 6px;">
+                        <span>Total Payments:</span>
+                        <span style="font-weight: 600;" id="totalPayments">0</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 10px; background: var(--light); border-radius: 6px; border: 1px solid var(--primary);">
+                        <span style="font-weight: 600;">Total Amount:</span>
+                        <span style="font-weight: 600; color: var(--secondary); font-size: 1.1rem;" id="totalAmountBreakdown">$0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Loan Calculator - Calculate EMI and Interest</h2>
+            <p>Calculate your loan EMI (Equated Monthly Installment), total interest, and payment schedule. This free loan calculator works for home loans, car loans, personal loans, and any other type of loan.</p>
+            <p><strong>EMI Formula:</strong> EMI = [P × R × (1+R)^N] / [(1+R)^N-1], where P = Principal, R = Monthly interest rate, N = Number of months.</p>
+            <p><strong>How to Use:</strong> Enter your loan amount, annual interest rate, and loan term in years. The calculator instantly shows your monthly EMI, total interest payable, and total payment amount.</p>
+            <p><strong>Use Cases:</strong> Home loan planning, car loan calculation, personal loan comparison, mortgage planning, debt consolidation, refinancing decisions.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        function syncLoanAmount() {
+            const value = document.getElementById('loanAmountInput').value;
+            document.getElementById('loanAmount').value = value;
+            calculate();
+        }
+
+        function syncInterestRate() {
+            const value = document.getElementById('interestRateInput').value;
+            document.getElementById('interestRate').value = value;
+            calculate();
+        }
+
+        function syncLoanTerm() {
+            const value = document.getElementById('loanTermInput').value;
+            document.getElementById('loanTerm').value = value;
+            calculate();
+        }
+
+        function calculate() {
+            const principal = parseFloat(document.getElementById('loanAmount').value);
+            const annualRate = parseFloat(document.getElementById('interestRate').value);
+            const years = parseFloat(document.getElementById('loanTerm').value);
+
+            // Sync input fields
+            document.getElementById('loanAmountInput').value = principal;
+            document.getElementById('interestRateInput').value = annualRate;
+            document.getElementById('loanTermInput').value = years;
+
+            // Update displays
+            document.getElementById('loanAmountDisplay').textContent = '$' + principal.toLocaleString();
+            document.getElementById('interestRateDisplay').textContent = annualRate + '%';
+            document.getElementById('loanTermDisplay').textContent = years + (years === 1 ? ' year' : ' years');
+
+            // Calculate EMI
+            const monthlyRate = annualRate / 12 / 100;
+            const months = years * 12;
+
+            let emi;
+            if (monthlyRate === 0) {
+                emi = principal / months;
+            } else {
+                emi = principal * monthlyRate * Math.pow(1 + monthlyRate, months) / (Math.pow(1 + monthlyRate, months) - 1);
+            }
+
+            const totalPayment = emi * months;
+            const totalInterest = totalPayment - principal;
+
+            // Display results
+            document.getElementById('monthlyEMI').textContent = '$' + emi.toFixed(2);
+            document.getElementById('totalInterest').textContent = '$' + totalInterest.toFixed(2);
+            document.getElementById('totalPayment').textContent = '$' + totalPayment.toFixed(2);
+
+            // Breakdown
+            document.getElementById('principalAmount').textContent = '$' + principal.toLocaleString();
+            document.getElementById('interestAmount').textContent = '$' + totalInterest.toFixed(2);
+            document.getElementById('totalPayments').textContent = months + ' months';
+            document.getElementById('totalAmountBreakdown').textContent = '$' + totalPayment.toFixed(2);
+        }
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show' + (isError ? ' error' : '');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // Initialize
+        calculate();
+    </script>
+</body>
+</html>

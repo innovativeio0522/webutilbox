@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base64 Encode Decode - Free Online Base64 Converter | ToolKit Pro</title>
+    <meta name="description" content="Encode and decode Base64 strings instantly. Free online Base64 converter for text, URLs, and data. Works in browser, no upload required.">
+    <meta name="keywords" content="base64 encode, base64 decode, base64 converter online, encode decode base64, base64 tool free">
+    <link rel="canonical" href="https://yourdomain.com/base64-encoder">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/tool-specific.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>🔢 Base64 Encode/Decode</h1>
+        <p class="subtitle">Encode text to Base64 or decode Base64 strings back to text. Fast, secure, and works entirely in your browser.</p>
+
+        <div class="workspace">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <!-- Left: Encode -->
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <label style="font-size: 0.9rem; margin: 0;">Plain Text</label>
+                        <button class="btn btn-primary" onclick="encodeText()" style="padding: 6px 16px; font-size: 0.85rem;">Encode →</button>
+                    </div>
+                    <textarea id="plainText" placeholder="Enter text to encode..." oninput="autoEncode()" style="min-height: 250px; font-size: 0.9rem;"></textarea>
+                    <div style="display: flex; gap: 8px; margin-top: 10px;">
+                        <button class="btn btn-success" onclick="copyPlain()" style="flex: 1; padding: 8px; font-size: 0.85rem;">Copy</button>
+                        <button class="btn btn-secondary" onclick="clearPlain()" style="flex: 1; padding: 8px; font-size: 0.85rem;">Clear</button>
+                    </div>
+                </div>
+                
+                <!-- Right: Decode -->
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <label style="font-size: 0.9rem; margin: 0;">Base64 Encoded</label>
+                        <button class="btn btn-primary" onclick="decodeText()" style="padding: 6px 16px; font-size: 0.85rem;">← Decode</button>
+                    </div>
+                    <textarea id="base64Text" placeholder="Enter Base64 to decode..." oninput="autoDecode()" style="min-height: 250px; font-size: 0.9rem; font-family: 'Courier New', monospace;"></textarea>
+                    <div style="display: flex; gap: 8px; margin-top: 10px;">
+                        <button class="btn btn-success" onclick="copyBase64()" style="flex: 1; padding: 8px; font-size: 0.85rem;">Copy</button>
+                        <button class="btn btn-secondary" onclick="clearBase64()" style="flex: 1; padding: 8px; font-size: 0.85rem;">Clear</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 10px; margin-top: 15px; padding: 12px; background: var(--light); border-radius: 8px; border: 1px solid var(--border);">
+                <input type="checkbox" id="autoMode" checked>
+                <label for="autoMode" style="margin: 0; cursor: pointer; font-size: 0.9rem;">Auto-convert as you type</label>
+            </div>
+
+            <div class="stats-bar" id="statsBar" style="display: none; margin-top: 15px;">
+                <div class="stat">📝 Original: <span class="stat-value" id="originalSize">0</span> bytes</div>
+                <div class="stat">🔢 Encoded: <span class="stat-value" id="encodedSize">0</span> bytes</div>
+                <div class="stat">📊 Ratio: <span class="stat-value" id="sizeRatio">0%</span></div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Base64 Encode Decode - Free Online Base64 Converter</h2>
+            <p>This free Base64 encoder and decoder converts text to Base64 encoding and decodes Base64 strings back to plain text. Base64 is a binary-to-text encoding scheme commonly used to encode binary data for transmission over text-based protocols like email and HTTP.</p>
+            <p><strong>What is Base64?</strong> Base64 encoding converts binary data into ASCII text format using 64 printable characters (A-Z, a-z, 0-9, +, /). It's commonly used for encoding images, files, and data in URLs, JSON, XML, and email attachments.</p>
+            <p><strong>Use Cases:</strong> Encoding images for data URIs, API authentication tokens, email attachments, embedding files in HTML/CSS, URL-safe data transmission, storing binary data in text format, JWT tokens, basic authentication headers.</p>
+            <p><strong>Privacy:</strong> All encoding and decoding happens in your browser. No data is sent to any server.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        let isEncoding = false;
+        let isDecoding = false;
+
+        function encodeText() {
+            const plain = document.getElementById('plainText').value;
+            
+            if (!plain) {
+                showToast('Enter text to encode', true);
+                return;
+            }
+            
+            try {
+                const encoded = btoa(unescape(encodeURIComponent(plain)));
+                document.getElementById('base64Text').value = encoded;
+                updateStats(plain, encoded);
+                showToast('Text encoded to Base64');
+            } catch (e) {
+                showToast('Encoding failed', true);
+            }
+        }
+        
+        function decodeText() {
+            const base64 = document.getElementById('base64Text').value;
+            
+            if (!base64) {
+                showToast('Enter Base64 to decode', true);
+                return;
+            }
+            
+            try {
+                const decoded = decodeURIComponent(escape(atob(base64)));
+                document.getElementById('plainText').value = decoded;
+                updateStats(decoded, base64);
+                showToast('Base64 decoded to text');
+            } catch (e) {
+                showToast('Invalid Base64 string', true);
+            }
+        }
+        
+        function autoEncode() {
+            if (!document.getElementById('autoMode').checked || isDecoding) return;
+            
+            isEncoding = true;
+            const plain = document.getElementById('plainText').value;
+            
+            if (plain) {
+                try {
+                    const encoded = btoa(unescape(encodeURIComponent(plain)));
+                    document.getElementById('base64Text').value = encoded;
+                    updateStats(plain, encoded);
+                } catch (e) {
+                    // Ignore encoding errors during auto-convert
+                }
+            } else {
+                document.getElementById('base64Text').value = '';
+                document.getElementById('statsBar').style.display = 'none';
+            }
+            
+            setTimeout(() => { isEncoding = false; }, 100);
+        }
+        
+        function autoDecode() {
+            if (!document.getElementById('autoMode').checked || isEncoding) return;
+            
+            isDecoding = true;
+            const base64 = document.getElementById('base64Text').value;
+            
+            if (base64) {
+                try {
+                    const decoded = decodeURIComponent(escape(atob(base64)));
+                    document.getElementById('plainText').value = decoded;
+                    updateStats(decoded, base64);
+                } catch (e) {
+                    // Ignore decoding errors during auto-convert
+                }
+            } else {
+                document.getElementById('plainText').value = '';
+                document.getElementById('statsBar').style.display = 'none';
+            }
+            
+            setTimeout(() => { isDecoding = false; }, 100);
+        }
+        
+        function updateStats(plain, encoded) {
+            const originalBytes = new Blob([plain]).size;
+            const encodedBytes = new Blob([encoded]).size;
+            const ratio = originalBytes > 0 ? ((encodedBytes / originalBytes) * 100).toFixed(1) : 0;
+            
+            document.getElementById('originalSize').textContent = originalBytes;
+            document.getElementById('encodedSize').textContent = encodedBytes;
+            document.getElementById('sizeRatio').textContent = ratio + '%';
+            document.getElementById('statsBar').style.display = 'flex';
+        }
+        
+        function copyPlain() {
+            const text = document.getElementById('plainText').value;
+            if (!text) {
+                showToast('Nothing to copy', true);
+                return;
+            }
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Plain text copied!');
+            });
+        }
+        
+        function copyBase64() {
+            const text = document.getElementById('base64Text').value;
+            if (!text) {
+                showToast('Nothing to copy', true);
+                return;
+            }
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Base64 copied!');
+            });
+        }
+        
+        function clearPlain() {
+            document.getElementById('plainText').value = '';
+            if (document.getElementById('autoMode').checked) {
+                document.getElementById('base64Text').value = '';
+                document.getElementById('statsBar').style.display = 'none';
+            }
+            showToast('Cleared');
+        }
+        
+        function clearBase64() {
+            document.getElementById('base64Text').value = '';
+            if (document.getElementById('autoMode').checked) {
+                document.getElementById('plainText').value = '';
+                document.getElementById('statsBar').style.display = 'none';
+            }
+            showToast('Cleared');
+        }
+        
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show' + (isError ? ' error' : '');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>

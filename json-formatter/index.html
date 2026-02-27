@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Formatter Online Free No Upload - Format JSON Locally in Browser | ToolKit Pro</title>
+    <meta name="description" content="Format JSON online free without uploading files. Client-side JSON formatter, validator & beautifier. No data leaves your browser. Works offline. Privacy-focused JSON tool.">
+    <meta name="keywords" content="json formatter online free no upload, format json locally in browser, json validator no upload, client side json formatter, json beautifier privacy, format json without uploading, browser json formatter, offline json tool">
+    <link rel="canonical" href="https://yourdomain.com/json-formatter">
+    <link rel="stylesheet" href="../assets/css/common.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>🗂️ JSON Formatter & Validator</h1>
+        <p class="subtitle">Format, validate, and minify JSON data instantly. Free, fast, and privacy-focused.</p>
+
+        <div class="workspace">
+            <div class="input-group">
+                <label>JSON Input</label>
+                <textarea id="inputText" placeholder='{"example": "value", "nested": {"key": "data"}}'></textarea>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="formatJSON()">Format / Prettify</button>
+                <button class="btn btn-primary" onclick="minifyJSON()">Minify</button>
+                <button class="btn btn-secondary" onclick="validateJSON()">Validate Only</button>
+                <button class="btn btn-success" onclick="copyOutput()">Copy Result</button>
+            </div>
+            
+            <div class="output-container" id="outputContainer">
+                <div class="output-label">Result</div>
+                <div class="output-content" id="outputText"></div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Format JSON Online Free Without Uploading Files</h2>
+            <p>This client-side JSON formatter lets you format JSON locally in your browser without uploading data to any server. Your JSON never leaves your device, ensuring complete privacy and security.</p>
+            <p><strong>Why use a browser-based JSON formatter?</strong> Unlike server-based tools, this JSON validator processes everything locally. Perfect for sensitive data, API responses, and configuration files. Works offline once loaded.</p>
+            <p><strong>Features:</strong> Instant formatting, syntax validation, minification, error detection with line numbers, and one-click copy. All processing happens in your browser - your data stays private.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        function formatJSON() {
+            const input = document.getElementById('inputText').value;
+            try {
+                const parsed = JSON.parse(input);
+                showOutput(JSON.stringify(parsed, null, 2));
+                showToast('JSON formatted successfully!');
+            } catch (e) {
+                showOutput('❌ Invalid JSON: ' + e.message, true);
+                showToast('Invalid JSON', true);
+            }
+        }
+
+        function minifyJSON() {
+            const input = document.getElementById('inputText').value;
+            try {
+                const parsed = JSON.parse(input);
+                showOutput(JSON.stringify(parsed));
+                showToast('JSON minified successfully!');
+            } catch (e) {
+                showOutput('❌ Invalid JSON: ' + e.message, true);
+                showToast('Invalid JSON', true);
+            }
+        }
+
+        function validateJSON() {
+            const input = document.getElementById('inputText').value;
+            try {
+                JSON.parse(input);
+                showOutput('✅ Valid JSON!');
+                showToast('Valid JSON!');
+            } catch (e) {
+                showOutput('❌ Invalid: ' + e.message, true);
+                showToast('Invalid JSON', true);
+            }
+        }
+
+        function showOutput(text, isError = false) {
+            const container = document.getElementById('outputContainer');
+            const content = document.getElementById('outputText');
+            content.textContent = text;
+            container.classList.add('show');
+            container.style.borderLeftColor = isError ? 'var(--danger)' : 'var(--secondary)';
+        }
+
+        function copyOutput() {
+            const text = document.getElementById('outputText')?.textContent;
+            if (!text) return showToast('Nothing to copy', true);
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Copied to clipboard!');
+            });
+        }
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show' + (isError ? ' error' : '');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>

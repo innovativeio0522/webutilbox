@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slug Generator - Create URL-Friendly Slugs Online | ToolKit Pro</title>
+    <meta name="description" content="Generate URL-friendly slugs from any text instantly. Convert titles to SEO-friendly URLs. Free slug generator for web developers and content creators.">
+    <meta name="keywords" content="slug generator, url slug generator, seo friendly url, create url slug, text to slug converter, url friendly text">
+    <link rel="canonical" href="https://yourdomain.com/slug-generator">
+    <link rel="stylesheet" href="../assets/css/common.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>🔗 Slug Generator</h1>
+        <p class="subtitle">Create URL-friendly slugs from any text. Perfect for blog posts, articles, and SEO-friendly URLs.</p>
+
+        <div class="workspace">
+            <div class="input-group">
+                <label>Input Text / Title</label>
+                <input type="text" id="inputText" placeholder="e.g., My Awesome Blog Post!" oninput="generateSlug()" style="font-size: 1.1rem; padding: 15px;">
+            </div>
+
+            <div class="output-container show" style="margin-top: 20px;">
+                <div class="output-label">URL Slug</div>
+                <div class="output-content" id="outputText" style="font-size: 1.3rem; color: var(--primary); word-break: break-all;">Type above to generate slug...</div>
+            </div>
+
+            <div class="button-group" style="margin-top: 15px;">
+                <button class="btn btn-success" onclick="copySlug()">Copy Slug</button>
+                <button class="btn btn-secondary" onclick="clearAll()">Clear</button>
+            </div>
+
+            <div class="stats-bar" id="statsBar" style="display:none; margin-top: 15px;">
+                <div class="stat">📏 Length: <span class="stat-value" id="slugLength">0</span> characters</div>
+                <div class="stat">🔤 Original: <span class="stat-value" id="originalLength">0</span> characters</div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Slug Generator - Create SEO-Friendly URL Slugs Instantly</h2>
+            <p>This free slug generator converts any text into URL-friendly slugs. Perfect for creating clean, SEO-optimized URLs for blog posts, articles, product pages, and web content. The tool automatically removes special characters, converts spaces to hyphens, and creates lowercase slugs.</p>
+            <p><strong>What is a URL Slug?</strong> A slug is the part of a URL that identifies a page in a human-readable format. For example, in "example.com/my-blog-post", the slug is "my-blog-post". Good slugs are short, descriptive, and contain relevant keywords.</p>
+            <p><strong>Features:</strong> Automatic conversion to lowercase, spaces replaced with hyphens, special characters removed, multiple hyphens consolidated, leading/trailing hyphens removed, real-time generation as you type.</p>
+            <p><strong>Use Cases:</strong> Blog post URLs, article permalinks, product page URLs, category slugs, tag slugs, SEO optimization, WordPress permalinks, content management systems.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        function generateSlug() {
+            const text = document.getElementById('inputText').value;
+            
+            if (!text) {
+                document.getElementById('outputText').textContent = 'Type above to generate slug...';
+                document.getElementById('outputText').style.color = 'var(--gray)';
+                document.getElementById('statsBar').style.display = 'none';
+                return;
+            }
+            
+            // Generate slug
+            const slug = text.toString().toLowerCase()
+                .trim()
+                .replace(/\s+/g, '-')           // Replace spaces with -
+                .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+                .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+                .replace(/^-+/, '')             // Trim - from start
+                .replace(/-+$/, '');            // Trim - from end
+            
+            // Display slug
+            document.getElementById('outputText').textContent = slug || 'invalid-slug';
+            document.getElementById('outputText').style.color = slug ? 'var(--primary)' : 'var(--danger)';
+            
+            // Update stats
+            document.getElementById('slugLength').textContent = slug.length;
+            document.getElementById('originalLength').textContent = text.length;
+            document.getElementById('statsBar').style.display = 'flex';
+        }
+
+        function copySlug() {
+            const slug = document.getElementById('outputText').textContent;
+            if (!slug || slug === 'Type above to generate slug...') {
+                return showToast('Enter text first', true);
+            }
+            
+            navigator.clipboard.writeText(slug).then(() => {
+                showToast('Slug copied to clipboard!');
+            });
+        }
+
+        function clearAll() {
+            document.getElementById('inputText').value = '';
+            generateSlug();
+            showToast('Cleared');
+        }
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show' + (isError ? ' error' : '');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>

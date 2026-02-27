@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Sorter - Sort Lines Alphabetically Online | ToolKit Pro</title>
+    <meta name="description" content="Sort text lines alphabetically or numerically. Ascending, descending, reverse order. Remove duplicates option. Free online text sorter.">
+    <meta name="keywords" content="text sorter, sort lines, alphabetical sort, sort text online, line sorter">
+    <link rel="canonical" href="https://yourdomain.com/text-sorter">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/tool-specific.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>🔤 Text Sorter</h1>
+        <p class="subtitle">Sort text lines alphabetically, numerically, or in reverse order.</p>
+
+        <div class="workspace" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <!-- Left: Input -->
+            <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <label style="font-size: 0.8rem; color: var(--gray);">Input Text (One item per line)</label>
+                    <div style="display: flex; gap: 6px;">
+                        <button id="loadSampleBtn" style="padding: 4px 10px; font-size: 0.7rem; background: var(--dark); border: 1px solid var(--border); border-radius: 4px; color: var(--white); cursor: pointer;">📄 Sample</button>
+                        <button id="clearBtn" style="padding: 4px 10px; font-size: 0.7rem; background: var(--dark); border: 1px solid var(--border); border-radius: 4px; color: var(--white); cursor: pointer;">🗑️ Clear</button>
+                    </div>
+                </div>
+                <textarea id="inputText" placeholder="Enter text here (one item per line)...
+Apple
+Banana
+Cherry
+Date
+Elderberry" style="width: 100%; height: 400px; padding: 12px; font-size: 0.85rem; background: var(--dark); border: 1px solid var(--border); border-radius: 8px; color: var(--white); resize: vertical;"></textarea>
+                
+                <div style="display: flex; gap: 15px; margin-top: 8px; font-size: 0.7rem; color: var(--gray);">
+                    <span>Lines: <span id="lineCount" style="color: var(--primary);">0</span></span>
+                    <span>Characters: <span id="charCount" style="color: var(--primary);">0</span></span>
+                </div>
+
+                <!-- Sort Options -->
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; margin-top: 12px; border: 1px solid var(--border);">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 10px;">Sort Options</div>
+                    
+                    <div style="margin-bottom: 10px;">
+                        <label style="font-size: 0.75rem; margin-bottom: 6px; display: block; color: var(--gray);">Sort Type</label>
+                        <select id="sortType" style="width: 100%; padding: 8px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); font-size: 0.8rem;">
+                            <option value="alpha">Alphabetical (A-Z)</option>
+                            <option value="numeric">Numerical (0-9)</option>
+                            <option value="length">By Length (Short to Long)</option>
+                        </select>
+                    </div>
+
+                    <div style="margin-bottom: 10px;">
+                        <label style="font-size: 0.75rem; margin-bottom: 6px; display: block; color: var(--gray);">Order</label>
+                        <select id="sortOrder" style="width: 100%; padding: 8px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); font-size: 0.8rem;">
+                            <option value="asc">Ascending</option>
+                            <option value="desc">Descending</option>
+                        </select>
+                    </div>
+
+                    <div style="margin-bottom: 10px;">
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                            <input type="checkbox" id="caseSensitive">
+                            <span style="font-size: 0.75rem; color: var(--white);">Case Sensitive</span>
+                        </label>
+                    </div>
+
+                    <div style="margin-bottom: 10px;">
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                            <input type="checkbox" id="removeDuplicates">
+                            <span style="font-size: 0.75rem; color: var(--white);">Remove Duplicates</span>
+                        </label>
+                    </div>
+
+                    <div>
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                            <input type="checkbox" id="removeEmpty" checked>
+                            <span style="font-size: 0.75rem; color: var(--white);">Remove Empty Lines</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button id="sortBtn" style="width: 100%; margin-top: 12px; padding: 10px; background: var(--primary); border: none; border-radius: 6px; color: white; cursor: pointer; font-size: 0.9rem; font-weight: 500;">Sort Text</button>
+            </div>
+
+            <!-- Right: Output -->
+            <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <label style="font-size: 0.8rem; color: var(--gray);">Sorted Output</label>
+                    <button id="copyBtn" style="padding: 4px 10px; font-size: 0.7rem; background: var(--primary); border: none; border-radius: 4px; color: white; cursor: pointer;">📋 Copy</button>
+                </div>
+                <textarea id="outputText" readonly placeholder="Sorted text will appear here..." style="width: 100%; height: 400px; padding: 12px; font-size: 0.85rem; background: var(--dark); border: 1px solid var(--border); border-radius: 8px; color: var(--white); resize: vertical;"></textarea>
+                
+                <div style="display: flex; gap: 15px; margin-top: 8px; font-size: 0.7rem; color: var(--gray);">
+                    <span>Lines: <span id="outputLineCount" style="color: var(--primary);">0</span></span>
+                    <span>Characters: <span id="outputCharCount" style="color: var(--primary);">0</span></span>
+                </div>
+
+                <!-- Stats -->
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; margin-top: 12px; border: 1px solid var(--border);">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 10px;">Statistics</div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.75rem; color: var(--white);">
+                        <div>
+                            <div style="color: var(--gray); margin-bottom: 4px;">Original Lines</div>
+                            <div style="font-size: 1.2rem; color: var(--primary); font-weight: 600;" id="statsOriginal">0</div>
+                        </div>
+                        <div>
+                            <div style="color: var(--gray); margin-bottom: 4px;">Sorted Lines</div>
+                            <div style="font-size: 1.2rem; color: var(--primary); font-weight: 600;" id="statsSorted">0</div>
+                        </div>
+                        <div>
+                            <div style="color: var(--gray); margin-bottom: 4px;">Removed</div>
+                            <div style="font-size: 1.2rem; color: var(--primary); font-weight: 600;" id="statsRemoved">0</div>
+                        </div>
+                        <div>
+                            <div style="color: var(--gray); margin-bottom: 4px;">Duplicates</div>
+                            <div style="font-size: 1.2rem; color: var(--primary); font-weight: 600;" id="statsDuplicates">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="downloadBtn" style="width: 100%; margin-top: 12px; padding: 10px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); cursor: pointer; font-size: 0.85rem;">💾 Download as TXT</button>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Text Sorter</h2>
+            <p>Sort text lines alphabetically, numerically, or by length. Remove duplicates and empty lines. Perfect for organizing lists, cleaning data, and sorting any text content.</p>
+            <p><strong>Features:</strong> Alphabetical sorting, numerical sorting, length-based sorting, case sensitive option, remove duplicates, remove empty lines, statistics.</p>
+            <p><strong>Use Cases:</strong> Sort names, organize lists, clean CSV data, sort URLs, organize code imports, sort file names, alphabetize content.</p>
+            <p><strong>Privacy:</strong> All sorting happens in your browser. No data is sent to any server.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        const inputText = document.getElementById('inputText');
+        const outputText = document.getElementById('outputText');
+        const sortBtn = document.getElementById('sortBtn');
+        const copyBtn = document.getElementById('copyBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const loadSampleBtn = document.getElementById('loadSampleBtn');
+        const clearBtn = document.getElementById('clearBtn');
+
+        // Update stats on input
+        inputText.addEventListener('input', updateInputStats);
+
+        sortBtn.addEventListener('click', sortText);
+        copyBtn.addEventListener('click', copyOutput);
+        downloadBtn.addEventListener('click', downloadOutput);
+        loadSampleBtn.addEventListener('click', loadSample);
+        clearBtn.addEventListener('click', () => {
+            inputText.value = '';
+            outputText.value = '';
+            updateInputStats();
+            updateOutputStats();
+            showToast('Cleared');
+        });
+
+        function updateInputStats() {
+            const text = inputText.value;
+            const lines = text ? text.split('\n').length : 0;
+            const chars = text.length;
+            
+            document.getElementById('lineCount').textContent = lines;
+            document.getElementById('charCount').textContent = chars;
+        }
+
+        function updateOutputStats() {
+            const text = outputText.value;
+            const lines = text ? text.split('\n').length : 0;
+            const chars = text.length;
+            
+            document.getElementById('outputLineCount').textContent = lines;
+            document.getElementById('outputCharCount').textContent = chars;
+        }
+
+        function sortText() {
+            const input = inputText.value;
+            
+            if (!input.trim()) {
+                showToast('Please enter some text', true);
+                return;
+            }
+
+            let lines = input.split('\n');
+            const originalCount = lines.length;
+
+            // Remove empty lines if checked
+            if (document.getElementById('removeEmpty').checked) {
+                lines = lines.filter(line => line.trim() !== '');
+            }
+
+            const sortType = document.getElementById('sortType').value;
+            const sortOrder = document.getElementById('sortOrder').value;
+            const caseSensitive = document.getElementById('caseSensitive').checked;
+            const removeDuplicates = document.getElementById('removeDuplicates').checked;
+
+            // Count duplicates before removal
+            const uniqueLines = new Set(caseSensitive ? lines : lines.map(l => l.toLowerCase()));
+            const duplicateCount = lines.length - uniqueLines.size;
+
+            // Remove duplicates if checked
+            if (removeDuplicates) {
+                if (caseSensitive) {
+                    lines = [...new Set(lines)];
+                } else {
+                    const seen = new Set();
+                    lines = lines.filter(line => {
+                        const lower = line.toLowerCase();
+                        if (seen.has(lower)) return false;
+                        seen.add(lower);
+                        return true;
+                    });
+                }
+            }
+
+            // Sort based on type
+            switch(sortType) {
+                case 'alpha':
+                    lines.sort((a, b) => {
+                        const strA = caseSensitive ? a : a.toLowerCase();
+                        const strB = caseSensitive ? b : b.toLowerCase();
+                        return strA.localeCompare(strB);
+                    });
+                    break;
+                
+                case 'numeric':
+                    lines.sort((a, b) => {
+                        const numA = parseFloat(a) || 0;
+                        const numB = parseFloat(b) || 0;
+                        return numA - numB;
+                    });
+                    break;
+                
+                case 'length':
+                    lines.sort((a, b) => a.length - b.length);
+                    break;
+            }
+
+            // Reverse if descending
+            if (sortOrder === 'desc') {
+                lines.reverse();
+            }
+
+            outputText.value = lines.join('\n');
+            updateOutputStats();
+
+            // Update stats
+            document.getElementById('statsOriginal').textContent = originalCount;
+            document.getElementById('statsSorted').textContent = lines.length;
+            document.getElementById('statsRemoved').textContent = originalCount - lines.length;
+            document.getElementById('statsDuplicates').textContent = duplicateCount;
+
+            showToast('Text sorted successfully!');
+        }
+
+        function copyOutput() {
+            if (!outputText.value) {
+                showToast('No output to copy', true);
+                return;
+            }
+
+            navigator.clipboard.writeText(outputText.value).then(() => {
+                showToast('Copied to clipboard!');
+            }).catch(() => {
+                showToast('Failed to copy', true);
+            });
+        }
+
+        function downloadOutput() {
+            if (!outputText.value) {
+                showToast('No output to download', true);
+                return;
+            }
+
+            const blob = new Blob([outputText.value], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'sorted_text_' + Date.now() + '.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('File downloaded!');
+        }
+
+        function loadSample() {
+            const sample = `Zebra
+Apple
+Mango
+Banana
+Cherry
+Date
+Elderberry
+Fig
+Grape
+Kiwi
+Apple
+Banana`;
+            inputText.value = sample;
+            updateInputStats();
+            showToast('Sample loaded!');
+        }
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show' + (isError ? ' error' : '');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // Initialize
+        updateInputStats();
+        updateOutputStats();
+    </script>
+</body>
+</html>

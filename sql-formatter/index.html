@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Formatter & Beautifier - Format SQL Online | ToolKit Pro</title>
+    <meta name="description" content="Format and beautify SQL queries online. Indent SQL code, add line breaks, and make queries readable. Supports MySQL, PostgreSQL, SQL Server, Oracle.">
+    <meta name="keywords" content="sql formatter, sql beautifier, format sql, sql pretty print, sql indentation">
+    <link rel="canonical" href="https://yourdomain.com/sql-formatter">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/tool-specific.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>🗄️ SQL Formatter & Beautifier</h1>
+        <p class="subtitle">Format and beautify SQL queries with proper indentation and line breaks.</p>
+
+        <div class="workspace" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <!-- Left: Input -->
+            <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <label style="font-size: 0.8rem; color: var(--gray);">Input SQL</label>
+                    <div style="display: flex; gap: 6px;">
+                        <button id="loadSampleBtn" style="padding: 4px 10px; font-size: 0.7rem; background: var(--dark); border: 1px solid var(--border); border-radius: 4px; color: var(--white); cursor: pointer;">📄 Sample</button>
+                        <button id="clearBtn" style="padding: 4px 10px; font-size: 0.7rem; background: var(--dark); border: 1px solid var(--border); border-radius: 4px; color: var(--white); cursor: pointer;">🗑️ Clear</button>
+                    </div>
+                </div>
+                <textarea id="inputSQL" placeholder="Paste your SQL query here..." style="width: 100%; height: 420px; padding: 12px; font-size: 0.8rem; background: var(--dark); border: 1px solid var(--border); border-radius: 8px; color: var(--white); font-family: 'Courier New', monospace; resize: vertical; line-height: 1.6;"></textarea>
+                
+                <div style="display: flex; gap: 15px; margin-top: 8px; font-size: 0.7rem; color: var(--gray);">
+                    <span>Lines: <span id="inputLines" style="color: var(--primary);">0</span></span>
+                    <span>Characters: <span id="inputChars" style="color: var(--primary);">0</span></span>
+                </div>
+
+                <!-- Options -->
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; margin-top: 12px; border: 1px solid var(--border);">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 10px;">Formatting Options</div>
+                    
+                    <div style="margin-bottom: 10px;">
+                        <label style="font-size: 0.75rem; margin-bottom: 6px; display: block; color: var(--gray);">Indentation</label>
+                        <select id="indentSize" style="width: 100%; padding: 8px; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; color: var(--white); font-size: 0.8rem;">
+                            <option value="2">2 spaces</option>
+                            <option value="4" selected>4 spaces</option>
+                            <option value="tab">Tab</option>
+                        </select>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.75rem;">
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                            <input type="checkbox" id="uppercase" checked>
+                            <span style="color: var(--white);">Uppercase Keywords</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                            <input type="checkbox" id="newlineBeforeKeyword" checked>
+                            <span style="color: var(--white);">Newline Before Keywords</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                            <input type="checkbox" id="commaNewline">
+                            <span style="color: var(--white);">Comma on New Line</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                            <input type="checkbox" id="removeComments">
+                            <span style="color: var(--white);">Remove Comments</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button id="formatBtn" style="width: 100%; margin-top: 12px; padding: 12px; background: var(--primary); border: none; border-radius: 6px; color: white; cursor: pointer; font-size: 0.9rem; font-weight: 500;">✨ Format SQL</button>
+            </div>
+
+            <!-- Right: Output -->
+            <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <label style="font-size: 0.8rem; color: var(--gray);">Formatted SQL</label>
+                    <div style="display: flex; gap: 6px;">
+                        <button id="copyBtn" style="padding: 4px 10px; font-size: 0.7rem; background: var(--primary); border: none; border-radius: 4px; color: white; cursor: pointer;">📋 Copy</button>
+                        <button id="downloadBtn" style="padding: 4px 10px; font-size: 0.7rem; background: var(--dark); border: 1px solid var(--border); border-radius: 4px; color: var(--white); cursor: pointer;">💾 Download</button>
+                        <button id="minifyBtn" style="padding: 4px 10px; font-size: 0.7rem; background: var(--dark); border: 1px solid var(--border); border-radius: 4px; color: var(--white); cursor: pointer;">⚡ Minify</button>
+                    </div>
+                </div>
+                <textarea id="outputSQL" readonly placeholder="Formatted SQL will appear here..." style="width: 100%; height: 420px; padding: 12px; font-size: 0.8rem; background: var(--dark); border: 1px solid var(--border); border-radius: 8px; color: var(--white); font-family: 'Courier New', monospace; resize: vertical; line-height: 1.6;"></textarea>
+                
+                <div style="display: flex; gap: 15px; margin-top: 8px; font-size: 0.7rem; color: var(--gray);">
+                    <span>Lines: <span id="outputLines" style="color: var(--primary);">0</span></span>
+                    <span>Characters: <span id="outputChars" style="color: var(--primary);">0</span></span>
+                </div>
+
+                <!-- Quick Actions -->
+                <div style="background: var(--light); border-radius: 8px; padding: 12px; margin-top: 12px; border: 1px solid var(--border);">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 8px;">Quick Actions</div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+                        <button id="validateBtn" style="padding: 8px; background: var(--dark); border: 1px solid var(--border); border-radius: 4px; color: var(--white); cursor: pointer; font-size: 0.75rem;">✓ Validate SQL</button>
+                        <button id="countBtn" style="padding: 8px; background: var(--dark); border: 1px solid var(--border); border-radius: 4px; color: var(--white); cursor: pointer; font-size: 0.75rem;">📊 Count Keywords</button>
+                    </div>
+                </div>
+
+                <!-- Info -->
+                <div id="infoBox" style="background: var(--light); border-radius: 8px; padding: 12px; margin-top: 12px; border: 1px solid var(--border); display: none;">
+                    <div style="font-size: 0.85rem; color: var(--gray); margin-bottom: 8px;">SQL Analysis</div>
+                    <div id="infoContent" style="font-size: 0.75rem; color: var(--white); line-height: 1.6;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>SQL Formatter & Beautifier</h2>
+            <p>Format and beautify SQL queries with proper indentation, line breaks, and keyword capitalization. Supports MySQL, PostgreSQL, SQL Server, Oracle, and other SQL dialects.</p>
+            <p><strong>Features:</strong> Customizable indentation, uppercase keywords, newline options, comment removal, SQL validation, keyword counting, minification.</p>
+            <p><strong>Use Cases:</strong> Code review, debugging queries, learning SQL, documentation, query optimization, team collaboration.</p>
+            <p><strong>Privacy:</strong> All formatting happens in your browser. No SQL queries are sent to any server.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        const inputSQL = document.getElementById('inputSQL');
+        const outputSQL = document.getElementById('outputSQL');
+        const formatBtn = document.getElementById('formatBtn');
+        const copyBtn = document.getElementById('copyBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const minifyBtn = document.getElementById('minifyBtn');
+        const loadSampleBtn = document.getElementById('loadSampleBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const validateBtn = document.getElementById('validateBtn');
+        const countBtn = document.getElementById('countBtn');
+        const infoBox = document.getElementById('infoBox');
+        const infoContent = document.getElementById('infoContent');
+
+        const SQL_KEYWORDS = [
+            'SELECT', 'FROM', 'WHERE', 'JOIN', 'INNER', 'LEFT', 'RIGHT', 'OUTER', 'FULL',
+            'ON', 'AND', 'OR', 'NOT', 'IN', 'BETWEEN', 'LIKE', 'IS', 'NULL',
+            'ORDER', 'BY', 'GROUP', 'HAVING', 'LIMIT', 'OFFSET',
+            'INSERT', 'INTO', 'VALUES', 'UPDATE', 'SET', 'DELETE',
+            'CREATE', 'TABLE', 'ALTER', 'DROP', 'INDEX', 'VIEW',
+            'AS', 'DISTINCT', 'COUNT', 'SUM', 'AVG', 'MAX', 'MIN',
+            'CASE', 'WHEN', 'THEN', 'ELSE', 'END',
+            'UNION', 'ALL', 'EXISTS', 'ANY', 'SOME'
+        ];
+
+        // Update stats on input
+        inputSQL.addEventListener('input', updateInputStats);
+
+        function updateInputStats() {
+            const text = inputSQL.value;
+            const lines = text ? text.split('\n').length : 0;
+            const chars = text.length;
+            
+            document.getElementById('inputLines').textContent = lines;
+            document.getElementById('inputChars').textContent = chars;
+        }
+
+        function updateOutputStats() {
+            const text = outputSQL.value;
+            const lines = text ? text.split('\n').length : 0;
+            const chars = text.length;
+            
+            document.getElementById('outputLines').textContent = lines;
+            document.getElementById('outputChars').textContent = chars;
+        }
+
+        // Format SQL
+        formatBtn.addEventListener('click', formatSQL);
+
+        function formatSQL() {
+            const input = inputSQL.value.trim();
+            
+            if (!input) {
+                showToast('Please enter SQL query', true);
+                return;
+            }
+
+            try {
+                let sql = input;
+                
+                // Remove comments if option is checked
+                if (document.getElementById('removeComments').checked) {
+                    sql = sql.replace(/--.*$/gm, '');
+                    sql = sql.replace(/\/\*[\s\S]*?\*\//g, '');
+                }
+
+                // Get options
+                const uppercase = document.getElementById('uppercase').checked;
+                const newlineBeforeKeyword = document.getElementById('newlineBeforeKeyword').checked;
+                const commaNewline = document.getElementById('commaNewline').checked;
+                const indentSize = document.getElementById('indentSize').value;
+                const indent = indentSize === 'tab' ? '\t' : ' '.repeat(parseInt(indentSize));
+
+                // Normalize whitespace
+                sql = sql.replace(/\s+/g, ' ').trim();
+
+                // Uppercase keywords
+                if (uppercase) {
+                    SQL_KEYWORDS.forEach(keyword => {
+                        const regex = new RegExp('\\b' + keyword + '\\b', 'gi');
+                        sql = sql.replace(regex, keyword.toUpperCase());
+                    });
+                }
+
+                // Add newlines before major keywords
+                if (newlineBeforeKeyword) {
+                    const majorKeywords = ['SELECT', 'FROM', 'WHERE', 'JOIN', 'INNER JOIN', 'LEFT JOIN', 
+                                          'RIGHT JOIN', 'ORDER BY', 'GROUP BY', 'HAVING', 'UNION', 
+                                          'INSERT INTO', 'UPDATE', 'DELETE FROM', 'CREATE', 'ALTER', 'DROP'];
+                    
+                    majorKeywords.forEach(keyword => {
+                        const regex = new RegExp('\\b' + keyword + '\\b', 'gi');
+                        sql = sql.replace(regex, '\n' + keyword);
+                    });
+                }
+
+                // Handle commas
+                if (commaNewline) {
+                    sql = sql.replace(/,\s*/g, ',\n' + indent);
+                } else {
+                    sql = sql.replace(/,\s*/g, ', ');
+                }
+
+                // Add indentation
+                const lines = sql.split('\n');
+                let indentLevel = 0;
+                const formatted = [];
+
+                lines.forEach(line => {
+                    line = line.trim();
+                    if (!line) return;
+
+                    // Decrease indent for closing keywords
+                    if (/^\)/i.test(line)) {
+                        indentLevel = Math.max(0, indentLevel - 1);
+                    }
+
+                    // Add indented line
+                    formatted.push(indent.repeat(indentLevel) + line);
+
+                    // Increase indent for opening keywords
+                    if (/\($/.test(line) || /\bCASE\b/i.test(line)) {
+                        indentLevel++;
+                    }
+                    
+                    // Decrease indent after END
+                    if (/\bEND\b/i.test(line)) {
+                        indentLevel = Math.max(0, indentLevel - 1);
+                    }
+                });
+
+                outputSQL.value = formatted.join('\n');
+                updateOutputStats();
+                infoBox.style.display = 'none';
+                showToast('SQL formatted successfully!');
+            } catch (error) {
+                showToast('Error formatting SQL: ' + error.message, true);
+            }
+        }
+
+        // Minify SQL
+        minifyBtn.addEventListener('click', () => {
+            const input = inputSQL.value.trim();
+            
+            if (!input) {
+                showToast('Please enter SQL query', true);
+                return;
+            }
+
+            let sql = input;
+            sql = sql.replace(/--.*$/gm, '');
+            sql = sql.replace(/\/\*[\s\S]*?\*\//g, '');
+            sql = sql.replace(/\s+/g, ' ').trim();
+            
+            outputSQL.value = sql;
+            updateOutputStats();
+            infoBox.style.display = 'none';
+            showToast('SQL minified!');
+        });
+
+        // Validate SQL
+        validateBtn.addEventListener('click', () => {
+            const input = inputSQL.value.trim();
+            
+            if (!input) {
+                showToast('Please enter SQL query', true);
+                return;
+            }
+
+            const issues = [];
+            
+            // Basic validation checks
+            const openParens = (input.match(/\(/g) || []).length;
+            const closeParens = (input.match(/\)/g) || []).length;
+            
+            if (openParens !== closeParens) {
+                issues.push('⚠️ Unmatched parentheses: ' + openParens + ' open, ' + closeParens + ' close');
+            }
+
+            const hasSelect = /\bSELECT\b/i.test(input);
+            const hasFrom = /\bFROM\b/i.test(input);
+            
+            if (hasSelect && !hasFrom) {
+                issues.push('⚠️ SELECT statement without FROM clause');
+            }
+
+            const singleQuotes = (input.match(/'/g) || []).length;
+            if (singleQuotes % 2 !== 0) {
+                issues.push('⚠️ Unmatched single quotes');
+            }
+
+            if (issues.length === 0) {
+                infoContent.innerHTML = '✓ No obvious syntax issues found<br><small>Note: This is a basic validation. Test in your database for complete validation.</small>';
+            } else {
+                infoContent.innerHTML = issues.join('<br>');
+            }
+
+            infoBox.style.display = 'block';
+        });
+
+        // Count keywords
+        countBtn.addEventListener('click', () => {
+            const input = inputSQL.value.trim();
+            
+            if (!input) {
+                showToast('Please enter SQL query', true);
+                return;
+            }
+
+            const counts = {};
+            SQL_KEYWORDS.forEach(keyword => {
+                const regex = new RegExp('\\b' + keyword + '\\b', 'gi');
+                const matches = input.match(regex);
+                if (matches) {
+                    counts[keyword] = matches.length;
+                }
+            });
+
+            let html = '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px;">';
+            Object.entries(counts).forEach(([keyword, count]) => {
+                html += '<div>' + keyword + ': <span style="color: var(--primary);">' + count + '</span></div>';
+            });
+            html += '</div>';
+
+            infoContent.innerHTML = html;
+            infoBox.style.display = 'block';
+        });
+
+        // Copy
+        copyBtn.addEventListener('click', () => {
+            if (!outputSQL.value) {
+                showToast('No output to copy', true);
+                return;
+            }
+
+            navigator.clipboard.writeText(outputSQL.value).then(() => {
+                showToast('Copied to clipboard!');
+            }).catch(() => {
+                showToast('Failed to copy', true);
+            });
+        });
+
+        // Download
+        downloadBtn.addEventListener('click', () => {
+            if (!outputSQL.value) {
+                showToast('No output to download', true);
+                return;
+            }
+
+            const blob = new Blob([outputSQL.value], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'formatted_query_' + Date.now() + '.sql';
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('File downloaded!');
+        });
+
+        // Load sample
+        loadSampleBtn.addEventListener('click', () => {
+            inputSQL.value = `SELECT u.id, u.username, u.email, COUNT(o.id) as order_count, SUM(o.total) as total_spent FROM users u LEFT JOIN orders o ON u.id = o.user_id WHERE u.status = 'active' AND u.created_at >= '2024-01-01' GROUP BY u.id, u.username, u.email HAVING COUNT(o.id) > 0 ORDER BY total_spent DESC LIMIT 10;`;
+            updateInputStats();
+            showToast('Sample loaded!');
+        });
+
+        // Clear
+        clearBtn.addEventListener('click', () => {
+            inputSQL.value = '';
+            outputSQL.value = '';
+            updateInputStats();
+            updateOutputStats();
+            infoBox.style.display = 'none';
+            showToast('Cleared');
+        });
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show' + (isError ? ' error' : '');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // Initialize
+        updateInputStats();
+        updateOutputStats();
+    </script>
+</body>
+</html>
