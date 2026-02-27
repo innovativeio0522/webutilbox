@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Cleaner - Remove Duplicates, Line Numbers, Whitespace | ToolKit Pro</title>
+    <meta name="description" content="Clean and format text with duplicate line remover, line number generator, and whitespace cleaner. Free online text cleaning tool.">
+    <meta name="keywords" content="text cleaner, remove duplicates, line numbers, whitespace remover, text formatter">
+    <link rel="canonical" href="https://yourdomain.com/text-cleaner">
+    <link rel="stylesheet" href="../assets/css/common.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>🧹 Text Cleaner</h1>
+        <p class="subtitle">Remove duplicates, add/remove line numbers, and clean whitespace from text.</p>
+
+        <!-- Mode Tabs -->
+        <div style="display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;">
+            <button id="duplicatesTab" class="mode-tab active" onclick="switchMode('duplicates')">Remove Duplicates</button>
+            <button id="lineNumbersTab" class="mode-tab" onclick="switchMode('lineNumbers')">Line Numbers</button>
+            <button id="whitespaceTab" class="mode-tab" onclick="switchMode('whitespace')">Whitespace</button>
+        </div>
+
+        <!-- Duplicates Mode -->
+        <div id="duplicatesMode" class="workspace">
+            <div class="input-group">
+                <label>Input Text (One item per line)</label>
+                <textarea id="duplicatesInput" placeholder="Line 1&#10;Line 2&#10;Line 1&#10;Line 3&#10;Line 2"></textarea>
+            </div>
+            
+            <div style="display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                    <input type="checkbox" id="caseSensitive" checked>
+                    <span style="font-size: 0.9rem;">Case sensitive</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                    <input type="checkbox" id="trimLines" checked>
+                    <span style="font-size: 0.9rem;">Trim whitespace</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                    <input type="checkbox" id="sortLines">
+                    <span style="font-size: 0.9rem;">Sort alphabetically</span>
+                </label>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="removeDuplicates()">Remove Duplicates</button>
+                <button class="btn btn-secondary" onclick="clearDuplicates()">Clear</button>
+            </div>
+            
+            <div class="output-container" id="duplicatesOutput">
+                <div class="output-label">Result <span id="duplicatesStats" style="font-size: 0.8rem; color: var(--gray);"></span></div>
+                <div class="output-content" id="duplicatesText"></div>
+                <button class="btn btn-success" style="margin-top:10px;" onclick="copyDuplicates()">Copy Result</button>
+            </div>
+        </div>
+
+        <!-- Line Numbers Mode -->
+        <div id="lineNumbersMode" class="workspace" style="display: none;">
+            <div class="input-group">
+                <label>Input Text</label>
+                <textarea id="lineNumbersInput" placeholder="Enter text here..."></textarea>
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
+                <label style="display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 0.9rem;">Start from:</span>
+                    <input type="number" id="startNumber" value="1" min="0" style="width: 80px; padding: 6px;">
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 0.9rem;">Separator:</span>
+                    <input type="text" id="separator" value=". " style="width: 60px; padding: 6px;">
+                </label>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="addLineNumbers()">Add Line Numbers</button>
+                <button class="btn btn-primary" onclick="removeLineNumbers()">Remove Line Numbers</button>
+                <button class="btn btn-secondary" onclick="clearLineNumbers()">Clear</button>
+            </div>
+            
+            <div class="output-container" id="lineNumbersOutput">
+                <div class="output-label">Result</div>
+                <div class="output-content" id="lineNumbersText"></div>
+                <button class="btn btn-success" style="margin-top:10px;" onclick="copyLineNumbers()">Copy Result</button>
+            </div>
+        </div>
+
+        <!-- Whitespace Mode -->
+        <div id="whitespaceMode" class="workspace" style="display: none;">
+            <div class="input-group">
+                <label>Input Text</label>
+                <textarea id="whitespaceInput" placeholder="Enter   text   with   extra   spaces..."></textarea>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="removeExtraSpaces()">Remove Extra Spaces</button>
+                <button class="btn btn-primary" onclick="removeAllSpaces()">Remove All Spaces</button>
+                <button class="btn btn-primary" onclick="removeEmptyLines()">Remove Empty Lines</button>
+                <button class="btn btn-primary" onclick="trimAllLines()">Trim All Lines</button>
+                <button class="btn btn-secondary" onclick="clearWhitespace()">Clear</button>
+            </div>
+            
+            <div class="output-container" id="whitespaceOutput">
+                <div class="output-label">Result</div>
+                <div class="output-content" id="whitespaceText"></div>
+                <button class="btn btn-success" style="margin-top:10px;" onclick="copyWhitespace()">Copy Result</button>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Text Cleaner - Remove Duplicates, Line Numbers, Whitespace</h2>
+            <p>Clean and format text with multiple utilities. Remove duplicate lines, add or remove line numbers, and clean up whitespace.</p>
+            <p><strong>Remove Duplicates:</strong> Eliminate duplicate lines from lists, keeping only unique entries. Options for case sensitivity and sorting.</p>
+            <p><strong>Line Numbers:</strong> Add sequential line numbers to text or remove existing line numbers. Customize starting number and separator.</p>
+            <p><strong>Whitespace:</strong> Remove extra spaces, all spaces, empty lines, or trim whitespace from line ends.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <style>
+        .mode-tab {
+            padding: 10px 20px;
+            background: var(--dark);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--white);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .mode-tab:hover {
+            background: rgba(249, 115, 22, 0.1);
+            border-color: var(--primary);
+        }
+        .mode-tab.active {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+    </style>
+
+    <script>
+        let currentMode = 'duplicates';
+
+        function switchMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-tab').forEach(tab => tab.classList.remove('active'));
+            document.getElementById(mode + 'Tab').classList.add('active');
+            
+            document.getElementById('duplicatesMode').style.display = mode === 'duplicates' ? 'block' : 'none';
+            document.getElementById('lineNumbersMode').style.display = mode === 'lineNumbers' ? 'block' : 'none';
+            document.getElementById('whitespaceMode').style.display = mode === 'whitespace' ? 'block' : 'none';
+        }
+
+        // ===== REMOVE DUPLICATES =====
+        
+        function removeDuplicates() {
+            const input = document.getElementById('duplicatesInput').value;
+            if (!input.trim()) return showToast('Please enter text', true);
+            
+            const caseSensitive = document.getElementById('caseSensitive').checked;
+            const trimLines = document.getElementById('trimLines').checked;
+            const sortLines = document.getElementById('sortLines').checked;
+            
+            let lines = input.split('\n');
+            const originalCount = lines.length;
+            
+            if (trimLines) {
+                lines = lines.map(line => line.trim());
+            }
+            
+            const seen = new Set();
+            const unique = [];
+            
+            lines.forEach(line => {
+                const key = caseSensitive ? line : line.toLowerCase();
+                if (!seen.has(key) && line !== '') {
+                    seen.add(key);
+                    unique.push(line);
+                }
+            });
+            
+            if (sortLines) {
+                unique.sort((a, b) => a.localeCompare(b, undefined, { sensitivity: caseSensitive ? 'case' : 'base' }));
+            }
+            
+            const result = unique.join('\n');
+            const removed = originalCount - unique.length;
+            
+            document.getElementById('duplicatesText').textContent = result;
+            document.getElementById('duplicatesStats').textContent = `(${unique.length} unique, ${removed} duplicates removed)`;
+            document.getElementById('duplicatesOutput').classList.add('show');
+            showToast('Duplicates removed!');
+        }
+
+        function copyDuplicates() {
+            const text = document.getElementById('duplicatesText').textContent;
+            if (!text) return showToast('Nothing to copy', true);
+            navigator.clipboard.writeText(text).then(() => showToast('Copied!'));
+        }
+
+        function clearDuplicates() {
+            document.getElementById('duplicatesInput').value = '';
+            document.getElementById('duplicatesText').textContent = '';
+            document.getElementById('duplicatesOutput').classList.remove('show');
+            showToast('Cleared');
+        }
+
+        // ===== LINE NUMBERS =====
+        
+        function addLineNumbers() {
+            const input = document.getElementById('lineNumbersInput').value;
+            if (!input.trim()) return showToast('Please enter text', true);
+            
+            const startNum = parseInt(document.getElementById('startNumber').value) || 1;
+            const separator = document.getElementById('separator').value;
+            
+            const lines = input.split('\n');
+            const numbered = lines.map((line, index) => `${startNum + index}${separator}${line}`);
+            
+            document.getElementById('lineNumbersText').textContent = numbered.join('\n');
+            document.getElementById('lineNumbersOutput').classList.add('show');
+            showToast('Line numbers added!');
+        }
+
+        function removeLineNumbers() {
+            const input = document.getElementById('lineNumbersInput').value;
+            if (!input.trim()) return showToast('Please enter text', true);
+            
+            const lines = input.split('\n');
+            const cleaned = lines.map(line => line.replace(/^\d+[\.\)\:\-\s]+/, ''));
+            
+            document.getElementById('lineNumbersText').textContent = cleaned.join('\n');
+            document.getElementById('lineNumbersOutput').classList.add('show');
+            showToast('Line numbers removed!');
+        }
+
+        function copyLineNumbers() {
+            const text = document.getElementById('lineNumbersText').textContent;
+            if (!text) return showToast('Nothing to copy', true);
+            navigator.clipboard.writeText(text).then(() => showToast('Copied!'));
+        }
+
+        function clearLineNumbers() {
+            document.getElementById('lineNumbersInput').value = '';
+            document.getElementById('lineNumbersText').textContent = '';
+            document.getElementById('lineNumbersOutput').classList.remove('show');
+            showToast('Cleared');
+        }
+
+        // ===== WHITESPACE =====
+        
+        function removeExtraSpaces() {
+            const input = document.getElementById('whitespaceInput').value;
+            if (!input) return showToast('Please enter text', true);
+            
+            const result = input.replace(/  +/g, ' ');
+            document.getElementById('whitespaceText').textContent = result;
+            document.getElementById('whitespaceOutput').classList.add('show');
+            showToast('Extra spaces removed!');
+        }
+
+        function removeAllSpaces() {
+            const input = document.getElementById('whitespaceInput').value;
+            if (!input) return showToast('Please enter text', true);
+            
+            const result = input.replace(/ /g, '');
+            document.getElementById('whitespaceText').textContent = result;
+            document.getElementById('whitespaceOutput').classList.add('show');
+            showToast('All spaces removed!');
+        }
+
+        function removeEmptyLines() {
+            const input = document.getElementById('whitespaceInput').value;
+            if (!input) return showToast('Please enter text', true);
+            
+            const lines = input.split('\n').filter(line => line.trim() !== '');
+            document.getElementById('whitespaceText').textContent = lines.join('\n');
+            document.getElementById('whitespaceOutput').classList.add('show');
+            showToast('Empty lines removed!');
+        }
+
+        function trimAllLines() {
+            const input = document.getElementById('whitespaceInput').value;
+            if (!input) return showToast('Please enter text', true);
+            
+            const lines = input.split('\n').map(line => line.trim());
+            document.getElementById('whitespaceText').textContent = lines.join('\n');
+            document.getElementById('whitespaceOutput').classList.add('show');
+            showToast('Lines trimmed!');
+        }
+
+        function copyWhitespace() {
+            const text = document.getElementById('whitespaceText').textContent;
+            if (!text) return showToast('Nothing to copy', true);
+            navigator.clipboard.writeText(text).then(() => showToast('Copied!'));
+        }
+
+        function clearWhitespace() {
+            document.getElementById('whitespaceInput').value = '';
+            document.getElementById('whitespaceText').textContent = '';
+            document.getElementById('whitespaceOutput').classList.remove('show');
+            showToast('Cleared');
+        }
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show' + (isError ? ' error' : '');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>

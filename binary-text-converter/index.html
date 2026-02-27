@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary & Hex Text Converter - Text to Binary/Hex | ToolKit Pro</title>
+    <meta name="description" content="Convert text to binary, hexadecimal, and octal. Free online text encoding converter with bidirectional conversion.">
+    <meta name="keywords" content="binary converter, text to binary, hex converter, text to hex, octal converter, text encoding">
+    <link rel="canonical" href="https://yourdomain.com/binary-text-converter">
+    <link rel="stylesheet" href="../assets/css/common.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>🔢 Binary & Hex Text Converter</h1>
+        <p class="subtitle">Convert text to binary, hexadecimal, octal, and decimal formats.</p>
+
+        <div class="workspace">
+            <div class="input-group">
+                <label>Text Input</label>
+                <textarea id="textInput" placeholder="Enter text to convert..." oninput="convertFromText()"></textarea>
+            </div>
+
+            <!-- Binary -->
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Binary</label>
+                <div style="display: flex; gap: 8px;">
+                    <textarea id="binaryOutput" readonly placeholder="Binary output..." style="flex: 1; min-height: 80px; font-family: monospace; font-size: 0.85rem;"></textarea>
+                    <button class="btn btn-success" onclick="copyBinary()" style="padding: 10px 20px;">Copy</button>
+                </div>
+                <button class="btn btn-secondary" onclick="convertFromBinary()" style="margin-top: 8px; padding: 8px 16px; font-size: 0.85rem;">Decode Binary to Text</button>
+            </div>
+
+            <!-- Hexadecimal -->
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Hexadecimal</label>
+                <div style="display: flex; gap: 8px;">
+                    <textarea id="hexOutput" readonly placeholder="Hex output..." style="flex: 1; min-height: 80px; font-family: monospace; font-size: 0.85rem;"></textarea>
+                    <button class="btn btn-success" onclick="copyHex()" style="padding: 10px 20px;">Copy</button>
+                </div>
+                <button class="btn btn-secondary" onclick="convertFromHex()" style="margin-top: 8px; padding: 8px 16px; font-size: 0.85rem;">Decode Hex to Text</button>
+            </div>
+
+            <!-- Octal -->
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Octal</label>
+                <div style="display: flex; gap: 8px;">
+                    <textarea id="octalOutput" readonly placeholder="Octal output..." style="flex: 1; min-height: 80px; font-family: monospace; font-size: 0.85rem;"></textarea>
+                    <button class="btn btn-success" onclick="copyOctal()" style="padding: 10px 20px;">Copy</button>
+                </div>
+                <button class="btn btn-secondary" onclick="convertFromOctal()" style="margin-top: 8px; padding: 8px 16px; font-size: 0.85rem;">Decode Octal to Text</button>
+            </div>
+
+            <!-- Decimal -->
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Decimal (ASCII Codes)</label>
+                <div style="display: flex; gap: 8px;">
+                    <textarea id="decimalOutput" readonly placeholder="Decimal output..." style="flex: 1; min-height: 80px; font-family: monospace; font-size: 0.85rem;"></textarea>
+                    <button class="btn btn-success" onclick="copyDecimal()" style="padding: 10px 20px;">Copy</button>
+                </div>
+                <button class="btn btn-secondary" onclick="convertFromDecimal()" style="margin-top: 8px; padding: 8px 16px; font-size: 0.85rem;">Decode Decimal to Text</button>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-secondary" onclick="clearAll()">Clear All</button>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Binary & Hex Text Converter</h2>
+            <p>Convert text to and from binary, hexadecimal, octal, and decimal formats. All conversions are bidirectional.</p>
+            <p><strong>Binary:</strong> Base-2 number system using only 0 and 1. Each character is represented by 8 bits (1 byte).</p>
+            <p><strong>Hexadecimal:</strong> Base-16 system using 0-9 and A-F. Compact representation of binary data.</p>
+            <p><strong>Octal:</strong> Base-8 system using digits 0-7. Less common but used in some programming contexts.</p>
+            <p><strong>Decimal:</strong> Base-10 ASCII codes. Each character has a numeric code (A=65, B=66, etc.).</p>
+            <p><strong>Use Cases:</strong> Programming, data encoding, debugging, learning computer science, cryptography basics.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        let isConverting = false;
+
+        function convertFromText() {
+            if (isConverting) return;
+            const text = document.getElementById('textInput').value;
+            if (!text) {
+                clearOutputs();
+                return;
+            }
+
+            // Binary
+            const binary = text.split('').map(char => 
+                char.charCodeAt(0).toString(2).padStart(8, '0')
+            ).join(' ');
+            document.getElementById('binaryOutput').value = binary;
+
+            // Hexadecimal
+            const hex = text.split('').map(char => 
+                char.charCodeAt(0).toString(16).toUpperCase().padStart(2, '0')
+            ).join(' ');
+            document.getElementById('hexOutput').value = hex;
+
+            // Octal
+            const octal = text.split('').map(char => 
+                char.charCodeAt(0).toString(8).padStart(3, '0')
+            ).join(' ');
+            document.getElementById('octalOutput').value = octal;
+
+            // Decimal
+            const decimal = text.split('').map(char => 
+                char.charCodeAt(0)
+            ).join(' ');
+            document.getElementById('decimalOutput').value = decimal;
+        }
+
+        function convertFromBinary() {
+            isConverting = true;
+            const binary = document.getElementById('binaryOutput').value;
+            if (!binary.trim()) {
+                showToast('No binary data to decode', true);
+                isConverting = false;
+                return;
+            }
+
+            try {
+                const text = binary.split(' ').map(bin => 
+                    String.fromCharCode(parseInt(bin, 2))
+                ).join('');
+                document.getElementById('textInput').value = text;
+                convertFromText();
+                showToast('Binary decoded!');
+            } catch (e) {
+                showToast('Invalid binary format', true);
+            }
+            isConverting = false;
+        }
+
+        function convertFromHex() {
+            isConverting = true;
+            const hex = document.getElementById('hexOutput').value;
+            if (!hex.trim()) {
+                showToast('No hex data to decode', true);
+                isConverting = false;
+                return;
+            }
+
+            try {
+                const text = hex.split(' ').map(h => 
+                    String.fromCharCode(parseInt(h, 16))
+                ).join('');
+                document.getElementById('textInput').value = text;
+                convertFromText();
+                showToast('Hex decoded!');
+            } catch (e) {
+                showToast('Invalid hex format', true);
+            }
+            isConverting = false;
+        }
+
+        function convertFromOctal() {
+            isConverting = true;
+            const octal = document.getElementById('octalOutput').value;
+            if (!octal.trim()) {
+                showToast('No octal data to decode', true);
+                isConverting = false;
+                return;
+            }
+
+            try {
+                const text = octal.split(' ').map(oct => 
+                    String.fromCharCode(parseInt(oct, 8))
+                ).join('');
+                document.getElementById('textInput').value = text;
+                convertFromText();
+                showToast('Octal decoded!');
+            } catch (e) {
+                showToast('Invalid octal format', true);
+            }
+            isConverting = false;
+        }
+
+        function convertFromDecimal() {
+            isConverting = true;
+            const decimal = document.getElementById('decimalOutput').value;
+            if (!decimal.trim()) {
+                showToast('No decimal data to decode', true);
+                isConverting = false;
+                return;
+            }
+
+            try {
+                const text = decimal.split(' ').map(dec => 
+                    String.fromCharCode(parseInt(dec, 10))
+                ).join('');
+                document.getElementById('textInput').value = text;
+                convertFromText();
+                showToast('Decimal decoded!');
+            } catch (e) {
+                showToast('Invalid decimal format', true);
+            }
+            isConverting = false;
+        }
+
+        function copyBinary() {
+            copyToClipboard('binaryOutput', 'Binary');
+        }
+
+        function copyHex() {
+            copyToClipboard('hexOutput', 'Hex');
+        }
+
+        function copyOctal() {
+            copyToClipboard('octalOutput', 'Octal');
+        }
+
+        function copyDecimal() {
+            copyToClipboard('decimalOutput', 'Decimal');
+        }
+
+        function copyToClipboard(elementId, name) {
+            const text = document.getElementById(elementId).value;
+            if (!text) return showToast('Nothing to copy', true);
+            navigator.clipboard.writeText(text).then(() => showToast(name + ' copied!'));
+        }
+
+        function clearOutputs() {
+            document.getElementById('binaryOutput').value = '';
+            document.getElementById('hexOutput').value = '';
+            document.getElementById('octalOutput').value = '';
+            document.getElementById('decimalOutput').value = '';
+        }
+
+        function clearAll() {
+            document.getElementById('textInput').value = '';
+            clearOutputs();
+            showToast('Cleared');
+        }
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show' + (isError ? ' error' : '');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>
