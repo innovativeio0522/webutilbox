@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch - Online Stopwatch with Lap Times | ToolKit Pro</title>
+    <meta name="description" content="Free online stopwatch with lap times. Accurate millisecond precision. Perfect for timing workouts, races, and tasks.">
+    <meta name="keywords" content="stopwatch, online stopwatch, lap timer, split timer, millisecond timer">
+    <link rel="canonical" href="https://yourdomain.com/stopwatch">
+    <link rel="stylesheet" href="../assets/css/common.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>⏱️ Stopwatch</h1>
+        <p class="subtitle">Accurate stopwatch with lap times and millisecond precision.</p>
+
+        <div class="workspace">
+            <!-- Timer Display -->
+            <div style="text-align: center; margin-bottom: 30px;">
+                <div id="display" style="font-size: 5rem; font-weight: bold; color: var(--primary); font-family: monospace;">00:00:00.000</div>
+            </div>
+
+            <!-- Controls -->
+            <div class="button-group" style="justify-content: center;">
+                <button id="startBtn" class="btn btn-primary" onclick="start()" style="padding: 15px 40px; font-size: 1.1rem;">Start</button>
+                <button id="stopBtn" class="btn btn-secondary" onclick="stop()" style="padding: 15px 40px; font-size: 1.1rem; display: none;">Stop</button>
+                <button id="lapBtn" class="btn btn-success" onclick="lap()" style="padding: 15px 40px; font-size: 1.1rem; display: none;">Lap</button>
+                <button id="resetBtn" class="btn btn-secondary" onclick="reset()" style="padding: 15px 40px; font-size: 1.1rem;">Reset</button>
+            </div>
+
+            <!-- Lap Times -->
+            <div id="lapsContainer" style="margin-top: 30px; display: none;">
+                <h3 style="margin-bottom: 15px; font-size: 1rem;">Lap Times</h3>
+                <div style="background: var(--light); border-radius: 12px; padding: 15px; border: 1px solid var(--border); max-height: 300px; overflow-y: auto;">
+                    <table id="lapsTable" style="width: 100%; font-size: 0.9rem; font-family: monospace;">
+                        <thead>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <th style="padding: 8px; text-align: left;">Lap</th>
+                                <th style="padding: 8px; text-align: right;">Lap Time</th>
+                                <th style="padding: 8px; text-align: right;">Total Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lapsBody"></tbody>
+                    </table>
+                </div>
+                <button class="btn btn-secondary" onclick="clearLaps()" style="margin-top: 10px;">Clear Laps</button>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Online Stopwatch with Lap Times</h2>
+            <p>Accurate stopwatch with millisecond precision. Perfect for timing workouts, races, cooking, studying, or any activity that needs precise time tracking.</p>
+            <p><strong>Features:</strong> Start/stop functionality, lap times, split times, millisecond accuracy, unlimited laps.</p>
+            <p><strong>Use Cases:</strong> Sports timing, workout intervals, cooking, studying, productivity tracking, race timing.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        let startTime = 0;
+        let elapsedTime = 0;
+        let timerInterval = null;
+        let isRunning = false;
+        let lapCount = 0;
+        let lastLapTime = 0;
+
+        function formatTime(ms) {
+            const hours = Math.floor(ms / 3600000);
+            const minutes = Math.floor((ms % 3600000) / 60000);
+            const seconds = Math.floor((ms % 60000) / 1000);
+            const milliseconds = ms % 1000;
+
+            return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${milliseconds.toString().padStart(3, '0')}`;
+        }
+
+        function updateDisplay() {
+            const currentTime = Date.now();
+            elapsedTime = currentTime - startTime;
+            document.getElementById('display').textContent = formatTime(elapsedTime);
+        }
+
+        function start() {
+            if (isRunning) return;
+            
+            isRunning = true;
+            startTime = Date.now() - elapsedTime;
+            timerInterval = setInterval(updateDisplay, 10);
+            
+            document.getElementById('startBtn').style.display = 'none';
+            document.getElementById('stopBtn').style.display = 'inline-block';
+            document.getElementById('lapBtn').style.display = 'inline-block';
+        }
+
+        function stop() {
+            if (!isRunning) return;
+            
+            isRunning = false;
+            clearInterval(timerInterval);
+            
+            document.getElementById('startBtn').style.display = 'inline-block';
+            document.getElementById('stopBtn').style.display = 'none';
+            document.getElementById('lapBtn').style.display = 'none';
+        }
+
+        function reset() {
+            stop();
+            elapsedTime = 0;
+            lapCount = 0;
+            lastLapTime = 0;
+            document.getElementById('display').textContent = '00:00:00.000';
+            document.getElementById('lapsBody').innerHTML = '';
+            document.getElementById('lapsContainer').style.display = 'none';
+            showToast('Stopwatch reset');
+        }
+
+        function lap() {
+            if (!isRunning) return;
+            
+            lapCount++;
+            const currentTime = elapsedTime;
+            const lapTime = currentTime - lastLapTime;
+            lastLapTime = currentTime;
+            
+            const tbody = document.getElementById('lapsBody');
+            const row = tbody.insertRow(0);
+            
+            row.innerHTML = `
+                <td style="padding: 8px;">#${lapCount}</td>
+                <td style="padding: 8px; text-align: right; color: var(--primary);">${formatTime(lapTime)}</td>
+                <td style="padding: 8px; text-align: right;">${formatTime(currentTime)}</td>
+            `;
+            
+            document.getElementById('lapsContainer').style.display = 'block';
+            showToast(`Lap ${lapCount} recorded`);
+        }
+
+        function clearLaps() {
+            document.getElementById('lapsBody').innerHTML = '';
+            document.getElementById('lapsContainer').style.display = 'none';
+            lapCount = 0;
+            lastLapTime = 0;
+            showToast('Laps cleared');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show';
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Recorder - Record Audio from Microphone | ToolKit Pro</title>
+    <meta name="description" content="Record audio from your microphone. Simple voice recorder with playback and download. Free online voice recorder.">
+    <meta name="keywords" content="voice recorder, audio recorder, record microphone, record voice, audio recording">
+    <link rel="canonical" href="https://yourdomain.com/voice-recorder">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/tool-specific.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>🎙️ Voice Recorder</h1>
+        <p class="subtitle">Record audio from your microphone. Playback and download your recordings.</p>
+
+        <div class="workspace">
+            <!-- Recording Interface -->
+            <div style="text-align: center; padding: 40px; border: 2px solid var(--border); border-radius: 12px; background: var(--light); margin-bottom: 20px;">
+                <div id="micIcon" style="font-size: 5rem; margin-bottom: 20px; transition: all 0.3s;">🎙️</div>
+                
+                <div id="timer" style="font-size: 2.5rem; font-weight: bold; margin-bottom: 20px; font-family: monospace; color: var(--primary);">00:00</div>
+
+                <div id="visualizer" style="display: none; margin-bottom: 20px;">
+                    <canvas id="canvas" style="width: 100%; height: 60px; background: var(--dark); border-radius: 8px;"></canvas>
+                </div>
+
+                <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                    <button id="startBtn" class="btn btn-primary" onclick="startRecording()" style="padding: 15px 30px; font-size: 1rem;">
+                        <span style="font-size: 1.2rem;">⏺</span> Start Recording
+                    </button>
+                    <button id="stopBtn" class="btn btn-danger" onclick="stopRecording()" style="display: none; padding: 15px 30px; font-size: 1rem;">
+                        <span style="font-size: 1.2rem;">⏹</span> Stop Recording
+                    </button>
+                    <button id="pauseBtn" class="btn" onclick="pauseRecording()" style="display: none; padding: 15px 30px; font-size: 1rem;">
+                        <span style="font-size: 1.2rem;">⏸</span> Pause
+                    </button>
+                    <button id="resumeBtn" class="btn" onclick="resumeRecording()" style="display: none; padding: 15px 30px; font-size: 1rem;">
+                        <span style="font-size: 1.2rem;">▶️</span> Resume
+                    </button>
+                </div>
+            </div>
+
+            <!-- Playback & Download -->
+            <div id="playbackSection" style="display: none; background: var(--light); border-radius: 12px; padding: 20px; border: 1px solid var(--border);">
+                <h3 style="margin-bottom: 15px; font-size: 1rem;">Your Recording</h3>
+                <audio id="audioPlayback" controls style="width: 100%; margin-bottom: 15px;"></audio>
+                <div style="display: flex; gap: 10px; justify-content: center;">
+                    <button class="btn btn-success" onclick="downloadRecording()">Download Recording</button>
+                    <button class="btn" onclick="resetRecorder()">Record Again</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Voice Recorder</h2>
+            <p>Record audio directly from your microphone. Simple and easy-to-use voice recorder with playback and download functionality.</p>
+            <p><strong>Features:</strong> Real-time visualization, pause/resume recording, playback preview, download as WAV file.</p>
+            <p><strong>Privacy:</strong> All recording happens locally in your browser. No audio is sent to any server.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <style>
+        .recording {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+    </style>
+
+    <script>
+        let mediaRecorder;
+        let audioChunks = [];
+        let startTime;
+        let timerInterval;
+        let audioContext;
+        let analyser;
+        let dataArray;
+        let animationId;
+        let isPaused = false;
+        let pausedTime = 0;
+
+        async function startRecording() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+                isPaused = false;
+                pausedTime = 0;
+
+                mediaRecorder.ondataavailable = (event) => {
+                    audioChunks.push(event.data);
+                };
+
+                mediaRecorder.onstop = () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    document.getElementById('audioPlayback').src = audioUrl;
+                    document.getElementById('playbackSection').style.display = 'block';
+                    stopVisualizer();
+                };
+
+                mediaRecorder.start();
+                startTime = Date.now();
+                startTimer();
+                startVisualizer(stream);
+
+                document.getElementById('startBtn').style.display = 'none';
+                document.getElementById('stopBtn').style.display = 'inline-block';
+                document.getElementById('pauseBtn').style.display = 'inline-block';
+                document.getElementById('micIcon').classList.add('recording');
+                document.getElementById('visualizer').style.display = 'block';
+
+                showToast('Recording started!');
+            } catch (error) {
+                showToast('Microphone access denied', true);
+            }
+        }
+
+        function stopRecording() {
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                mediaRecorder.stop();
+                mediaRecorder.stream.getTracks().forEach(track => track.stop());
+                clearInterval(timerInterval);
+
+                document.getElementById('stopBtn').style.display = 'none';
+                document.getElementById('pauseBtn').style.display = 'none';
+                document.getElementById('resumeBtn').style.display = 'none';
+                document.getElementById('micIcon').classList.remove('recording');
+
+                showToast('Recording stopped!');
+            }
+        }
+
+        function pauseRecording() {
+            if (mediaRecorder && mediaRecorder.state === 'recording') {
+                mediaRecorder.pause();
+                isPaused = true;
+                pausedTime = Date.now();
+                clearInterval(timerInterval);
+
+                document.getElementById('pauseBtn').style.display = 'none';
+                document.getElementById('resumeBtn').style.display = 'inline-block';
+                document.getElementById('micIcon').classList.remove('recording');
+
+                showToast('Recording paused');
+            }
+        }
+
+        function resumeRecording() {
+            if (mediaRecorder && mediaRecorder.state === 'paused') {
+                mediaRecorder.resume();
+                isPaused = false;
+                startTime += (Date.now() - pausedTime);
+                startTimer();
+
+                document.getElementById('resumeBtn').style.display = 'none';
+                document.getElementById('pauseBtn').style.display = 'inline-block';
+                document.getElementById('micIcon').classList.add('recording');
+
+                showToast('Recording resumed');
+            }
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                const minutes = Math.floor(elapsed / 60).toString().padStart(2, '0');
+                const seconds = (elapsed % 60).toString().padStart(2, '0');
+                document.getElementById('timer').textContent = `${minutes}:${seconds}`;
+            }, 1000);
+        }
+
+        function startVisualizer(stream) {
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            analyser = audioContext.createAnalyser();
+            const source = audioContext.createMediaStreamSource(stream);
+            source.connect(analyser);
+            analyser.fftSize = 256;
+
+            const bufferLength = analyser.frequencyBinCount;
+            dataArray = new Uint8Array(bufferLength);
+
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+
+            function draw() {
+                animationId = requestAnimationFrame(draw);
+
+                analyser.getByteFrequencyData(dataArray);
+
+                ctx.fillStyle = '#1a1a1a';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const barWidth = (canvas.width / bufferLength) * 2.5;
+                let x = 0;
+
+                for (let i = 0; i < bufferLength; i++) {
+                    const barHeight = (dataArray[i] / 255) * canvas.height;
+
+                    ctx.fillStyle = `rgb(249, ${115 + dataArray[i] / 2}, 22)`;
+                    ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+
+                    x += barWidth + 1;
+                }
+            }
+
+            draw();
+        }
+
+        function stopVisualizer() {
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+            }
+            if (audioContext) {
+                audioContext.close();
+            }
+        }
+
+        function downloadRecording() {
+            const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+            const url = URL.createObjectURL(audioBlob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `recording_${Date.now()}.wav`;
+            a.click();
+            showToast('Recording downloaded!');
+        }
+
+        function resetRecorder() {
+            document.getElementById('playbackSection').style.display = 'none';
+            document.getElementById('startBtn').style.display = 'inline-block';
+            document.getElementById('timer').textContent = '00:00';
+            document.getElementById('visualizer').style.display = 'none';
+            audioChunks = [];
+        }
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show' + (isError ? ' error' : '');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>

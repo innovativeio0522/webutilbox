@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random String Generator - Generate Random Passwords & Tokens | ToolKit Pro</title>
+    <meta name="description" content="Generate random strings, passwords, tokens, and IDs. Customizable length and character sets. Perfect for API keys, passwords, and unique identifiers.">
+    <meta name="keywords" content="random string generator, random password, token generator, api key generator, random id">
+    <link rel="canonical" href="https://yourdomain.com/random-string-generator">
+    <link rel="stylesheet" href="../assets/css/common.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>🎲 Random String Generator</h1>
+        <p class="subtitle">Generate random strings, passwords, tokens, and unique identifiers.</p>
+
+        <div class="workspace">
+            <!-- Settings -->
+            <div style="background: var(--light); border-radius: 12px; padding: 20px; border: 1px solid var(--border); margin-bottom: 20px;">
+                <div style="margin-bottom: 15px;">
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Length: <span id="lengthValue">16</span></label>
+                    <input type="range" id="length" min="4" max="128" value="16" oninput="updateLength()" style="width: 100%;">
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" id="uppercase" checked onchange="generate()">
+                        <span style="font-size: 0.9rem;">Uppercase (A-Z)</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" id="lowercase" checked onchange="generate()">
+                        <span style="font-size: 0.9rem;">Lowercase (a-z)</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" id="numbers" checked onchange="generate()">
+                        <span style="font-size: 0.9rem;">Numbers (0-9)</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" id="symbols" onchange="generate()">
+                        <span style="font-size: 0.9rem;">Symbols (!@#$%)</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Output -->
+            <div class="output-container show">
+                <div class="output-label">Generated String</div>
+                <div class="output-content" id="output" style="font-family: monospace; font-size: 1.1rem; word-break: break-all;"></div>
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <button class="btn btn-success" onclick="copy()">Copy</button>
+                    <button class="btn btn-primary" onclick="generate()">Generate New</button>
+                </div>
+            </div>
+
+            <!-- Batch Generate -->
+            <div style="margin-top: 20px;">
+                <label style="font-size: 0.9rem; margin-bottom: 8px; display: block;">Generate Multiple</label>
+                <div style="display: flex; gap: 10px;">
+                    <input type="number" id="count" value="10" min="1" max="100" style="width: 100px; padding: 8px;">
+                    <button class="btn btn-primary" onclick="generateBatch()">Generate Batch</button>
+                </div>
+            </div>
+
+            <div id="batchOutput" style="display: none; margin-top: 15px;">
+                <textarea id="batchText" readonly style="width: 100%; min-height: 200px; padding: 12px; font-family: monospace; font-size: 0.85rem;"></textarea>
+                <button class="btn btn-success" onclick="copyBatch()" style="margin-top: 10px;">Copy All</button>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Random String Generator</h2>
+            <p>Generate cryptographically secure random strings for passwords, API keys, tokens, session IDs, and unique identifiers.</p>
+            <p><strong>Use Cases:</strong> Password generation, API keys, authentication tokens, session IDs, unique identifiers, test data.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        function updateLength() {
+            document.getElementById('lengthValue').textContent = document.getElementById('length').value;
+            generate();
+        }
+
+        function generate() {
+            const length = parseInt(document.getElementById('length').value);
+            const useUpper = document.getElementById('uppercase').checked;
+            const useLower = document.getElementById('lowercase').checked;
+            const useNumbers = document.getElementById('numbers').checked;
+            const useSymbols = document.getElementById('symbols').checked;
+
+            let charset = '';
+            if (useUpper) charset += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            if (useLower) charset += 'abcdefghijklmnopqrstuvwxyz';
+            if (useNumbers) charset += '0123456789';
+            if (useSymbols) charset += '!@#$%^&*()_+-=[]{}|;:,.<>?';
+
+            if (!charset) {
+                showToast('Please select at least one character type', true);
+                return;
+            }
+
+            const array = new Uint32Array(length);
+            crypto.getRandomValues(array);
+            const result = Array.from(array).map(x => charset[x % charset.length]).join('');
+
+            document.getElementById('output').textContent = result;
+        }
+
+        function generateBatch() {
+            const count = parseInt(document.getElementById('count').value);
+            const results = [];
+
+            for (let i = 0; i < count; i++) {
+                const length = parseInt(document.getElementById('length').value);
+                const useUpper = document.getElementById('uppercase').checked;
+                const useLower = document.getElementById('lowercase').checked;
+                const useNumbers = document.getElementById('numbers').checked;
+                const useSymbols = document.getElementById('symbols').checked;
+
+                let charset = '';
+                if (useUpper) charset += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                if (useLower) charset += 'abcdefghijklmnopqrstuvwxyz';
+                if (useNumbers) charset += '0123456789';
+                if (useSymbols) charset += '!@#$%^&*()_+-=[]{}|;:,.<>?';
+
+                const array = new Uint32Array(length);
+                crypto.getRandomValues(array);
+                const result = Array.from(array).map(x => charset[x % charset.length]).join('');
+                results.push(result);
+            }
+
+            document.getElementById('batchText').value = results.join('\n');
+            document.getElementById('batchOutput').style.display = 'block';
+            showToast(`Generated ${count} strings`);
+        }
+
+        function copy() {
+            const text = document.getElementById('output').textContent;
+            navigator.clipboard.writeText(text).then(() => showToast('Copied!'));
+        }
+
+        function copyBatch() {
+            const text = document.getElementById('batchText').value;
+            navigator.clipboard.writeText(text).then(() => showToast('All strings copied!'));
+        }
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show' + (isError ? ' error' : '');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        generate();
+    </script>
+</body>
+</html>
