@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flexbox Generator - Visual CSS Flexbox Tool | ToolKit Pro</title>
+    <meta name="description" content="Generate CSS flexbox layouts with visual editor. Adjust direction, alignment, spacing, and more. Free flexbox generator.">
+    <meta name="keywords" content="flexbox generator, css flexbox, flex layout, flexbox tool, css layout">
+    <link rel="canonical" href="https://yourdomain.com/flexbox-generator">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/tool-specific.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>📦 Flexbox Generator</h1>
+        <p class="subtitle">Visual CSS flexbox layout generator with live preview.</p>
+
+        <div class="workspace">
+            <!-- Preview -->
+            <div style="margin-bottom: 20px;">
+                <label style="font-size: 0.9rem; margin-bottom: 10px; display: block; font-weight: 600;">Preview</label>
+                <div id="flexContainer" style="background: rgba(249, 115, 22, 0.1); border: 2px dashed var(--primary); border-radius: 12px; padding: 20px; min-height: 200px; display: flex;">
+                    <div class="flex-item">1</div>
+                    <div class="flex-item">2</div>
+                    <div class="flex-item">3</div>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-bottom: 20px;">
+                <!-- Flex Direction -->
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Flex Direction</label>
+                    <select id="flexDirection" onchange="updateFlex()" style="width: 100%; padding: 10px; font-size: 0.9rem;">
+                        <option value="row">row</option>
+                        <option value="row-reverse">row-reverse</option>
+                        <option value="column">column</option>
+                        <option value="column-reverse">column-reverse</option>
+                    </select>
+                </div>
+
+                <!-- Justify Content -->
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Justify Content</label>
+                    <select id="justifyContent" onchange="updateFlex()" style="width: 100%; padding: 10px; font-size: 0.9rem;">
+                        <option value="flex-start">flex-start</option>
+                        <option value="flex-end">flex-end</option>
+                        <option value="center">center</option>
+                        <option value="space-between">space-between</option>
+                        <option value="space-around">space-around</option>
+                        <option value="space-evenly">space-evenly</option>
+                    </select>
+                </div>
+
+                <!-- Align Items -->
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Align Items</label>
+                    <select id="alignItems" onchange="updateFlex()" style="width: 100%; padding: 10px; font-size: 0.9rem;">
+                        <option value="stretch">stretch</option>
+                        <option value="flex-start">flex-start</option>
+                        <option value="flex-end">flex-end</option>
+                        <option value="center">center</option>
+                        <option value="baseline">baseline</option>
+                    </select>
+                </div>
+
+                <!-- Flex Wrap -->
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Flex Wrap</label>
+                    <select id="flexWrap" onchange="updateFlex()" style="width: 100%; padding: 10px; font-size: 0.9rem;">
+                        <option value="nowrap">nowrap</option>
+                        <option value="wrap">wrap</option>
+                        <option value="wrap-reverse">wrap-reverse</option>
+                    </select>
+                </div>
+
+                <!-- Gap -->
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Gap (px)</label>
+                    <input type="range" id="gap" min="0" max="50" value="10" oninput="updateFlex()" style="width: 100%;">
+                    <div style="text-align: center; font-size: 0.85rem; color: var(--gray); margin-top: 4px;"><span id="gapValue">10</span>px</div>
+                </div>
+
+                <!-- Number of Items -->
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Number of Items</label>
+                    <input type="range" id="itemCount" min="1" max="8" value="3" oninput="updateItems()" style="width: 100%;">
+                    <div style="text-align: center; font-size: 0.85rem; color: var(--gray); margin-top: 4px;"><span id="itemCountValue">3</span></div>
+                </div>
+            </div>
+
+            <!-- CSS Output -->
+            <div>
+                <label style="font-size: 0.9rem; margin-bottom: 8px; display: block; font-weight: 600;">CSS Code</label>
+                <div style="position: relative;">
+                    <textarea id="cssOutput" readonly style="width: 100%; height: 150px; padding: 12px; font-family: 'Courier New', monospace; font-size: 0.9rem; background: var(--dark); border: 1px solid var(--border); border-radius: 8px; resize: vertical;"></textarea>
+                    <button class="btn btn-success" onclick="copyCss()" style="position: absolute; top: 10px; right: 10px;">Copy CSS</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Flexbox Generator</h2>
+            <p>Create CSS flexbox layouts visually. Adjust direction, alignment, wrapping, and spacing to build responsive layouts.</p>
+            <p><strong>Properties:</strong> flex-direction controls main axis, justify-content aligns along main axis, align-items aligns along cross axis.</p>
+            <p><strong>Use Cases:</strong> Navigation bars, card layouts, centering content, responsive grids, form layouts.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <style>
+        .flex-item {
+            background: var(--primary);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 60px;
+            min-height: 60px;
+        }
+    </style>
+
+    <script>
+        function updateFlex() {
+            const container = document.getElementById('flexContainer');
+            const direction = document.getElementById('flexDirection').value;
+            const justify = document.getElementById('justifyContent').value;
+            const align = document.getElementById('alignItems').value;
+            const wrap = document.getElementById('flexWrap').value;
+            const gap = document.getElementById('gap').value;
+
+            document.getElementById('gapValue').textContent = gap;
+
+            container.style.flexDirection = direction;
+            container.style.justifyContent = justify;
+            container.style.alignItems = align;
+            container.style.flexWrap = wrap;
+            container.style.gap = gap + 'px';
+
+            const css = `.container {
+  display: flex;
+  flex-direction: ${direction};
+  justify-content: ${justify};
+  align-items: ${align};
+  flex-wrap: ${wrap};
+  gap: ${gap}px;
+}`;
+
+            document.getElementById('cssOutput').value = css;
+        }
+
+        function updateItems() {
+            const count = document.getElementById('itemCount').value;
+            document.getElementById('itemCountValue').textContent = count;
+
+            const container = document.getElementById('flexContainer');
+            container.innerHTML = '';
+            for (let i = 1; i <= count; i++) {
+                const item = document.createElement('div');
+                item.className = 'flex-item';
+                item.textContent = i;
+                container.appendChild(item);
+            }
+        }
+
+        function copyCss() {
+            const css = document.getElementById('cssOutput').value;
+            navigator.clipboard.writeText(css).then(() => showToast('CSS copied!'));
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show';
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        updateFlex();
+    </script>
+</body>
+</html>

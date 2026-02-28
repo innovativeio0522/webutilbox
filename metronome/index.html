@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metronome - Online Beat Keeper for Musicians | ToolKit Pro</title>
+    <meta name="description" content="Free online metronome. Adjustable BPM, time signatures, and visual beat indicator. Perfect for musicians and music practice.">
+    <meta name="keywords" content="metronome, online metronome, bpm, beat keeper, music practice, tempo">
+    <link rel="canonical" href="https://yourdomain.com/metronome">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/tool-specific.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>🎵 Metronome</h1>
+        <p class="subtitle">Online metronome for musicians. Adjustable tempo and time signatures.</p>
+
+        <div class="workspace">
+            <!-- Visual Beat Indicator -->
+            <div style="text-align: center; padding: 40px; border: 2px solid var(--border); border-radius: 12px; background: var(--light); margin-bottom: 20px;">
+                <div id="beatIndicator" style="width: 150px; height: 150px; margin: 0 auto 20px; border-radius: 50%; background: var(--dark); border: 4px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 3rem; transition: all 0.1s;">
+                    <span id="beatNumber">1</span>
+                </div>
+
+                <div id="bpmDisplay" style="font-size: 3rem; font-weight: bold; margin-bottom: 20px; color: var(--primary);">120</div>
+                <div style="font-size: 1rem; color: var(--gray); margin-bottom: 30px;">BPM (Beats Per Minute)</div>
+
+                <button id="startBtn" class="btn btn-primary" onclick="start()" style="padding: 15px 40px; font-size: 1.1rem;">
+                    ▶️ Start
+                </button>
+                <button id="stopBtn" class="btn btn-danger" onclick="stop()" style="display: none; padding: 15px 40px; font-size: 1.1rem;">
+                    ⏹ Stop
+                </button>
+            </div>
+
+            <!-- Controls -->
+            <div style="background: var(--light); border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid var(--border);">
+                <!-- BPM Slider -->
+                <div style="margin-bottom: 25px;">
+                    <label style="font-size: 0.9rem; margin-bottom: 10px; display: block; font-weight: 600;">Tempo (BPM)</label>
+                    <input type="range" id="bpmSlider" min="40" max="240" value="120" oninput="updateBPM()" style="width: 100%;">
+                    <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.85rem; color: var(--gray);">
+                        <span>40</span>
+                        <span>240</span>
+                    </div>
+                </div>
+
+                <!-- BPM Input -->
+                <div style="margin-bottom: 25px;">
+                    <label style="font-size: 0.9rem; margin-bottom: 8px; display: block; font-weight: 600;">Enter BPM</label>
+                    <input type="number" id="bpmInput" min="40" max="240" value="120" oninput="updateBPMFromInput()" style="width: 100%; padding: 12px; font-size: 1.1rem; text-align: center;">
+                </div>
+
+                <!-- Quick Tempos -->
+                <div style="margin-bottom: 25px;">
+                    <label style="font-size: 0.9rem; margin-bottom: 10px; display: block; font-weight: 600;">Quick Tempos</label>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px;">
+                        <button class="btn" onclick="setBPM(60)" style="padding: 10px;">60 - Largo</button>
+                        <button class="btn" onclick="setBPM(80)" style="padding: 10px;">80 - Andante</button>
+                        <button class="btn" onclick="setBPM(100)" style="padding: 10px;">100 - Moderato</button>
+                        <button class="btn" onclick="setBPM(120)" style="padding: 10px;">120 - Allegro</button>
+                        <button class="btn" onclick="setBPM(140)" style="padding: 10px;">140 - Vivace</button>
+                        <button class="btn" onclick="setBPM(180)" style="padding: 10px;">180 - Presto</button>
+                    </div>
+                </div>
+
+                <!-- Time Signature -->
+                <div style="margin-bottom: 25px;">
+                    <label style="font-size: 0.9rem; margin-bottom: 8px; display: block; font-weight: 600;">Time Signature</label>
+                    <select id="timeSignature" onchange="updateTimeSignature()" style="width: 100%; padding: 12px; font-size: 1rem;">
+                        <option value="4">4/4 (Common Time)</option>
+                        <option value="3">3/4 (Waltz)</option>
+                        <option value="2">2/4 (March)</option>
+                        <option value="6">6/8 (Compound)</option>
+                        <option value="5">5/4 (Irregular)</option>
+                        <option value="7">7/8 (Irregular)</option>
+                    </select>
+                </div>
+
+                <!-- Volume -->
+                <div>
+                    <label style="font-size: 0.9rem; margin-bottom: 8px; display: block; font-weight: 600;">Volume</label>
+                    <input type="range" id="volume" min="0" max="100" value="50" oninput="updateVolume()" style="width: 100%;">
+                    <div style="text-align: center; margin-top: 5px; font-size: 0.85rem; color: var(--gray);">
+                        <span id="volumeValue">50</span>%
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tap Tempo -->
+            <div style="text-align: center; background: var(--light); border-radius: 12px; padding: 20px; border: 1px solid var(--border);">
+                <button class="btn btn-primary" onclick="tapTempo()" style="padding: 20px 40px; font-size: 1.1rem;">
+                    👆 Tap Tempo
+                </button>
+                <p style="margin-top: 10px; font-size: 0.85rem; color: var(--gray);">Tap this button repeatedly to set tempo</p>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Metronome - Beat Keeper for Musicians</h2>
+            <p>Free online metronome with adjustable tempo (40-240 BPM) and multiple time signatures. Perfect for music practice and keeping steady rhythm.</p>
+            <p><strong>Features:</strong> Visual beat indicator, tap tempo, quick tempo presets, adjustable volume, multiple time signatures.</p>
+            <p><strong>Use Cases:</strong> Music practice, instrument learning, rhythm training, recording sessions, live performances.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <style>
+        .beat-active {
+            background: var(--primary) !important;
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(249, 115, 22, 0.6);
+        }
+        .beat-accent {
+            background: #10b981 !important;
+        }
+    </style>
+
+    <script>
+        let audioContext;
+        let isPlaying = false;
+        let bpm = 120;
+        let beatsPerMeasure = 4;
+        let currentBeat = 0;
+        let nextNoteTime = 0;
+        let scheduleAheadTime = 0.1;
+        let timerID;
+        let volume = 0.5;
+        let tapTimes = [];
+
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        function start() {
+            if (isPlaying) return;
+            
+            initAudio();
+            isPlaying = true;
+            currentBeat = 0;
+            nextNoteTime = audioContext.currentTime;
+            
+            scheduler();
+            
+            document.getElementById('startBtn').style.display = 'none';
+            document.getElementById('stopBtn').style.display = 'inline-block';
+            showToast('Metronome started');
+        }
+
+        function stop() {
+            isPlaying = false;
+            clearTimeout(timerID);
+            
+            document.getElementById('startBtn').style.display = 'inline-block';
+            document.getElementById('stopBtn').style.display = 'none';
+            document.getElementById('beatIndicator').classList.remove('beat-active', 'beat-accent');
+            showToast('Metronome stopped');
+        }
+
+        function scheduler() {
+            while (nextNoteTime < audioContext.currentTime + scheduleAheadTime) {
+                scheduleNote(currentBeat, nextNoteTime);
+                nextNote();
+            }
+            timerID = setTimeout(scheduler, 25);
+        }
+
+        function scheduleNote(beatNumber, time) {
+            const osc = audioContext.createOscillator();
+            const envelope = audioContext.createGain();
+
+            osc.frequency.value = beatNumber % beatsPerMeasure === 0 ? 1000 : 800;
+            envelope.gain.value = volume;
+            envelope.gain.exponentialRampToValueAtTime(0.001, time + 0.1);
+
+            osc.connect(envelope);
+            envelope.connect(audioContext.destination);
+
+            osc.start(time);
+            osc.stop(time + 0.1);
+
+            setTimeout(() => {
+                visualBeat(beatNumber);
+            }, (time - audioContext.currentTime) * 1000);
+        }
+
+        function nextNote() {
+            const secondsPerBeat = 60.0 / bpm;
+            nextNoteTime += secondsPerBeat;
+            currentBeat = (currentBeat + 1) % beatsPerMeasure;
+        }
+
+        function visualBeat(beatNumber) {
+            const indicator = document.getElementById('beatIndicator');
+            const beatNum = document.getElementById('beatNumber');
+            
+            indicator.classList.remove('beat-active', 'beat-accent');
+            
+            setTimeout(() => {
+                indicator.classList.add('beat-active');
+                if (beatNumber % beatsPerMeasure === 0) {
+                    indicator.classList.add('beat-accent');
+                }
+                beatNum.textContent = (beatNumber % beatsPerMeasure) + 1;
+            }, 10);
+
+            setTimeout(() => {
+                indicator.classList.remove('beat-active', 'beat-accent');
+            }, 100);
+        }
+
+        function updateBPM() {
+            bpm = parseInt(document.getElementById('bpmSlider').value);
+            document.getElementById('bpmDisplay').textContent = bpm;
+            document.getElementById('bpmInput').value = bpm;
+        }
+
+        function updateBPMFromInput() {
+            let value = parseInt(document.getElementById('bpmInput').value);
+            if (value < 40) value = 40;
+            if (value > 240) value = 240;
+            bpm = value;
+            document.getElementById('bpmSlider').value = bpm;
+            document.getElementById('bpmDisplay').textContent = bpm;
+        }
+
+        function setBPM(value) {
+            bpm = value;
+            document.getElementById('bpmSlider').value = bpm;
+            document.getElementById('bpmInput').value = bpm;
+            document.getElementById('bpmDisplay').textContent = bpm;
+        }
+
+        function updateTimeSignature() {
+            beatsPerMeasure = parseInt(document.getElementById('timeSignature').value);
+            currentBeat = 0;
+        }
+
+        function updateVolume() {
+            const vol = parseInt(document.getElementById('volume').value);
+            volume = vol / 100;
+            document.getElementById('volumeValue').textContent = vol;
+        }
+
+        function tapTempo() {
+            const now = Date.now();
+            tapTimes.push(now);
+
+            if (tapTimes.length > 1) {
+                tapTimes = tapTimes.filter(time => now - time < 3000);
+                
+                if (tapTimes.length >= 2) {
+                    const intervals = [];
+                    for (let i = 1; i < tapTimes.length; i++) {
+                        intervals.push(tapTimes[i] - tapTimes[i - 1]);
+                    }
+                    const avgInterval = intervals.reduce((a, b) => a + b) / intervals.length;
+                    const calculatedBPM = Math.round(60000 / avgInterval);
+                    
+                    if (calculatedBPM >= 40 && calculatedBPM <= 240) {
+                        setBPM(calculatedBPM);
+                        showToast(`Tempo set to ${calculatedBPM} BPM`);
+                    }
+                }
+            }
+
+            const indicator = document.getElementById('beatIndicator');
+            indicator.classList.add('beat-active');
+            setTimeout(() => indicator.classList.remove('beat-active'), 100);
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show';
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Parser - Parse and Decode URLs | ToolKit Pro</title>
+    <meta name="description" content="Parse URLs into components. Extract protocol, host, path, query parameters, and more. Free online URL parser and decoder.">
+    <meta name="keywords" content="url parser, parse url, url decoder, query string parser, url analyzer">
+    <link rel="canonical" href="https://yourdomain.com/url-parser">
+    <link rel="stylesheet" href="../assets/css/common.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>🔗 URL Parser</h1>
+        <p class="subtitle">Parse URLs into components and decode query parameters.</p>
+
+        <div class="workspace">
+            <div class="input-group">
+                <label>URL Input</label>
+                <input type="text" id="urlInput" placeholder="https://example.com/path?param=value#hash" oninput="parseURL()" style="padding: 12px; font-size: 1rem;">
+            </div>
+
+            <button class="btn btn-primary" onclick="loadSample()">Load Sample URL</button>
+
+            <!-- Parsed Components -->
+            <div id="output" style="display: none; margin-top: 20px;">
+                <h3 style="margin-bottom: 15px; font-size: 1rem;">URL Components</h3>
+                
+                <div style="background: var(--light); border-radius: 12px; padding: 20px; border: 1px solid var(--border); margin-bottom: 15px;">
+                    <div class="url-component">
+                        <span class="label">Full URL:</span>
+                        <span class="value" id="fullUrl"></span>
+                    </div>
+                    <div class="url-component">
+                        <span class="label">Protocol:</span>
+                        <span class="value" id="protocol"></span>
+                    </div>
+                    <div class="url-component">
+                        <span class="label">Host:</span>
+                        <span class="value" id="host"></span>
+                    </div>
+                    <div class="url-component">
+                        <span class="label">Hostname:</span>
+                        <span class="value" id="hostname"></span>
+                    </div>
+                    <div class="url-component">
+                        <span class="label">Port:</span>
+                        <span class="value" id="port"></span>
+                    </div>
+                    <div class="url-component">
+                        <span class="label">Pathname:</span>
+                        <span class="value" id="pathname"></span>
+                    </div>
+                    <div class="url-component">
+                        <span class="label">Search:</span>
+                        <span class="value" id="search"></span>
+                    </div>
+                    <div class="url-component">
+                        <span class="label">Hash:</span>
+                        <span class="value" id="hash"></span>
+                    </div>
+                    <div class="url-component">
+                        <span class="label">Origin:</span>
+                        <span class="value" id="origin"></span>
+                    </div>
+                </div>
+
+                <!-- Query Parameters -->
+                <div id="paramsSection" style="display: none;">
+                    <h3 style="margin-bottom: 15px; font-size: 1rem;">Query Parameters</h3>
+                    <div style="background: var(--light); border-radius: 12px; padding: 15px; border: 1px solid var(--border);">
+                        <table id="paramsTable" style="width: 100%; font-size: 0.9rem;">
+                            <thead>
+                                <tr style="border-bottom: 1px solid var(--border);">
+                                    <th style="padding: 8px; text-align: left;">Parameter</th>
+                                    <th style="padding: 8px; text-align: left;">Value</th>
+                                    <th style="padding: 8px; text-align: left;">Decoded</th>
+                                </tr>
+                            </thead>
+                            <tbody id="paramsBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>URL Parser - Parse and Decode URLs</h2>
+            <p>Parse URLs into their components: protocol, host, path, query parameters, and hash. Automatically decodes URL-encoded values.</p>
+            <p><strong>Components:</strong> Protocol (http/https), hostname, port, pathname, query string, hash fragment.</p>
+            <p><strong>Use Cases:</strong> Debugging URLs, analyzing links, extracting query parameters, URL validation, web development.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <style>
+        .url-component {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+        .url-component:last-child {
+            border-bottom: none;
+        }
+        .url-component .label {
+            font-weight: 600;
+            color: var(--gray);
+        }
+        .url-component .value {
+            font-family: monospace;
+            word-break: break-all;
+        }
+    </style>
+
+    <script>
+        function parseURL() {
+            const input = document.getElementById('urlInput').value.trim();
+            if (!input) {
+                document.getElementById('output').style.display = 'none';
+                return;
+            }
+
+            try {
+                const url = new URL(input);
+                
+                document.getElementById('fullUrl').textContent = url.href;
+                document.getElementById('protocol').textContent = url.protocol;
+                document.getElementById('host').textContent = url.host;
+                document.getElementById('hostname').textContent = url.hostname;
+                document.getElementById('port').textContent = url.port || '(default)';
+                document.getElementById('pathname').textContent = url.pathname;
+                document.getElementById('search').textContent = url.search || '(none)';
+                document.getElementById('hash').textContent = url.hash || '(none)';
+                document.getElementById('origin').textContent = url.origin;
+
+                // Parse query parameters
+                const params = new URLSearchParams(url.search);
+                const paramsBody = document.getElementById('paramsBody');
+                paramsBody.innerHTML = '';
+
+                if (params.toString()) {
+                    params.forEach((value, key) => {
+                        const row = paramsBody.insertRow();
+                        row.innerHTML = `
+                            <td style="padding: 8px; font-family: monospace;">${escapeHTML(key)}</td>
+                            <td style="padding: 8px; font-family: monospace; color: var(--gray);">${escapeHTML(value)}</td>
+                            <td style="padding: 8px; font-family: monospace; color: var(--primary);">${escapeHTML(decodeURIComponent(value))}</td>
+                        `;
+                    });
+                    document.getElementById('paramsSection').style.display = 'block';
+                } else {
+                    document.getElementById('paramsSection').style.display = 'none';
+                }
+
+                document.getElementById('output').style.display = 'block';
+                
+            } catch (e) {
+                showToast('Invalid URL format', true);
+                document.getElementById('output').style.display = 'none';
+            }
+        }
+
+        function loadSample() {
+            document.getElementById('urlInput').value = 'https://example.com:8080/path/to/page?name=John%20Doe&age=30&city=New%20York#section-1';
+            parseURL();
+            showToast('Sample URL loaded');
+        }
+
+        function escapeHTML(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show' + (isError ? ' error' : '');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>

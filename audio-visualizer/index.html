@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Visualizer - Frequency & Waveform Display | ToolKit Pro</title>
+    <meta name="description" content="Visualize audio with frequency spectrum and waveform display. Upload audio or use microphone. Free audio visualizer.">
+    <meta name="keywords" content="audio visualizer, frequency spectrum, waveform, audio analyzer, music visualizer">
+    <link rel="canonical" href="https://yourdomain.com/audio-visualizer">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/tool-specific.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>🎨 Audio Visualizer</h1>
+        <p class="subtitle">Visualize audio with frequency spectrum and waveform display.</p>
+
+        <div class="workspace">
+            <!-- Source Selection -->
+            <div style="display: flex; gap: 10px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap;">
+                <input type="file" id="audioFile" accept="audio/*" style="display: none;" onchange="loadAudioFile()">
+                <button class="btn btn-primary" onclick="document.getElementById('audioFile').click()">
+                    📁 Upload Audio File
+                </button>
+                <button class="btn btn-primary" onclick="useMicrophone()">
+                    🎤 Use Microphone
+                </button>
+            </div>
+
+            <!-- Visualization Canvas -->
+            <div style="background: #000000; border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 2px solid var(--border);">
+                <canvas id="visualizer" style="width: 100%; height: 300px; border-radius: 8px;"></canvas>
+            </div>
+
+            <!-- Audio Player (for file mode) -->
+            <div id="audioPlayerSection" style="display: none; margin-bottom: 20px;">
+                <audio id="audioPlayer" controls style="width: 100%;"></audio>
+            </div>
+
+            <!-- Controls -->
+            <div style="background: var(--light); border-radius: 12px; padding: 20px; border: 1px solid var(--border);">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                    <!-- Visualization Type -->
+                    <div>
+                        <label style="font-size: 0.9rem; margin-bottom: 8px; display: block; font-weight: 600;">Visualization Type</label>
+                        <select id="vizType" onchange="updateSettings()" style="width: 100%; padding: 10px;">
+                            <option value="bars">Frequency Bars</option>
+                            <option value="wave">Waveform</option>
+                            <option value="circular">Circular</option>
+                            <option value="mirror">Mirror Bars</option>
+                        </select>
+                    </div>
+
+                    <!-- Color Scheme -->
+                    <div>
+                        <label style="font-size: 0.9rem; margin-bottom: 8px; display: block; font-weight: 600;">Color Scheme</label>
+                        <select id="colorScheme" onchange="updateSettings()" style="width: 100%; padding: 10px;">
+                            <option value="orange">Orange</option>
+                            <option value="rainbow">Rainbow</option>
+                            <option value="blue">Blue</option>
+                            <option value="green">Green</option>
+                            <option value="purple">Purple</option>
+                            <option value="red">Red</option>
+                        </select>
+                    </div>
+
+                    <!-- Smoothing -->
+                    <div>
+                        <label style="font-size: 0.9rem; margin-bottom: 8px; display: block; font-weight: 600;">Smoothing</label>
+                        <input type="range" id="smoothing" min="0" max="0.9" step="0.1" value="0.8" oninput="updateSettings()" style="width: 100%;">
+                        <div style="text-align: center; font-size: 0.85rem; color: var(--gray); margin-top: 4px;">
+                            <span id="smoothingValue">0.8</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 20px;">
+                    <button id="stopBtn" class="btn btn-danger" onclick="stopVisualization()" style="display: none;">
+                        Stop Visualization
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Audio Visualizer</h2>
+            <p>Visualize audio with real-time frequency spectrum and waveform display. Upload audio files or use your microphone for live visualization.</p>
+            <p><strong>Visualization Types:</strong> Frequency bars, waveform, circular spectrum, mirror bars. Multiple color schemes available.</p>
+            <p><strong>Use Cases:</strong> Music analysis, audio monitoring, presentations, live performances, educational purposes.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        let audioContext;
+        let analyser;
+        let dataArray;
+        let bufferLength;
+        let animationId;
+        let source;
+        let canvas;
+        let ctx;
+
+        function initCanvas() {
+            canvas = document.getElementById('visualizer');
+            ctx = canvas.getContext('2d');
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+        }
+
+        async function loadAudioFile() {
+            const file = document.getElementById('audioFile').files[0];
+            if (!file) return;
+
+            stopVisualization();
+
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            analyser = audioContext.createAnalyser();
+            analyser.fftSize = 2048;
+            analyser.smoothingTimeConstant = 0.8;
+
+            const player = document.getElementById('audioPlayer');
+            player.src = URL.createObjectURL(file);
+            document.getElementById('audioPlayerSection').style.display = 'block';
+
+            source = audioContext.createMediaElementSource(player);
+            source.connect(analyser);
+            analyser.connect(audioContext.destination);
+
+            bufferLength = analyser.frequencyBinCount;
+            dataArray = new Uint8Array(bufferLength);
+
+            initCanvas();
+            visualize();
+            player.play();
+
+            showToast('Audio file loaded!');
+        }
+
+        async function useMicrophone() {
+            try {
+                stopVisualization();
+
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioContext.createAnalyser();
+                analyser.fftSize = 2048;
+                analyser.smoothingTimeConstant = 0.8;
+
+                source = audioContext.createMediaStreamSource(stream);
+                source.connect(analyser);
+
+                bufferLength = analyser.frequencyBinCount;
+                dataArray = new Uint8Array(bufferLength);
+
+                document.getElementById('audioPlayerSection').style.display = 'none';
+                document.getElementById('stopBtn').style.display = 'inline-block';
+
+                initCanvas();
+                visualize();
+
+                showToast('Microphone active!');
+            } catch (error) {
+                showToast('Microphone access denied', true);
+            }
+        }
+
+        function visualize() {
+            const vizType = document.getElementById('vizType').value;
+
+            function draw() {
+                animationId = requestAnimationFrame(draw);
+
+                if (vizType === 'bars') {
+                    drawBars();
+                } else if (vizType === 'wave') {
+                    drawWaveform();
+                } else if (vizType === 'circular') {
+                    drawCircular();
+                } else if (vizType === 'mirror') {
+                    drawMirror();
+                }
+            }
+
+            draw();
+        }
+
+        function drawBars() {
+            analyser.getByteFrequencyData(dataArray);
+
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const barWidth = (canvas.width / bufferLength) * 2.5;
+            let x = 0;
+
+            for (let i = 0; i < bufferLength; i++) {
+                const barHeight = (dataArray[i] / 255) * canvas.height;
+                ctx.fillStyle = getColor(i, bufferLength);
+                ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+                x += barWidth + 1;
+            }
+        }
+
+        function drawWaveform() {
+            analyser.getByteTimeDomainData(dataArray);
+
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = getColor(0, 1);
+            ctx.beginPath();
+
+            const sliceWidth = canvas.width / bufferLength;
+            let x = 0;
+
+            for (let i = 0; i < bufferLength; i++) {
+                const v = dataArray[i] / 128.0;
+                const y = v * canvas.height / 2;
+
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+
+                x += sliceWidth;
+            }
+
+            ctx.lineTo(canvas.width, canvas.height / 2);
+            ctx.stroke();
+        }
+
+        function drawCircular() {
+            analyser.getByteFrequencyData(dataArray);
+
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = Math.min(centerX, centerY) - 50;
+            const bars = 180;
+
+            for (let i = 0; i < bars; i++) {
+                const angle = (i / bars) * Math.PI * 2;
+                const barHeight = (dataArray[i] / 255) * 100;
+
+                const x1 = centerX + Math.cos(angle) * radius;
+                const y1 = centerY + Math.sin(angle) * radius;
+                const x2 = centerX + Math.cos(angle) * (radius + barHeight);
+                const y2 = centerY + Math.sin(angle) * (radius + barHeight);
+
+                ctx.strokeStyle = getColor(i, bars);
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.stroke();
+            }
+        }
+
+        function drawMirror() {
+            analyser.getByteFrequencyData(dataArray);
+
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const barWidth = (canvas.width / bufferLength) * 2.5;
+            let x = 0;
+
+            for (let i = 0; i < bufferLength; i++) {
+                const barHeight = (dataArray[i] / 255) * (canvas.height / 2);
+                const color = getColor(i, bufferLength);
+                
+                ctx.fillStyle = color;
+                ctx.fillRect(x, canvas.height / 2 - barHeight, barWidth, barHeight);
+                ctx.fillRect(x, canvas.height / 2, barWidth, barHeight);
+                
+                x += barWidth + 1;
+            }
+        }
+
+        function getColor(index, total) {
+            const scheme = document.getElementById('colorScheme').value;
+            
+            if (scheme === 'rainbow') {
+                const hue = (index / total) * 360;
+                return `hsl(${hue}, 100%, 50%)`;
+            } else if (scheme === 'orange') {
+                return '#f97316';
+            } else if (scheme === 'blue') {
+                return '#3b82f6';
+            } else if (scheme === 'green') {
+                return '#10b981';
+            } else if (scheme === 'purple') {
+                return '#a855f7';
+            } else if (scheme === 'red') {
+                return '#ef4444';
+            }
+        }
+
+        function updateSettings() {
+            const smoothing = parseFloat(document.getElementById('smoothing').value);
+            document.getElementById('smoothingValue').textContent = smoothing;
+            
+            if (analyser) {
+                analyser.smoothingTimeConstant = smoothing;
+            }
+
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+                visualize();
+            }
+        }
+
+        function stopVisualization() {
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+                animationId = null;
+            }
+
+            if (source) {
+                if (source.mediaStream) {
+                    source.mediaStream.getTracks().forEach(track => track.stop());
+                }
+                source.disconnect();
+                source = null;
+            }
+
+            if (audioContext) {
+                audioContext.close();
+                audioContext = null;
+            }
+
+            const player = document.getElementById('audioPlayer');
+            player.pause();
+            player.src = '';
+
+            document.getElementById('stopBtn').style.display = 'none';
+
+            if (ctx) {
+                ctx.fillStyle = '#000000';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+
+            showToast('Visualization stopped');
+        }
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show' + (isError ? ' error' : '');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        initCanvas();
+    </script>
+</body>
+</html>

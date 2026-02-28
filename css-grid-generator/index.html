@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Grid Generator - Visual Grid Layout Tool | ToolKit Pro</title>
+    <meta name="description" content="Generate CSS grid layouts with visual editor. Adjust columns, rows, gaps, and alignment. Free CSS grid generator.">
+    <meta name="keywords" content="css grid generator, grid layout, css grid, grid tool, layout generator">
+    <link rel="canonical" href="https://yourdomain.com/css-grid-generator">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/tool-specific.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>ToolKit Pro</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>🎯 CSS Grid Generator</h1>
+        <p class="subtitle">Visual CSS grid layout generator with live preview.</p>
+
+        <div class="workspace">
+            <!-- Preview -->
+            <div style="margin-bottom: 20px;">
+                <label style="font-size: 0.9rem; margin-bottom: 10px; display: block; font-weight: 600;">Preview</label>
+                <div id="gridContainer" style="background: rgba(249, 115, 22, 0.1); border: 2px dashed var(--primary); border-radius: 12px; padding: 20px; display: grid;">
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-bottom: 20px;">
+                <!-- Columns -->
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Columns</label>
+                    <input type="range" id="columns" min="1" max="6" value="3" oninput="updateGrid()" style="width: 100%;">
+                    <div style="text-align: center; font-size: 0.85rem; color: var(--gray); margin-top: 4px;"><span id="columnsValue">3</span></div>
+                </div>
+
+                <!-- Rows -->
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Rows</label>
+                    <input type="range" id="rows" min="1" max="6" value="2" oninput="updateGrid()" style="width: 100%;">
+                    <div style="text-align: center; font-size: 0.85rem; color: var(--gray); margin-top: 4px;"><span id="rowsValue">2</span></div>
+                </div>
+
+                <!-- Column Gap -->
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Column Gap (px)</label>
+                    <input type="range" id="columnGap" min="0" max="50" value="10" oninput="updateGrid()" style="width: 100%;">
+                    <div style="text-align: center; font-size: 0.85rem; color: var(--gray); margin-top: 4px;"><span id="columnGapValue">10</span>px</div>
+                </div>
+
+                <!-- Row Gap -->
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Row Gap (px)</label>
+                    <input type="range" id="rowGap" min="0" max="50" value="10" oninput="updateGrid()" style="width: 100%;">
+                    <div style="text-align: center; font-size: 0.85rem; color: var(--gray); margin-top: 4px;"><span id="rowGapValue">10</span>px</div>
+                </div>
+
+                <!-- Justify Items -->
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Justify Items</label>
+                    <select id="justifyItems" onchange="updateGrid()" style="width: 100%; padding: 10px; font-size: 0.9rem;">
+                        <option value="stretch">stretch</option>
+                        <option value="start">start</option>
+                        <option value="end">end</option>
+                        <option value="center">center</option>
+                    </select>
+                </div>
+
+                <!-- Align Items -->
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Align Items</label>
+                    <select id="alignItems" onchange="updateGrid()" style="width: 100%; padding: 10px; font-size: 0.9rem;">
+                        <option value="stretch">stretch</option>
+                        <option value="start">start</option>
+                        <option value="end">end</option>
+                        <option value="center">center</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- CSS Output -->
+            <div>
+                <label style="font-size: 0.9rem; margin-bottom: 8px; display: block; font-weight: 600;">CSS Code</label>
+                <div style="position: relative;">
+                    <textarea id="cssOutput" readonly style="width: 100%; height: 150px; padding: 12px; font-family: 'Courier New', monospace; font-size: 0.9rem; background: var(--dark); border: 1px solid var(--border); border-radius: 8px; resize: vertical;"></textarea>
+                    <button class="btn btn-success" onclick="copyCss()" style="position: absolute; top: 10px; right: 10px;">Copy CSS</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>CSS Grid Generator</h2>
+            <p>Create CSS grid layouts visually. Adjust columns, rows, gaps, and alignment to build complex responsive layouts.</p>
+            <p><strong>Properties:</strong> grid-template-columns/rows define grid structure, gap controls spacing, justify/align control item positioning.</p>
+            <p><strong>Use Cases:</strong> Page layouts, image galleries, dashboards, card grids, magazine-style layouts.</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <style>
+        .grid-item {
+            background: var(--primary);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 80px;
+        }
+    </style>
+
+    <script>
+        function updateGrid() {
+            const container = document.getElementById('gridContainer');
+            const columns = document.getElementById('columns').value;
+            const rows = document.getElementById('rows').value;
+            const columnGap = document.getElementById('columnGap').value;
+            const rowGap = document.getElementById('rowGap').value;
+            const justifyItems = document.getElementById('justifyItems').value;
+            const alignItems = document.getElementById('alignItems').value;
+
+            document.getElementById('columnsValue').textContent = columns;
+            document.getElementById('rowsValue').textContent = rows;
+            document.getElementById('columnGapValue').textContent = columnGap;
+            document.getElementById('rowGapValue').textContent = rowGap;
+
+            container.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
+            container.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+            container.style.columnGap = columnGap + 'px';
+            container.style.rowGap = rowGap + 'px';
+            container.style.justifyItems = justifyItems;
+            container.style.alignItems = alignItems;
+
+            const totalItems = columns * rows;
+            container.innerHTML = '';
+            for (let i = 1; i <= totalItems; i++) {
+                const item = document.createElement('div');
+                item.className = 'grid-item';
+                item.textContent = i;
+                container.appendChild(item);
+            }
+
+            const css = `.container {
+  display: grid;
+  grid-template-columns: repeat(${columns}, 1fr);
+  grid-template-rows: repeat(${rows}, 1fr);
+  column-gap: ${columnGap}px;
+  row-gap: ${rowGap}px;
+  justify-items: ${justifyItems};
+  align-items: ${alignItems};
+}`;
+
+            document.getElementById('cssOutput').value = css;
+        }
+
+        function copyCss() {
+            const css = document.getElementById('cssOutput').value;
+            navigator.clipboard.writeText(css).then(() => showToast('CSS copied!'));
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.className = 'toast show';
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        updateGrid();
+    </script>
+</body>
+</html>
