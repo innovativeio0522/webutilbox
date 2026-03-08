@@ -102,6 +102,61 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
             color: var(--white);
             font-weight: 600;
         }
+        
+        /* Word Counter Responsive Layout */
+        .word-counter-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+        .word-counter-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .word-counter-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .word-counter-stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            .stat-card {
+                padding: 12px !important;
+            }
+            .stat-icon {
+                font-size: 1.5rem !important;
+                margin-bottom: 6px !important;
+            }
+            .stat-number {
+                font-size: 1.5rem !important;
+            }
+            .stat-label {
+                font-size: 0.7rem;
+            }
+            .details-section {
+                padding: 12px !important;
+            }
+            .details-section h3 {
+                font-size: 1rem !important;
+            }
+            .detail-item {
+                padding: 6px !important;
+                font-size: 0.85rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .word-counter-stats-grid {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+        }
     </style>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3916624682784320"
      crossorigin="anonymous"></script>
@@ -133,7 +188,7 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
         <p class="subtitle">Count words, characters, sentences, and paragraphs in real-time. Calculate reading time instantly.</p>
 
         <div class="workspace">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start;">
+            <div class="word-counter-grid">
                 <!-- Left: Input -->
                 <div>
                     <div class="input-group">
@@ -148,7 +203,7 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
 
                 <!-- Right: Stats -->
                 <div>
-                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 15px;">
+                    <div class="word-counter-stats-grid">
                         <div class="stat-card" style="padding: 15px;">
                             <div class="stat-icon" style="font-size: 2rem; margin-bottom: 8px;">�</div>
                             <div class="stat-number" style="font-size: 2rem;" id="wordCount">0</div>

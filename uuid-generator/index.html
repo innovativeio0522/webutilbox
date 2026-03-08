@@ -66,6 +66,35 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
             min-height: 250px;
             display: block;
         }
+        
+        /* UUID Generator Responsive Layout */
+        .uuid-grid {
+            display: grid;
+            grid-template-columns: 1fr 280px;
+            gap: 15px;
+            align-items: start;
+        }
+        
+        .uuid-header-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            .uuid-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .uuid-header-actions {
+                flex-wrap: wrap;
+            }
+            
+            .uuid-header-actions .btn {
+                flex: 1;
+                min-width: 80px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -84,12 +113,12 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
         <p class="subtitle">Generate random UUIDs (Universally Unique Identifiers) for databases, APIs, and applications.</p>
 
         <div class="workspace">
-            <div style="display: grid; grid-template-columns: 1fr 280px; gap: 15px; align-items: start;">
+            <div class="uuid-grid">
                 <!-- Left: Generated UUIDs -->
                 <div>
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                         <label style="font-size: 0.9rem; margin: 0;">Generated UUIDs</label>
-                        <div style="display: flex; gap: 8px;">
+                        <div class="uuid-header-actions">
                             <button class="btn btn-success" onclick="copyAll()" style="padding: 6px 16px; font-size: 0.85rem;">Copy All</button>
                             <button class="btn btn-secondary" onclick="clearAll()" style="padding: 6px 16px; font-size: 0.85rem;">Clear</button>
                         </div>
@@ -262,7 +291,7 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
         };
     </script>
     <footer style="background: var(--dark); padding: 30px 20px; text-align: center; margin-top: 60px; border-top: 1px solid var(--border);">
-        <p style="color: var(--gray); margin-bottom: 15px;">© 2026 Webutilbox. All rights reserved.</p>
+        <p style="color: var(--gray); margin-bottom: 15px;">ï¿½ 2026 Webutilbox. All rights reserved.</p>
         <div>
             <a href="../" style="color: var(--primary); text-decoration: none; margin: 0 15px;">Home</a>
             <a href="../Tools.html" style="color: var(--primary); text-decoration: none; margin: 0 15px;">All Tools</a>

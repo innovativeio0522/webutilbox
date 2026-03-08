@@ -66,6 +66,20 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
             min-height: 250px;
             display: block;
         }
+        
+        /* Text Encryption Responsive Layout */
+        .encryption-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .encryption-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -94,7 +108,7 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
                 <div style="font-size: 0.8rem; color: var(--gray); margin-top: 5px;">⚠️ Remember this password - you'll need it to decrypt the text</div>
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div class="encryption-grid">
                 <!-- Left: Plain Text -->
                 <div>
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
@@ -319,7 +333,7 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
         }
     </script>
     <footer style="background: var(--dark); padding: 30px 20px; text-align: center; margin-top: 60px; border-top: 1px solid var(--border);">
-        <p style="color: var(--gray); margin-bottom: 15px;">� 2026 Webutilbox. All rights reserved.</p>
+        <p style="color: var(--gray); margin-bottom: 15px;">� 2026 Webutilbox. All rights reserved.</p>
         <div>
             <a href="../" style="color: var(--primary); text-decoration: none; margin: 0 15px;">Home</a>
             <a href="../Tools.html" style="color: var(--primary); text-decoration: none; margin: 0 15px;">All Tools</a>

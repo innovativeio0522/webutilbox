@@ -66,6 +66,42 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
             min-height: 250px;
             display: block;
         }
+        
+        /* Number Base Converter Responsive Layout */
+        .base-output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            gap: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .base-output-header {
+                flex-wrap: wrap;
+            }
+            
+            .base-output-header .output-label {
+                flex: 1;
+                min-width: 150px;
+            }
+            
+            .base-output-header .btn {
+                flex-shrink: 0;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .base-output-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 8px;
+            }
+            
+            .base-output-header .btn {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -98,7 +134,7 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
 
             <!-- Binary -->
             <div class="output-container show" style="margin-bottom: 12px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <div class="base-output-header">
                     <div class="output-label">Binary (Base 2)</div>
                     <button class="btn btn-success" onclick="copy('binary')" style="padding: 4px 12px; font-size: 0.8rem;">Copy</button>
                 </div>
@@ -107,7 +143,7 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
 
             <!-- Octal -->
             <div class="output-container show" style="margin-bottom: 12px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <div class="base-output-header">
                     <div class="output-label">Octal (Base 8)</div>
                     <button class="btn btn-success" onclick="copy('octal')" style="padding: 4px 12px; font-size: 0.8rem;">Copy</button>
                 </div>
@@ -116,7 +152,7 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
 
             <!-- Decimal -->
             <div class="output-container show" style="margin-bottom: 12px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <div class="base-output-header">
                     <div class="output-label">Decimal (Base 10)</div>
                     <button class="btn btn-success" onclick="copy('decimal')" style="padding: 4px 12px; font-size: 0.8rem;">Copy</button>
                 </div>
@@ -125,7 +161,7 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
 
             <!-- Hexadecimal -->
             <div class="output-container show">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <div class="base-output-header">
                     <div class="output-label">Hexadecimal (Base 16)</div>
                     <button class="btn btn-success" onclick="copy('hex')" style="padding: 4px 12px; font-size: 0.8rem;">Copy</button>
                 </div>
@@ -196,7 +232,7 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
         }
     </script>
     <footer style="background: var(--dark); padding: 30px 20px; text-align: center; margin-top: 60px; border-top: 1px solid var(--border);">
-        <p style="color: var(--gray); margin-bottom: 15px;">© 2026 Webutilbox. All rights reserved.</p>
+        <p style="color: var(--gray); margin-bottom: 15px;">ï¿½ 2026 Webutilbox. All rights reserved.</p>
         <div>
             <a href="../" style="color: var(--primary); text-decoration: none; margin: 0 15px;">Home</a>
             <a href="../Tools.html" style="color: var(--primary); text-decoration: none; margin: 0 15px;">All Tools</a>

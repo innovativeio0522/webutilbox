@@ -52,6 +52,35 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
             min-height: 250px;
             display: block;
         }
+        
+        /* Binary Converter Responsive Layout */
+        .binary-output-row {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .binary-output-row textarea {
+            flex: 1;
+            min-height: 80px;
+            font-family: monospace;
+            font-size: 0.85rem;
+        }
+        
+        .binary-copy-btn {
+            padding: 10px 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .binary-output-row {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .binary-copy-btn {
+                width: 100%;
+                padding: 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -78,9 +107,9 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
             <!-- Binary -->
             <div style="margin-bottom: 15px;">
                 <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Binary</label>
-                <div style="display: flex; gap: 8px;">
-                    <textarea id="binaryOutput" readonly placeholder="Binary output..." style="flex: 1; min-height: 80px; font-family: monospace; font-size: 0.85rem;"></textarea>
-                    <button class="btn btn-success" onclick="copyBinary()" style="padding: 10px 20px;">Copy</button>
+                <div class="binary-output-row">
+                    <textarea id="binaryOutput" readonly placeholder="Binary output..."></textarea>
+                    <button class="btn btn-success binary-copy-btn" onclick="copyBinary()">Copy</button>
                 </div>
                 <button class="btn btn-secondary" onclick="convertFromBinary()" style="margin-top: 8px; padding: 8px 16px; font-size: 0.85rem;">Decode Binary to Text</button>
             </div>
@@ -88,9 +117,9 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
             <!-- Hexadecimal -->
             <div style="margin-bottom: 15px;">
                 <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Hexadecimal</label>
-                <div style="display: flex; gap: 8px;">
-                    <textarea id="hexOutput" readonly placeholder="Hex output..." style="flex: 1; min-height: 80px; font-family: monospace; font-size: 0.85rem;"></textarea>
-                    <button class="btn btn-success" onclick="copyHex()" style="padding: 10px 20px;">Copy</button>
+                <div class="binary-output-row">
+                    <textarea id="hexOutput" readonly placeholder="Hex output..."></textarea>
+                    <button class="btn btn-success binary-copy-btn" onclick="copyHex()">Copy</button>
                 </div>
                 <button class="btn btn-secondary" onclick="convertFromHex()" style="margin-top: 8px; padding: 8px 16px; font-size: 0.85rem;">Decode Hex to Text</button>
             </div>
@@ -98,9 +127,9 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
             <!-- Octal -->
             <div style="margin-bottom: 15px;">
                 <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Octal</label>
-                <div style="display: flex; gap: 8px;">
-                    <textarea id="octalOutput" readonly placeholder="Octal output..." style="flex: 1; min-height: 80px; font-family: monospace; font-size: 0.85rem;"></textarea>
-                    <button class="btn btn-success" onclick="copyOctal()" style="padding: 10px 20px;">Copy</button>
+                <div class="binary-output-row">
+                    <textarea id="octalOutput" readonly placeholder="Octal output..."></textarea>
+                    <button class="btn btn-success binary-copy-btn" onclick="copyOctal()">Copy</button>
                 </div>
                 <button class="btn btn-secondary" onclick="convertFromOctal()" style="margin-top: 8px; padding: 8px 16px; font-size: 0.85rem;">Decode Octal to Text</button>
             </div>
@@ -108,9 +137,9 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
             <!-- Decimal -->
             <div style="margin-bottom: 15px;">
                 <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Decimal (ASCII Codes)</label>
-                <div style="display: flex; gap: 8px;">
-                    <textarea id="decimalOutput" readonly placeholder="Decimal output..." style="flex: 1; min-height: 80px; font-family: monospace; font-size: 0.85rem;"></textarea>
-                    <button class="btn btn-success" onclick="copyDecimal()" style="padding: 10px 20px;">Copy</button>
+                <div class="binary-output-row">
+                    <textarea id="decimalOutput" readonly placeholder="Decimal output..."></textarea>
+                    <button class="btn btn-success binary-copy-btn" onclick="copyDecimal()">Copy</button>
                 </div>
                 <button class="btn btn-secondary" onclick="convertFromDecimal()" style="margin-top: 8px; padding: 8px 16px; font-size: 0.85rem;">Decode Decimal to Text</button>
             </div>
@@ -303,7 +332,7 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
         }
     </script>
     <footer style="background: var(--dark); padding: 30px 20px; text-align: center; margin-top: 60px; border-top: 1px solid var(--border);">
-        <p style="color: var(--gray); margin-bottom: 15px;">© 2026 Webutilbox. All rights reserved.</p>
+        <p style="color: var(--gray); margin-bottom: 15px;">ï¿½ 2026 Webutilbox. All rights reserved.</p>
         <div>
             <a href="../" style="color: var(--primary); text-decoration: none; margin: 0 15px;">Home</a>
             <a href="../Tools.html" style="color: var(--primary); text-decoration: none; margin: 0 15px;">All Tools</a>
