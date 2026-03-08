@@ -401,4 +401,70 @@ input[type="range"]::-moz-range-thumb {
         width: 100%;
         justify-content: center;
     }
+    
+    /* Fix stats bar on mobile */
+    .stats-bar {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .stat {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    /* Fix input groups on mobile */
+    .input-group {
+        margin-bottom: 15px;
+    }
+    
+    textarea,
+    input[type="text"],
+    input[type="number"] {
+        font-size: 16px; /* Prevent zoom on iOS */
+    }
+    
+    /* Responsive utility: Make inline grids single column on mobile */
+    [style*="grid-template-columns: repeat(3"] {
+        grid-template-columns: 1fr !important;
+    }
+    
+    [style*="grid-template-columns: 1fr 2fr"] {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 20px 15px;
+    }
+    
+    h1 {
+        font-size: 1.75rem;
+    }
+    
+    .subtitle {
+        font-size: 1rem;
+    }
+    
+    .workspace {
+        padding: 20px;
+    }
+    
+    .header-content {
+        padding: 0 15px;
+    }
+    
+    .logo {
+        font-size: 1.25rem;
+    }
+    
+    .logo span:first-child {
+        font-size: 1.5rem;
+    }
+    
+    .all-tools-btn {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+    }
 }

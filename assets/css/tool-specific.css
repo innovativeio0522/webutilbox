@@ -145,6 +145,55 @@
     color: var(--gray);
 }
 
+/* Unix Timestamp Converter */
+.timestamp-input-row {
+    display: flex;
+    gap: 8px;
+}
+
+.timestamp-output-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Flexbox Generator */
+.flexbox-controls-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.flexbox-preview {
+    background: rgba(249, 115, 22, 0.1);
+    border: 2px dashed var(--primary);
+    border-radius: 12px;
+    padding: 20px;
+    min-height: 200px;
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* CSS Grid Generator */
+.grid-controls-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.grid-preview {
+    background: rgba(249, 115, 22, 0.1);
+    border: 2px dashed var(--primary);
+    border-radius: 12px;
+    padding: 20px;
+    display: grid;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .converter-grid {
@@ -172,5 +221,66 @@
     
     .input-row label {
         min-width: auto;
+    }
+    
+    /* Phase 2 Finance Tools Responsive */
+    .tool-content {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .input-section,
+    .output-section {
+        width: 100%;
+    }
+    
+    /* Fix 2-column grids on mobile */
+    [style*="grid-template-columns: 1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+    }
+    
+    /* Fix 3-column grids on mobile */
+    [style*="grid-template-columns: 1fr 1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+    }
+    
+    /* Unix Timestamp Converter Responsive */
+    .timestamp-input-row {
+        flex-direction: column;
+    }
+    
+    .timestamp-input-row input {
+        width: 100%;
+    }
+    
+    .timestamp-input-row .btn {
+        width: 100%;
+    }
+    
+    .timestamp-output-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+    
+    .timestamp-output-row .btn {
+        width: 100%;
+    }
+    
+    /* Flexbox Generator Responsive */
+    .flexbox-controls-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .flexbox-preview {
+        padding: 15px;
+    }
+    
+    /* CSS Grid Generator Responsive */
+    .grid-controls-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .grid-preview {
+        padding: 15px;
     }
 }

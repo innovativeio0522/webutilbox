@@ -87,7 +87,7 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
             <!-- Preview -->
             <div style="margin-bottom: 20px;">
                 <label style="font-size: 0.9rem; margin-bottom: 10px; display: block; font-weight: 600;">Preview</label>
-                <div id="flexContainer" style="background: rgba(249, 115, 22, 0.1); border: 2px dashed var(--primary); border-radius: 12px; padding: 20px; min-height: 200px; display: flex;">
+                <div id="flexContainer" class="flexbox-preview">
                     <div class="flex-item">1</div>
                     <div class="flex-item">2</div>
                     <div class="flex-item">3</div>
@@ -95,7 +95,7 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
             </div>
 
             <!-- Controls -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-bottom: 20px;">
+            <div class="flexbox-controls-grid">
                 <!-- Flex Direction -->
                 <div>
                     <label style="font-size: 0.85rem; margin-bottom: 6px; display: block;">Flex Direction</label>
@@ -160,10 +160,8 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
             <!-- CSS Output -->
             <div>
                 <label style="font-size: 0.9rem; margin-bottom: 8px; display: block; font-weight: 600;">CSS Code</label>
-                <div style="position: relative;">
-                    <textarea id="cssOutput" readonly style="width: 100%; height: 150px; padding: 12px; font-family: 'Courier New', monospace; font-size: 0.9rem; background: var(--dark); border: 1px solid var(--border); border-radius: 8px; resize: vertical;"></textarea>
-                    <button class="btn btn-success" onclick="copyCss()" style="position: absolute; top: 10px; right: 10px;">Copy CSS</button>
-                </div>
+                <textarea id="cssOutput" readonly style="width: 100%; height: 150px; padding: 12px; font-family: 'Courier New', monospace; font-size: 0.9rem; background: var(--dark); border: 1px solid var(--border); border-radius: 8px; resize: vertical; margin-bottom: 10px;"></textarea>
+                <button class="btn btn-success" onclick="copyCss()" style="width: 100%;">Copy CSS</button>
             </div>
         </div>
 
@@ -254,7 +252,7 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
         updateFlex();
     </script>
     <footer style="background: var(--dark); padding: 30px 20px; text-align: center; margin-top: 60px; border-top: 1px solid var(--border);">
-        <p style="color: var(--gray); margin-bottom: 15px;">© 2026 Webutilbox. All rights reserved.</p>
+        <p style="color: var(--gray); margin-bottom: 15px;">ï¿½ 2026 Webutilbox. All rights reserved.</p>
         <div>
             <a href="../" style="color: var(--primary); text-decoration: none; margin: 0 15px;">Home</a>
             <a href="../Tools.html" style="color: var(--primary); text-decoration: none; margin: 0 15px;">All Tools</a>

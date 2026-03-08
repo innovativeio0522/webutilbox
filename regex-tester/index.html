@@ -66,6 +66,49 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
             min-height: 250px;
             display: block;
         }
+        
+        /* Regex Tester Responsive Layout */
+        .regex-input-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .regex-flags-row {
+            display: flex;
+            gap: 15px;
+            margin-top: 8px;
+            padding: 10px;
+            background: var(--light);
+            border-radius: 6px;
+            flex-wrap: wrap;
+        }
+        
+        @media (max-width: 768px) {
+            .regex-input-row {
+                flex-wrap: wrap;
+            }
+            
+            .regex-input-row input[type="text"]:first-of-type {
+                flex: 1;
+                min-width: 200px;
+            }
+            
+            .regex-flags-row {
+                gap: 10px;
+            }
+            
+            .regex-flags-row label {
+                font-size: 0.8rem !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .regex-flags-row {
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -87,13 +130,13 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
             <!-- Regex Pattern -->
             <div style="margin-bottom: 15px;">
                 <label style="font-size: 0.9rem; margin-bottom: 8px;">Regular Expression Pattern</label>
-                <div style="display: flex; gap: 10px; align-items: center;">
+                <div class="regex-input-row">
                     <span style="font-size: 1.5rem; color: var(--primary);">/</span>
                     <input type="text" id="regexPattern" placeholder="Enter regex pattern..." oninput="testRegex()" style="flex: 1; padding: 12px; font-size: 1rem; font-family: 'Courier New', monospace;">
                     <span style="font-size: 1.5rem; color: var(--primary);">/</span>
                     <input type="text" id="regexFlags" placeholder="flags" oninput="testRegex()" maxlength="5" style="width: 80px; padding: 12px; font-size: 1rem; font-family: 'Courier New', monospace;">
                 </div>
-                <div style="display: flex; gap: 15px; margin-top: 8px; padding: 10px; background: var(--light); border-radius: 6px;">
+                <div class="regex-flags-row">
                     <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 0.85rem;">
                         <input type="checkbox" id="flagG" onchange="updateFlags()">
                         <span>g (global)</span>
@@ -276,7 +319,7 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
         }
     </script>
     <footer style="background: var(--dark); padding: 30px 20px; text-align: center; margin-top: 60px; border-top: 1px solid var(--border);">
-        <p style="color: var(--gray); margin-bottom: 15px;">© 2026 Webutilbox. All rights reserved.</p>
+        <p style="color: var(--gray); margin-bottom: 15px;">ï¿½ 2026 Webutilbox. All rights reserved.</p>
         <div>
             <a href="../" style="color: var(--primary); text-decoration: none; margin: 0 15px;">Home</a>
             <a href="../Tools.html" style="color: var(--primary); text-decoration: none; margin: 0 15px;">All Tools</a>

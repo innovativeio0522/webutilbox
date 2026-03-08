@@ -66,6 +66,21 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
             min-height: 250px;
             display: block;
         }
+        
+        /* Lorem Ipsum Responsive Layout */
+        .lorem-grid {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 12px;
+            align-items: start;
+        }
+        
+        @media (max-width: 768px) {
+            .lorem-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -84,7 +99,7 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
         <p class="subtitle">Generate placeholder text for your designs and mockups. Choose paragraphs, words, or sentences.</p>
 
         <div class="workspace">
-            <div style="display: grid; grid-template-columns: 240px 1fr; gap: 12px; align-items: start;">
+            <div class="lorem-grid">
                 <!-- Left: Options -->
                 <div>
                     <div style="display: grid; gap: 6px; margin-bottom: 8px;">

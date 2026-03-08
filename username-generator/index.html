@@ -32,12 +32,28 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
 </style>
     <link rel="stylesheet" href="../assets/css/common.min.css">
     <style>
-        .username-card{background:var(--light);padding:20px;border-radius:12px;border:1px solid var(--border);margin:10px 0;display:flex;justify-content:space-between;align-items:center;transition:all 0.2s}
+        .username-card{background:var(--light);padding:20px;border-radius:12px;border:1px solid var(--border);margin:10px 0;display:flex;justify-content:space-between;align-items:center;gap:10px;transition:all 0.2s}
         .username-card:hover{border-color:var(--primary);transform:translateX(5px)}
-        .username-text{font-size:1.3rem;font-weight:600;color:var(--primary)}
+        .username-text{font-size:1.3rem;font-weight:600;color:var(--primary);word-break:break-all;flex:1}
+        .username-copy-btn{flex-shrink:0}
         .category-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:15px 0}
-        .category-btn{padding:12px;background:var(--light);border:1px solid var(--border);border-radius:8px;cursor:pointer;text-align:center;transition:all 0.2s}
+        .category-btn{padding:12px;background:var(--light);border:1px solid var(--border);border-radius:8px;cursor:pointer;text-align:center;transition:all 0.2s;white-space:nowrap}
         .category-btn:hover,.category-btn.active{border-color:var(--primary);background:var(--primary);color:var(--dark)}
+        .username-inputs{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-bottom:15px}
+        
+        @media (max-width: 768px) {
+            .username-inputs{grid-template-columns:1fr}
+            .username-card{padding:15px;flex-direction:column;align-items:stretch;gap:10px}
+            .username-text{font-size:1.1rem;text-align:center}
+            .username-copy-btn{width:100%}
+            .category-grid{grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
+            .category-btn{padding:10px;font-size:0.85rem}
+        }
+        
+        @media (max-width: 480px) {
+            .category-grid{grid-template-columns:repeat(2,1fr)}
+            .username-text{font-size:1rem}
+        }
     </style>
     <style>
         /* Prevent layout shift from font loading */
@@ -74,7 +90,7 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
                     <button class="category-btn" onclick="setCategory('random')">🎲 Random</button>
                 </div>
             </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-bottom:15px">
+            <div class="username-inputs">
                 <div class="input-group">
                     <label>Length</label>
                     <input type="number" id="length" value="8" min="4" max="20" style="width:100%;padding:10px">
@@ -143,7 +159,7 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
         let currentCategory='gaming';
         function setCategory(cat){currentCategory=cat;document.querySelectorAll('.category-btn').forEach(b=>b.classList.remove('active'));event.target.classList.add('active')}
         function generateUsernames(){const length=parseInt(document.getElementById('length').value)||8;const count=parseInt(document.getElementById('count').value)||10;const includeNumbers=document.getElementById('includeNumbers').checked;const includeUnderscore=document.getElementById('includeUnderscore').checked;const capitalize=document.getElementById('capitalize').checked;const wordList=currentCategory==='random'?Object.values(words).flat():words[currentCategory];const usernames=[];for(let i=0;i<count;i++){let username='';const word1=wordList[Math.floor(Math.random()*wordList.length)];const word2=wordList[Math.floor(Math.random()*wordList.length)];username=word1+(includeUnderscore&&Math.random()>0.5?'_':'')+word2;if(includeNumbers)username+=Math.floor(Math.random()*1000);if(capitalize)username=username.charAt(0).toUpperCase()+username.slice(1);if(username.length>length)username=username.substring(0,length);usernames.push(username)}displayUsernames(usernames)}
-        function displayUsernames(usernames){document.getElementById('usernameList').innerHTML=usernames.map(u=>`<div class="username-card"><span class="username-text">${u}</span><button class="btn btn-success" onclick="copyUsername('${u}')">Copy</button></div>`).join('');document.getElementById('results').style.display='block';showToast(`Generated ${usernames.length} usernames!`)}
+        function displayUsernames(usernames){document.getElementById('usernameList').innerHTML=usernames.map(u=>`<div class="username-card"><span class="username-text">${u}</span><button class="btn btn-success username-copy-btn" onclick="copyUsername('${u}')">Copy</button></div>`).join('');document.getElementById('results').style.display='block';showToast(`Generated ${usernames.length} usernames!`)}
         function copyUsername(username){navigator.clipboard.writeText(username).then(()=>showToast('Username copied!'))}
         function clearResults(){document.getElementById('results').style.display='none';showToast('Cleared')}
         function showToast(message,isError=false){const toast=document.getElementById('toast');const msg=document.getElementById('toastMessage');msg.textContent=message;toast.className='toast show'+(isError?' error':'');setTimeout(()=>toast.classList.remove('show'),3000)}

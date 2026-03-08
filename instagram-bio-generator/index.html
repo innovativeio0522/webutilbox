@@ -44,8 +44,21 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
         .emoji-btn:hover{background:var(--light);transform:scale(1.2)}
         .template-card{background:var(--light);padding:15px;border-radius:8px;border:1px solid var(--border);cursor:pointer;transition:all 0.2s;margin-bottom:10px}
         .template-card:hover{border-color:var(--primary);transform:translateX(5px)}
-        .tab-btn{padding:10px 20px;background:var(--light);border:1px solid var(--border);border-radius:8px 8px 0 0;cursor:pointer;margin-right:5px}
+        .tab-container{display:flex;gap:5px;margin-bottom:15px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+        .tab-btn{padding:10px 20px;background:var(--light);border:1px solid var(--border);border-radius:8px 8px 0 0;cursor:pointer;white-space:nowrap;flex-shrink:0}
         .tab-btn.active{background:var(--primary);color:var(--dark);border-color:var(--primary)}
+        
+        @media (max-width: 768px) {
+            .tab-btn{padding:8px 12px;font-size:0.85rem}
+            .font-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px}
+            .emoji-grid{grid-template-columns:repeat(auto-fill,minmax(35px,1fr))}
+            .bio-preview{padding:15px;font-size:0.9rem}
+        }
+        
+        @media (max-width: 480px) {
+            .tab-btn{padding:6px 10px;font-size:0.8rem}
+            .font-grid{grid-template-columns:repeat(auto-fill,minmax(90px,1fr))}
+        }
     </style>
     <style>
         /* Prevent layout shift from font loading */
@@ -71,7 +84,7 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
         <p class="subtitle">Create stylish Instagram bios with fancy fonts, emojis, and symbols. Stand out on IG!</p>
 
         <div class="workspace">
-            <div style="display:flex;gap:5px;margin-bottom:15px">
+            <div class="tab-container">
                 <button class="tab-btn active" onclick="switchTab('editor')">✏️ Editor</button>
                 <button class="tab-btn" onclick="switchTab('templates')">📋 Templates</button>
                 <button class="tab-btn" onclick="switchTab('fonts')">🔤 Fonts</button>

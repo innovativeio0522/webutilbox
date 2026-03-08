@@ -66,6 +66,21 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
             min-height: 250px;
             display: block;
         }
+        
+        /* Find & Replace Responsive Layout */
+        .find-replace-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 15px;
+            align-items: start;
+        }
+        
+        @media (max-width: 768px) {
+            .find-replace-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -84,7 +99,7 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
         <p class="subtitle">Advanced text search and replace with regex support, case sensitivity, and whole word matching.</p>
 
         <div class="workspace">
-            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 15px; align-items: start;">
+            <div class="find-replace-grid">
                 <!-- Left: Text Input -->
                 <div>
                     <label style="font-size: 0.9rem; margin-bottom: 8px;">Input Text</label>

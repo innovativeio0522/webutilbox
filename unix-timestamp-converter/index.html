@@ -94,7 +94,7 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
             <!-- Timestamp to Date -->
             <div style="margin-bottom: 20px;">
                 <label style="font-size: 0.9rem; margin-bottom: 8px; display: block;">Unix Timestamp</label>
-                <div style="display: flex; gap: 8px;">
+                <div class="timestamp-input-row">
                     <input type="number" id="timestampInput" placeholder="1234567890" oninput="convertTimestamp()" style="flex: 1; padding: 10px; font-size: 1rem; font-family: 'Courier New', monospace;">
                     <button class="btn btn-primary" onclick="useNow()" style="padding: 10px 16px; font-size: 0.85rem;">Now</button>
                 </div>
@@ -119,7 +119,7 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
 
             <div class="output-container show">
                 <div class="output-label">Unix Timestamp</div>
-                <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="timestamp-output-row">
                     <div id="convertedTimestamp" style="font-size: 1.3rem; color: var(--primary); font-weight: bold; font-family: 'Courier New', monospace;">-</div>
                     <button class="btn btn-success" onclick="copyTimestamp()" style="padding: 8px 16px; font-size: 0.85rem;">Copy</button>
                 </div>
@@ -211,7 +211,7 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
         setInterval(updateCurrentTimestamp, 1000);
     </script>
     <footer style="background: var(--dark); padding: 30px 20px; text-align: center; margin-top: 60px; border-top: 1px solid var(--border);">
-        <p style="color: var(--gray); margin-bottom: 15px;">© 2026 Webutilbox. All rights reserved.</p>
+        <p style="color: var(--gray); margin-bottom: 15px;">ï¿½ 2026 Webutilbox. All rights reserved.</p>
         <div>
             <a href="../" style="color: var(--primary); text-decoration: none; margin: 0 15px;">Home</a>
             <a href="../Tools.html" style="color: var(--primary); text-decoration: none; margin: 0 15px;">All Tools</a>
