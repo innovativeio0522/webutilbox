@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Scientific Calculator Online - Free Calculator with Functions | Webutilbox</title>
+<link rel="preconnect" href="https://pagead2.googlesyndication.com">
+<link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+<meta name="description" content="Free scientific calculator online. Calculate sin, cos, tan, log, sqrt, power, and more. Perfect for students, engineers, and scientists.">
+<meta name="keywords" content="scientific calculator, online calculator, math calculator, trigonometry calculator, logarithm calculator, free calculator">
+<link rel="canonical" href="https://webutilbox.com/scientific-calculator">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://webutilbox.com/scientific-calculator">
+<meta property="og:title" content="Scientific Calculator Online - Free | Webutilbox">
+<meta property="og:description" content="Free scientific calculator with trigonometry, logarithms, and more. Perfect for students.">
+<meta property="og:image" content="https://webutilbox.com/favicon.svg">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3916624682784320" crossorigin="anonymous"></script>
+<style>/* Critical CSS - Inline in <head> for instant rendering */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#f97316;--primary-dark:#ea580c;--dark:#0a0a0a;--gray:#a1a1aa;--white:#fafafa;--card-bg:#18181b;--border:#27272a}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;background:linear-gradient(135deg,#000 0%,#1a0f00 30%,#7c2d12 70%,#ea580c 100%);min-height:100vh;color:var(--white)}
+header{background:rgba(10,10,10,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:20px 0;position:sticky;top:0;z-index:100}
+.header-content{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:12px;color:var(--white);text-decoration:none;font-size:1.5rem;font-weight:700;line-height:1}
+.logo span:first-child{font-size:2rem;line-height:1;display:flex;align-items:center}
+.all-tools-btn{padding:10px 20px;background:var(--primary);color:var(--white);text-decoration:none;border-radius:8px;font-weight:600;font-size:.95rem;transition:all .3s}
+.container{max-width:1200px;margin:0 auto;padding:40px 20px}
+h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c 0%,#ea580c 50%,#dc2626 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.subtitle{color:var(--gray);font-size:1.1rem;margin-bottom:30px}
+</style>
+    <link rel="stylesheet" href="../assets/css/common.min.css">
+<style>
+.calc{max-width:400px;margin:20px auto;background:var(--light);padding:20px;border-radius:12px;border:1px solid var(--border)}
+.display{background:var(--input-bg);padding:20px;border-radius:8px;font-size:2rem;text-align:right;margin-bottom:15px;min-height:60px;word-wrap:break-word;color:var(--white)}
+.btn-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.calc-btn{padding:15px;background:var(--input-bg);border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:1.1rem;transition:all 0.2s;color:var(--white)}
+.calc-btn:hover{background:var(--light);border-color:var(--primary)}
+.calc-btn.operator{background:var(--primary);color:var(--dark);border-color:var(--primary)}
+.calc-btn.function{background:var(--dark);font-size:0.9rem}
+.calc-btn.equals{background:#22c55e;color:var(--dark);grid-column:span 2}
+.calc-btn.clear{background:#f87171;color:var(--dark)}
+</style>
+    <style>
+        /* Prevent layout shift from font loading */
+        * {
+            font-display: swap;
+        }
+        /* Reserve space for AdSense to prevent layout shift */
+        .ad-container {
+            min-height: 250px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<header><div class="header-content"><a href="../" class="logo"><span>🧰</span><span>Webutilbox</span></a>
+            <a href="../Tools.html" class="all-tools-btn">All Tools</a></div></header>
+<div class="container">
+<h1>🔢 Scientific Calculator</h1>
+<p class="subtitle">Free online scientific calculator with trigonometry, logarithms, and advanced functions.</p>
+<div class="workspace">
+<div class="calc">
+<div class="display" id="display">0</div>
+<div class="btn-grid">
+<button class="calc-btn function" onclick="addFunc('sin(')">sin</button>
+<button class="calc-btn function" onclick="addFunc('cos(')">cos</button>
+<button class="calc-btn function" onclick="addFunc('tan(')">tan</button>
+<button class="calc-btn function" onclick="addFunc('log(')">log</button>
+<button class="calc-btn function" onclick="addFunc('ln(')">ln</button>
+<button class="calc-btn function" onclick="addFunc('sqrt(')">√</button>
+<button class="calc-btn function" onclick="addFunc('pow(')">x^y</button>
+<button class="calc-btn function" onclick="addNum('Math.PI')">π</button>
+<button class="calc-btn function" onclick="addNum('Math.E')">e</button>
+<button class="calc-btn clear" onclick="clearDisplay()">C</button>
+<button class="calc-btn" onclick="addNum('7')">7</button>
+<button class="calc-btn" onclick="addNum('8')">8</button>
+<button class="calc-btn" onclick="addNum('9')">9</button>
+<button class="calc-btn operator" onclick="addNum('/')">/</button>
+<button class="calc-btn" onclick="backspace()">←</button>
+<button class="calc-btn" onclick="addNum('4')">4</button>
+<button class="calc-btn" onclick="addNum('5')">5</button>
+<button class="calc-btn" onclick="addNum('6')">6</button>
+<button class="calc-btn operator" onclick="addNum('*')">×</button>
+<button class="calc-btn" onclick="addNum('(')">(</button>
+<button class="calc-btn" onclick="addNum('1')">1</button>
+<button class="calc-btn" onclick="addNum('2')">2</button>
+<button class="calc-btn" onclick="addNum('3')">3</button>
+<button class="calc-btn operator" onclick="addNum('-')">-</button>
+<button class="calc-btn" onclick="addNum(')')">)</button>
+<button class="calc-btn" onclick="addNum('0')">0</button>
+<button class="calc-btn" onclick="addNum('.')">.</button>
+<button class="calc-btn equals" onclick="calculate()">=</button>
+<button class="calc-btn operator" onclick="addNum('+')">+</button>
+</div>
+</div>
+</div>
+<div class="info-section">
+<h2>Scientific Calculator Online - Free Math Calculator</h2>
+<p>Free online scientific calculator for students, engineers, and scientists. Perform basic arithmetic, trigonometry, logarithms, and advanced mathematical operations.</p>
+<h3>Features:</h3>
+<ul>
+<li><strong>Basic Operations:</strong> +, -, ×, ÷</li>
+<li><strong>Trigonometry:</strong> sin, cos, tan</li>
+<li><strong>Logarithms:</strong> log (base 10), ln (natural log)</li>
+<li><strong>Powers & Roots:</strong> x^y, √</li>
+<li><strong>Constants:</strong> π (pi), e (Euler's number)</li>
+<li><strong>Parentheses:</strong> For complex expressions</li>
+</ul>
+<h3>How to Use:</h3>
+<ul>
+<li>Click buttons or use keyboard to enter numbers</li>
+<li>Use function buttons for scientific operations</li>
+<li>Press = to calculate result</li>
+<li>Press C to clear display</li>
+<li>Use ← to delete last character</li>
+</ul>
+</div>
+</div>
+<div id="toast" class="toast"><span id="toastMessage">Success!</span></div>
+<script>
+let display=document.getElementById('display');
+let current='0';
+function addNum(n){if(current==='0'&&n!=='.')current=n;else current+=n;updateDisplay()}
+function addFunc(f){if(current==='0')current=f;else current+=f;updateDisplay()}
+function updateDisplay(){display.textContent=current.replace(/Math\.PI/g,'π').replace(/Math\.E/g,'e').replace(/Math\.sqrt/g,'√').replace(/Math\.log10/g,'log').replace(/Math\.log/g,'ln').replace(/Math\.pow/g,'^')}
+function clearDisplay(){current='0';updateDisplay()}
+function backspace(){current=current.length>1?current.slice(0,-1):'0';updateDisplay()}
+function calculate(){try{let expr=current.replace(/sin\(/g,'Math.sin(').replace(/cos\(/g,'Math.cos(').replace(/tan\(/g,'Math.tan(').replace(/log\(/g,'Math.log10(').replace(/ln\(/g,'Math.log(').replace(/sqrt\(/g,'Math.sqrt(').replace(/pow\(/g,'Math.pow(').replace(/\^/g,'**');let result=eval(expr);current=result.toString();updateDisplay()}catch(e){current='Error';updateDisplay();setTimeout(()=>{current='0';updateDisplay()},2000)}}
+document.addEventListener('keydown',e=>{if(e.key>='0'&&e.key<='9'||e.key==='.')addNum(e.key);else if(e.key==='+'||e.key==='-'||e.key==='*'||e.key==='/')addNum(e.key);else if(e.key==='Enter')calculate();else if(e.key==='Escape')clearDisplay();else if(e.key==='Backspace')backspace()});
+function showToast(message,isError=false){const toast=document.getElementById('toast');const msg=document.getElementById('toastMessage');msg.textContent=message;toast.className='toast show'+(isError?' error':'');setTimeout(()=>toast.classList.remove('show'),3000)}
+</script>
+<footer style="background:var(--dark);padding:30px 20px;text-align:center;margin-top:60px;border-top:1px solid var(--border)">
+<p style="color:var(--gray);margin-bottom:15px">© 2026 Webutilbox. All rights reserved.</p>
+<div>
+<a href="../" style="color:var(--primary);text-decoration:none;margin:0 15px">Home</a>
+<a href="../Tools.html" style="color:var(--primary);text-decoration:none;margin:0 15px">All Tools</a>
+<a href="../about.html" style="color:var(--primary);text-decoration:none;margin:0 15px">About</a>
+<a href="../contact.html" style="color:var(--primary);text-decoration:none;margin:0 15px">Contact</a>
+<a href="../privacy-policy.html" style="color:var(--primary);text-decoration:none;margin:0 15px">Privacy Policy</a>
+</div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <title>Syllable Counter - Count Syllables in Words & Text | Webutilbox</title>
+    
+    <!-- Preconnect to external domains for faster loading -->
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com">
+    <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+    
+    <meta name="description" content="Free syllable counter. Count syllables in words and text for poetry, haiku, readability analysis. Perfect for writers, poets, and students.">
+    <meta name="keywords" content="syllable counter, count syllables, syllable calculator, haiku syllable counter, poetry syllable tool, readability score, flesch reading ease">
+    <link rel="canonical" href="https://webutilbox.com/syllable-counter">
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://webutilbox.com/syllable-counter">
+    <meta property="og:title" content="Syllable Counter - Count Syllables in Text | Webutilbox">
+    <meta property="og:description" content="Free syllable counter for poetry, haiku, and readability analysis. Count syllables instantly.">
+    <meta property="og:image" content="https://webutilbox.com/favicon.svg">
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3916624682784320"
+     crossorigin="anonymous"></script>
+    <style>/* Critical CSS - Inline in <head> for instant rendering */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#f97316;--primary-dark:#ea580c;--dark:#0a0a0a;--gray:#a1a1aa;--white:#fafafa;--card-bg:#18181b;--border:#27272a}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;background:linear-gradient(135deg,#000 0%,#1a0f00 30%,#7c2d12 70%,#ea580c 100%);min-height:100vh;color:var(--white)}
+header{background:rgba(10,10,10,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:20px 0;position:sticky;top:0;z-index:100}
+.header-content{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:12px;color:var(--white);text-decoration:none;font-size:1.5rem;font-weight:700;line-height:1}
+.logo span:first-child{font-size:2rem;line-height:1;display:flex;align-items:center}
+.all-tools-btn{padding:10px 20px;background:var(--primary);color:var(--white);text-decoration:none;border-radius:8px;font-weight:600;font-size:.95rem;transition:all .3s}
+.container{max-width:1200px;margin:0 auto;padding:40px 20px}
+h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c 0%,#ea580c 50%,#dc2626 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.subtitle{color:var(--gray);font-size:1.1rem;margin-bottom:30px}
+</style>
+    <link rel="stylesheet" href="../assets/css/common.min.css">
+    <style>
+        .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px;margin-bottom:20px}
+        .stat-card{background:var(--light);padding:20px;border-radius:12px;text-align:center;border:1px solid var(--border)}
+        .stat-number{font-size:2.5rem;font-weight:700;color:var(--primary);margin-bottom:5px}
+        .stat-label{font-size:0.85rem;color:var(--gray)}
+        .word-list{max-height:400px;overflow-y:auto;background:var(--input-bg);padding:15px;border-radius:8px;margin-top:15px}
+        .word-item{display:flex;justify-content:space-between;padding:8px;border-bottom:1px solid var(--border)}
+        .word-item:last-child{border-bottom:none}
+    </style>
+    <style>
+        /* Prevent layout shift from font loading */
+        * {
+            font-display: swap;
+        }
+        /* Reserve space for AdSense to prevent layout shift */
+        .ad-container {
+            min-height: 250px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>Webutilbox</span>
+            </a>
+            <a href="../Tools.html" class="all-tools-btn">All Tools</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>🔤 Syllable Counter</h1>
+        <p class="subtitle">Count syllables in words and text. Perfect for poetry, haiku, and readability analysis.</p>
+
+        <div class="workspace">
+            <div class="input-group">
+                <label>Your Text or Words</label>
+                <textarea id="inputText" placeholder="Enter text or words to count syllables...&#10;&#10;Example:&#10;Beautiful (3 syllables)&#10;Poetry (3 syllables)&#10;Haiku (2 syllables)" style="min-height:200px"></textarea>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="countSyllables()">Count Syllables</button>
+                <button class="btn btn-secondary" onclick="clearAll()">Clear</button>
+                <button class="btn btn-success" onclick="copyResults()">Copy Results</button>
+            </div>
+
+            <div id="results" style="display:none;margin-top:20px">
+                <div class="stats-grid" id="statsGrid"></div>
+                
+                <div style="background:var(--light);padding:20px;border-radius:12px;border:1px solid var(--border)">
+                    <h3 style="color:var(--primary);margin-bottom:10px">Word-by-Word Breakdown</h3>
+                    <div class="word-list" id="wordList"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Syllable Counter - Count Syllables Online Free</h2>
+            <p>This free syllable counter analyzes your text and counts the number of syllables in each word. Essential for poets, writers, students, and anyone working with rhythm and meter in language.</p>
+            
+            <h3>Features:</h3>
+            <ul>
+                <li><strong>Accurate Syllable Counting:</strong> Uses advanced algorithm to count syllables</li>
+                <li><strong>Word-by-Word Analysis:</strong> See syllable count for each word</li>
+                <li><strong>Total Syllables:</strong> Get total syllable count for entire text</li>
+                <li><strong>Average Syllables:</strong> Calculate average syllables per word</li>
+                <li><strong>Readability Score:</strong> Estimate text complexity</li>
+                <li><strong>Real-time Results:</strong> Instant syllable counting</li>
+            </ul>
+
+            <h3>Use Cases:</h3>
+            <ul>
+                <li><strong>Poetry Writing:</strong> Count syllables for haiku (5-7-5), sonnets, and other forms</li>
+                <li><strong>Song Lyrics:</strong> Match syllables to melody and rhythm</li>
+                <li><strong>Readability Analysis:</strong> Assess text complexity and reading level</li>
+                <li><strong>Education:</strong> Teach syllable counting to students</li>
+                <li><strong>Speech Writing:</strong> Optimize rhythm and flow</li>
+                <li><strong>Content Writing:</strong> Improve readability scores</li>
+            </ul>
+
+            <h3>What is a Syllable?</h3>
+            <p>A syllable is a unit of pronunciation with one vowel sound. For example:</p>
+            <ul>
+                <li>"cat" = 1 syllable</li>
+                <li>"happy" = 2 syllables (hap-py)</li>
+                <li>"beautiful" = 3 syllables (beau-ti-ful)</li>
+                <li>"education" = 4 syllables (ed-u-ca-tion)</li>
+            </ul>
+
+            <h3>Haiku Syllable Pattern:</h3>
+            <p>Traditional haiku follows a 5-7-5 syllable pattern:</p>
+            <ul>
+                <li>Line 1: 5 syllables</li>
+                <li>Line 2: 7 syllables</li>
+                <li>Line 3: 5 syllables</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        function countSyllablesInWord(word){
+            word=word.toLowerCase().replace(/[^a-z]/g,'');
+            if(word.length<=3)return 1;
+            
+            word=word.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/,'');
+            word=word.replace(/^y/,'');
+            const matches=word.match(/[aeiouy]{1,2}/g);
+            return matches?matches.length:1;
+        }
+
+        function countSyllables(){
+            const text=document.getElementById('inputText').value.trim();
+            if(!text){
+                showToast('Please enter some text',true);
+                return;
+            }
+
+            const words=text.match(/\b[a-zA-Z]+\b/g)||[];
+            const wordData=words.map(word=>({
+                word,
+                syllables:countSyllablesInWord(word)
+            }));
+
+            const totalSyllables=wordData.reduce((sum,item)=>sum+item.syllables,0);
+            const totalWords=words.length;
+            const avgSyllables=(totalSyllables/totalWords).toFixed(2);
+            
+            // Readability estimate (simplified)
+            const readabilityScore=avgSyllables<=1.5?'Very Easy':avgSyllables<=2?'Easy':avgSyllables<=2.5?'Medium':avgSyllables<=3?'Difficult':'Very Difficult';
+
+            displayResults(totalSyllables,totalWords,avgSyllables,readabilityScore,wordData);
+            showToast('Syllables counted!');
+        }
+
+        function displayResults(total,words,avg,readability,wordData){
+            document.getElementById('statsGrid').innerHTML=`
+                <div class="stat-card">
+                    <div class="stat-number">${total}</div>
+                    <div class="stat-label">Total Syllables</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${words}</div>
+                    <div class="stat-label">Total Words</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${avg}</div>
+                    <div class="stat-label">Avg per Word</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" style="font-size:1.5rem">${readability}</div>
+                    <div class="stat-label">Readability</div>
+                </div>
+            `;
+
+            document.getElementById('wordList').innerHTML=wordData.map(item=>`
+                <div class="word-item">
+                    <span style="font-weight:600">${item.word}</span>
+                    <span style="color:var(--primary)">${item.syllables} syllable${item.syllables>1?'s':''}</span>
+                </div>
+            `).join('');
+
+            document.getElementById('results').style.display='block';
+        }
+
+        function copyResults(){
+            const text=document.getElementById('inputText').value;
+            const words=text.match(/\b[a-zA-Z]+\b/g)||[];
+            
+            let result='Syllable Count Results\n━━━━━━━━━━━━━━━━━━━━\n\n';
+            words.forEach(word=>{
+                const count=countSyllablesInWord(word);
+                result+=`${word}: ${count} syllable${count>1?'s':''}\n`;
+            });
+            
+            const total=words.reduce((sum,word)=>sum+countSyllablesInWord(word),0);
+            result+=`\nTotal: ${total} syllables in ${words.length} words`;
+
+            navigator.clipboard.writeText(result).then(()=>{
+                showToast('Results copied!');
+            });
+        }
+
+        function clearAll(){
+            document.getElementById('inputText').value='';
+            document.getElementById('results').style.display='none';
+            showToast('Cleared');
+        }
+
+        function showToast(message,isError=false){
+            const toast=document.getElementById('toast');
+            const msg=document.getElementById('toastMessage');
+            msg.textContent=message;
+            toast.className='toast show'+(isError?' error':'');
+            setTimeout(()=>toast.classList.remove('show'),3000);
+        }
+    </script>
+
+    <footer style="background:var(--dark);padding:30px 20px;text-align:center;margin-top:60px;border-top:1px solid var(--border)">
+        <p style="color:var(--gray);margin-bottom:15px">© 2026 Webutilbox. All rights reserved.</p>
+        <div>
+            <a href="../" style="color:var(--primary);text-decoration:none;margin:0 15px">Home</a>
+            <a href="../Tools.html" style="color:var(--primary);text-decoration:none;margin:0 15px">All Tools</a>
+            <a href="../about.html" style="color:var(--primary);text-decoration:none;margin:0 15px">About</a>
+            <a href="../contact.html" style="color:var(--primary);text-decoration:none;margin:0 15px">Contact</a>
+            <a href="../privacy-policy.html" style="color:var(--primary);text-decoration:none;margin:0 15px">Privacy Policy</a>
+        </div>
+    </footer>
+</body>
+</html>

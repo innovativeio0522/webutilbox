@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tax Calculator - Income Tax Calculator for 10 Countries | Webutilbox</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    
+    <!-- Preconnect to external domains for faster loading -->
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com">
+    <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+    
+    <meta name="description" content="Free income tax calculator for US, UK, Canada, Australia, India, Germany, France, Japan, Brazil, and Mexico. Calculate federal tax, state tax, and take-home pay.">
+    <meta name="keywords" content="tax calculator, income tax calculator, salary tax calculator, take home pay calculator, federal tax calculator, state tax calculator">
+    <link rel="canonical" href="https://webutilbox.com/tax-calculator/">
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://webutilbox.com/tax-calculator/">
+    <meta property="og:title" content="Tax Calculator - Income Tax Calculator for 10 Countries">
+    <meta property="og:description" content="Free income tax calculator for US, UK, Canada, Australia, India, Germany, France, Japan, Brazil, and Mexico. Calculate federal tax and take-home pay.">
+    <meta property="og:image" content="https://webutilbox.com/favicon.svg">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://webutilbox.com/tax-calculator/">
+    <meta name="twitter:title" content="Tax Calculator - Income Tax Calculator for 10 Countries">
+    <meta name="twitter:description" content="Free income tax calculator for US, UK, Canada, Australia, India, Germany, France, Japan, Brazil, and Mexico.">
+    <meta name="twitter:image" content="https://webutilbox.com/favicon.svg">
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3916624682784320"
+     crossorigin="anonymous"></script>
+    
+    <style>/* Critical CSS - Inline in <head> for instant rendering */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#f97316;--primary-dark:#ea580c;--dark:#0a0a0a;--gray:#a1a1aa;--white:#fafafa;--card-bg:#18181b;--border:#27272a}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;background:linear-gradient(135deg,#000 0%,#1a0f00 30%,#7c2d12 70%,#ea580c 100%);min-height:100vh;color:var(--white)}
+header{background:rgba(10,10,10,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:20px 0;position:sticky;top:0;z-index:100}
+.header-content{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:12px;color:var(--white);text-decoration:none;font-size:1.5rem;font-weight:700;line-height:1}
+.logo span:first-child{font-size:2rem;line-height:1;display:flex;align-items:center}
+.all-tools-btn{padding:10px 20px;background:var(--primary);color:var(--white);text-decoration:none;border-radius:8px;font-weight:600;font-size:.95rem;transition:all .3s}
+.container{max-width:1200px;margin:0 auto;padding:40px 20px}
+h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c 0%,#ea580c 50%,#dc2626 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.subtitle{color:var(--gray);font-size:1.1rem;margin-bottom:30px}
+</style>
+    <link rel="stylesheet" href="../assets/css/common.min.css">
+    <style>/* Critical CSS - Inline in <head> for instant rendering */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#f97316;--primary-dark:#ea580c;--dark:#0a0a0a;--gray:#a1a1aa;--white:#fafafa;--card-bg:#18181b;--border:#27272a}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;background:linear-gradient(135deg,#000 0%,#1a0f00 30%,#7c2d12 70%,#ea580c 100%);min-height:100vh;color:var(--white)}
+header{background:rgba(10,10,10,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:20px 0;position:sticky;top:0;z-index:100}
+.header-content{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:12px;color:var(--white);text-decoration:none;font-size:1.5rem;font-weight:700;line-height:1}
+.logo span:first-child{font-size:2rem;line-height:1;display:flex;align-items:center}
+.all-tools-btn{padding:10px 20px;background:var(--primary);color:var(--white);text-decoration:none;border-radius:8px;font-weight:600;font-size:.95rem;transition:all .3s}
+.container{max-width:1200px;margin:0 auto;padding:40px 20px}
+h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c 0%,#ea580c 50%,#dc2626 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.subtitle{color:var(--gray);font-size:1.1rem;margin-bottom:30px}
+</style>
+    <link rel="stylesheet" href="../assets/css/tool-specific.min.css">
+    <style>
+        /* Prevent layout shift from font loading */
+        * {
+            font-display: swap;
+        }
+        /* Reserve space for AdSense to prevent layout shift */
+        .ad-container {
+            min-height: 250px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>Webutilbox</span>
+            </a>
+            <a href="../Tools.html" class="all-tools-btn">All Tools</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>🌍 Global Tax Calculator</h1>
+        <p class="subtitle">Calculate income tax and take-home pay for 10 countries worldwide</p>
+
+        <div class="tool-content">
+            <div class="input-section">
+                <div class="input-group">
+                    <label>Country</label>
+                    <select id="country" onchange="updateTaxInfo()">
+                        <option value="US">🇺🇸 United States</option>
+                        <option value="UK">🇬🇧 United Kingdom</option>
+                        <option value="CA">🇨🇦 Canada</option>
+                        <option value="AU">🇦🇺 Australia</option>
+                        <option value="IN">🇮🇳 India</option>
+                        <option value="DE">🇩🇪 Germany</option>
+                        <option value="FR">🇫🇷 France</option>
+                        <option value="JP">🇯🇵 Japan</option>
+                        <option value="BR">🇧🇷 Brazil</option>
+                        <option value="MX">🇲🇽 Mexico</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Annual Income</label>
+                    <div style="display: flex; gap: 10px;">
+                        <select id="currency" style="flex: 0 0 80px;">
+                            <option value="USD">USD</option>
+                            <option value="GBP">GBP</option>
+                            <option value="CAD">CAD</option>
+                            <option value="AUD">AUD</option>
+                            <option value="INR">INR</option>
+                            <option value="EUR">EUR</option>
+                            <option value="JPY">JPY</option>
+                            <option value="BRL">BRL</option>
+                            <option value="MXN">MXN</option>
+                        </select>
+                        <input type="number" id="income" value="75000" min="0" step="1000" style="flex: 1;">
+                    </div>
+                </div>
+                <div class="input-group" id="filingStatusGroup">
+                    <label>Filing Status</label>
+                    <select id="filingStatus">
+                        <option value="single">Single</option>
+                        <option value="married">Married Filing Jointly</option>
+                        <option value="head">Head of Household</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Standard Deduction</label>
+                    <input type="number" id="deduction" value="14600" min="0" step="100">
+                    <small id="deductionInfo">2026 standard deduction for single filers</small>
+                </div>
+                <button class="btn-primary" onclick="calculateTax()">Calculate Tax</button>
+            </div>
+
+            <div class="output-section" id="results" style="display:none;">
+                <h3>Tax Calculation Results</h3>
+                <div class="result-card">
+                    <div class="result-item">
+                        <span>Gross Income</span>
+                        <strong id="grossIncome">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Taxable Income</span>
+                        <strong id="taxableIncome">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Total Tax</span>
+                        <strong id="totalTax">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Effective Tax Rate</span>
+                        <strong id="effectiveRate">0%</strong>
+                    </div>
+                    <div class="result-item highlight">
+                        <span>Net Take-Home Pay</span>
+                        <strong id="takeHome">$0</strong>
+                    </div>
+                </div>
+
+                <h3>Tax Breakdown by Bracket</h3>
+                <div id="bracketBreakdown"></div>
+
+                <h3>Monthly & Weekly Income</h3>
+                <div class="result-card">
+                    <div class="result-item">
+                        <span>Monthly Gross</span>
+                        <strong id="monthlyGross">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Monthly Net</span>
+                        <strong id="monthlyNet">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Weekly Gross</span>
+                        <strong id="weeklyGross">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Weekly Net</span>
+                        <strong id="weeklyNet">$0</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tax brackets for 2026 (simplified progressive tax rates)
+        const taxBrackets = {
+            US: {
+                currency: 'USD',
+                single: [
+                    {limit: 11600, rate: 10},
+                    {limit: 47150, rate: 12},
+                    {limit: 100525, rate: 22},
+                    {limit: 191950, rate: 24},
+                    {limit: 243725, rate: 32},
+                    {limit: 609350, rate: 35},
+                    {limit: Infinity, rate: 37}
+                ],
+                married: [
+                    {limit: 23200, rate: 10},
+                    {limit: 94300, rate: 12},
+                    {limit: 201050, rate: 22},
+                    {limit: 383900, rate: 24},
+                    {limit: 487450, rate: 32},
+                    {limit: 731200, rate: 35},
+                    {limit: Infinity, rate: 37}
+                ],
+                standardDeduction: {single: 14600, married: 29200, head: 21900}
+            },
+            UK: {
+                currency: 'GBP',
+                single: [
+                    {limit: 12570, rate: 0},
+                    {limit: 50270, rate: 20},
+                    {limit: 125140, rate: 40},
+                    {limit: Infinity, rate: 45}
+                ],
+                standardDeduction: {single: 0, married: 0, head: 0}
+            },
+            CA: {
+                currency: 'CAD',
+                single: [
+                    {limit: 15000, rate: 0},
+                    {limit: 53359, rate: 15},
+                    {limit: 106717, rate: 20.5},
+                    {limit: 165430, rate: 26},
+                    {limit: 235675, rate: 29},
+                    {limit: Infinity, rate: 33}
+                ],
+                standardDeduction: {single: 15000, married: 15000, head: 15000}
+            },
+            AU: {
+                currency: 'AUD',
+                single: [
+                    {limit: 18200, rate: 0},
+                    {limit: 45000, rate: 19},
+                    {limit: 120000, rate: 32.5},
+                    {limit: 180000, rate: 37},
+                    {limit: Infinity, rate: 45}
+                ],
+                standardDeduction: {single: 0, married: 0, head: 0}
+            },
+            IN: {
+                currency: 'INR',
+                single: [
+                    {limit: 300000, rate: 0},
+                    {limit: 600000, rate: 5},
+                    {limit: 900000, rate: 10},
+                    {limit: 1200000, rate: 15},
+                    {limit: 1500000, rate: 20},
+                    {limit: Infinity, rate: 30}
+                ],
+                standardDeduction: {single: 50000, married: 50000, head: 50000}
+            },
+            DE: {
+                currency: 'EUR',
+                single: [
+                    {limit: 11604, rate: 0},
+                    {limit: 17005, rate: 14},
+                    {limit: 66760, rate: 24},
+                    {limit: 277825, rate: 42},
+                    {limit: Infinity, rate: 45}
+                ],
+                standardDeduction: {single: 1230, married: 2460, head: 1230}
+            },
+            FR: {
+                currency: 'EUR',
+                single: [
+                    {limit: 11294, rate: 0},
+                    {limit: 28797, rate: 11},
+                    {limit: 82341, rate: 30},
+                    {limit: 177106, rate: 41},
+                    {limit: Infinity, rate: 45}
+                ],
+                standardDeduction: {single: 0, married: 0, head: 0}
+            },
+            JP: {
+                currency: 'JPY',
+                single: [
+                    {limit: 1950000, rate: 5},
+                    {limit: 3300000, rate: 10},
+                    {limit: 6950000, rate: 20},
+                    {limit: 9000000, rate: 23},
+                    {limit: 18000000, rate: 33},
+                    {limit: 40000000, rate: 40},
+                    {limit: Infinity, rate: 45}
+                ],
+                standardDeduction: {single: 480000, married: 480000, head: 480000}
+            },
+            BR: {
+                currency: 'BRL',
+                single: [
+                    {limit: 24511, rate: 0},
+                    {limit: 33919, rate: 7.5},
+                    {limit: 45012, rate: 15},
+                    {limit: 55976, rate: 22.5},
+                    {limit: Infinity, rate: 27.5}
+                ],
+                standardDeduction: {single: 0, married: 0, head: 0}
+            },
+            MX: {
+                currency: 'MXN',
+                single: [
+                    {limit: 8952, rate: 1.92},
+                    {limit: 75984, rate: 6.4},
+                    {limit: 133536, rate: 10.88},
+                    {limit: 155229, rate: 16},
+                    {limit: 185852, rate: 17.92},
+                    {limit: 374837, rate: 21.36},
+                    {limit: 590795, rate: 23.52},
+                    {limit: 1127926, rate: 30},
+                    {limit: 1503902, rate: 32},
+                    {limit: 4511707, rate: 34},
+                    {limit: Infinity, rate: 35}
+                ],
+                standardDeduction: {single: 0, married: 0, head: 0}
+            }
+        };
+
+        function updateTaxInfo() {
+            const country = document.getElementById('country').value;
+            const filingStatus = document.getElementById('filingStatus').value;
+            const brackets = taxBrackets[country];
+            
+            // Update currency
+            document.getElementById('currency').value = brackets.currency;
+            
+            // Update standard deduction
+            const deduction = brackets.standardDeduction[filingStatus] || 0;
+            document.getElementById('deduction').value = deduction;
+            
+            // Update deduction info
+            const countryName = document.getElementById('country').options[document.getElementById('country').selectedIndex].text;
+            document.getElementById('deductionInfo').textContent = `Standard deduction for ${countryName}`;
+            
+            // Show/hide filing status for countries that use it
+            if (country === 'US') {
+                document.getElementById('filingStatusGroup').style.display = 'block';
+            } else {
+                document.getElementById('filingStatusGroup').style.display = 'none';
+            }
+        }
+
+        function calculateTax() {
+            const country = document.getElementById('country').value;
+            const income = parseFloat(document.getElementById('income').value) || 0;
+            const deduction = parseFloat(document.getElementById('deduction').value) || 0;
+            const filingStatus = document.getElementById('filingStatus').value;
+            const currency = document.getElementById('currency').value;
+            
+            const brackets = taxBrackets[country][filingStatus] || taxBrackets[country].single;
+            const taxableIncome = Math.max(0, income - deduction);
+            
+            let totalTax = 0;
+            let previousLimit = 0;
+            const bracketDetails = [];
+            
+            // Calculate tax for each bracket
+            for (let i = 0; i < brackets.length; i++) {
+                const bracket = brackets[i];
+                const taxableInBracket = Math.min(taxableIncome, bracket.limit) - previousLimit;
+                
+                if (taxableInBracket > 0) {
+                    const taxInBracket = taxableInBracket * (bracket.rate / 100);
+                    totalTax += taxInBracket;
+                    
+                    bracketDetails.push({
+                        range: `${formatCurrency(previousLimit, currency)} - ${bracket.limit === Infinity ? '∞' : formatCurrency(bracket.limit, currency)}`,
+                        rate: bracket.rate,
+                        taxable: taxableInBracket,
+                        tax: taxInBracket
+                    });
+                }
+                
+                previousLimit = bracket.limit;
+                if (taxableIncome <= bracket.limit) break;
+            }
+            
+            const effectiveRate = income > 0 ? (totalTax / income) * 100 : 0;
+            const takeHome = income - totalTax;
+            
+            // Display results
+            document.getElementById('grossIncome').textContent = formatCurrency(income, currency);
+            document.getElementById('taxableIncome').textContent = formatCurrency(taxableIncome, currency);
+            document.getElementById('totalTax').textContent = formatCurrency(totalTax, currency);
+            document.getElementById('effectiveRate').textContent = `${effectiveRate.toFixed(2)}%`;
+            document.getElementById('takeHome').textContent = formatCurrency(takeHome, currency);
+            
+            // Monthly and weekly
+            document.getElementById('monthlyGross').textContent = formatCurrency(income / 12, currency);
+            document.getElementById('monthlyNet').textContent = formatCurrency(takeHome / 12, currency);
+            document.getElementById('weeklyGross').textContent = formatCurrency(income / 52, currency);
+            document.getElementById('weeklyNet').textContent = formatCurrency(takeHome / 52, currency);
+            
+            // Display bracket breakdown
+            const breakdownDiv = document.getElementById('bracketBreakdown');
+            breakdownDiv.innerHTML = '';
+            bracketDetails.forEach(detail => {
+                const item = document.createElement('div');
+                item.style.cssText = 'padding: 12px; margin-bottom: 8px; background: rgba(255,255,255,0.03); border-radius: 8px; border-left: 3px solid var(--primary);';
+                item.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span style="color: var(--gray);">${detail.range}</span>
+                        <span style="color: var(--primary); font-weight: 600;">${detail.rate}%</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                        <span style="color: var(--gray);">Taxable: ${formatCurrency(detail.taxable, currency)}</span>
+                        <span style="color: var(--text);">Tax: ${formatCurrency(detail.tax, currency)}</span>
+                    </div>
+                `;
+                breakdownDiv.appendChild(item);
+            });
+            
+            document.getElementById('results').style.display = 'block';
+        }
+
+        function formatCurrency(amount, currency) {
+            const symbols = {
+                USD: '$', GBP: '£', EUR: '€', CAD: 'C$', AUD: 'A$',
+                INR: '₹', JPY: '¥', BRL: 'R$', MXN: 'MX$'
+            };
+            const symbol = symbols[currency] || currency;
+            return `${symbol}${amount.toLocaleString(undefined, {maximumFractionDigits: 0})}`;
+        }
+
+        // Auto-calculate on input change
+        document.querySelectorAll('input, select').forEach(el => {
+            el.addEventListener('input', () => {
+                if (el.id === 'country' || el.id === 'filingStatus') {
+                    updateTaxInfo();
+                }
+                if (document.getElementById('results').style.display !== 'none') {
+                    calculateTax();
+                }
+            });
+        });
+
+        // Initialize
+        updateTaxInfo();
+    </script>
+
+    <footer style="background: var(--dark); padding: 30px 20px; text-align: center; margin-top: 60px; border-top: 1px solid var(--border);">
+        <p style="color: var(--gray); margin-bottom: 15px;">© 2026 Webutilbox. All rights reserved.</p>
+        <div>
+            <a href="../" style="color: var(--primary); text-decoration: none; margin: 0 15px;">Home</a>
+            <a href="../Tools.html" style="color: var(--primary); text-decoration: none; margin: 0 15px;">All Tools</a>
+            <a href="../about.html" style="color: var(--primary); text-decoration: none; margin: 0 15px;">About</a>
+            <a href="../contact.html" style="color: var(--primary); text-decoration: none; margin: 0 15px;">Contact</a>
+            <a href="../privacy-policy.html" style="color: var(--primary); text-decoration: none; margin: 0 15px;">Privacy Policy</a>
+        </div>
+    </footer>
+</body>
+</html>
