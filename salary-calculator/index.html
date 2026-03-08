@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary Calculator - Hourly to Annual Salary Converter | Webutilbox</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    
+    <!-- Preconnect to external domains for faster loading -->
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com">
+    <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+    
+    <meta name="description" content="Free salary calculator to convert hourly, daily, weekly, monthly, and annual salary. Calculate gross to net pay, overtime, bonuses, and take-home income.">
+    <meta name="keywords" content="salary calculator, hourly to annual salary, gross to net calculator, take home pay calculator, overtime calculator, paycheck calculator">
+    <link rel="canonical" href="https://webutilbox.com/salary-calculator/">
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://webutilbox.com/salary-calculator/">
+    <meta property="og:title" content="Salary Calculator - Hourly to Annual Salary Converter">
+    <meta property="og:description" content="Free salary calculator to convert hourly, daily, weekly, monthly, and annual salary. Calculate gross to net pay, overtime, and bonuses.">
+    <meta property="og:image" content="https://webutilbox.com/favicon.svg">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://webutilbox.com/salary-calculator/">
+    <meta name="twitter:title" content="Salary Calculator - Hourly to Annual Salary Converter">
+    <meta name="twitter:description" content="Free salary calculator to convert hourly, daily, weekly, monthly, and annual salary. Calculate gross to net pay, overtime, and bonuses.">
+    <meta name="twitter:image" content="https://webutilbox.com/favicon.svg">
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3916624682784320"
+     crossorigin="anonymous"></script>
+    
+    <style>/* Critical CSS - Inline in <head> for instant rendering */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#f97316;--primary-dark:#ea580c;--dark:#0a0a0a;--gray:#a1a1aa;--white:#fafafa;--card-bg:#18181b;--border:#27272a}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;background:linear-gradient(135deg,#000 0%,#1a0f00 30%,#7c2d12 70%,#ea580c 100%);min-height:100vh;color:var(--white)}
+header{background:rgba(10,10,10,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:20px 0;position:sticky;top:0;z-index:100}
+.header-content{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:12px;color:var(--white);text-decoration:none;font-size:1.5rem;font-weight:700;line-height:1}
+.logo span:first-child{font-size:2rem;line-height:1;display:flex;align-items:center}
+.all-tools-btn{padding:10px 20px;background:var(--primary);color:var(--white);text-decoration:none;border-radius:8px;font-weight:600;font-size:.95rem;transition:all .3s}
+.container{max-width:1200px;margin:0 auto;padding:40px 20px}
+h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c 0%,#ea580c 50%,#dc2626 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.subtitle{color:var(--gray);font-size:1.1rem;margin-bottom:30px}
+</style>
+    <link rel="stylesheet" href="../assets/css/common.min.css">
+    <style>/* Critical CSS - Inline in <head> for instant rendering */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#f97316;--primary-dark:#ea580c;--dark:#0a0a0a;--gray:#a1a1aa;--white:#fafafa;--card-bg:#18181b;--border:#27272a}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;background:linear-gradient(135deg,#000 0%,#1a0f00 30%,#7c2d12 70%,#ea580c 100%);min-height:100vh;color:var(--white)}
+header{background:rgba(10,10,10,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:20px 0;position:sticky;top:0;z-index:100}
+.header-content{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:12px;color:var(--white);text-decoration:none;font-size:1.5rem;font-weight:700;line-height:1}
+.logo span:first-child{font-size:2rem;line-height:1;display:flex;align-items:center}
+.all-tools-btn{padding:10px 20px;background:var(--primary);color:var(--white);text-decoration:none;border-radius:8px;font-weight:600;font-size:.95rem;transition:all .3s}
+.container{max-width:1200px;margin:0 auto;padding:40px 20px}
+h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c 0%,#ea580c 50%,#dc2626 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.subtitle{color:var(--gray);font-size:1.1rem;margin-bottom:30px}
+</style>
+    <link rel="stylesheet" href="../assets/css/tool-specific.min.css">
+    <style>
+        /* Prevent layout shift from font loading */
+        * {
+            font-display: swap;
+        }
+        /* Reserve space for AdSense to prevent layout shift */
+        .ad-container {
+            min-height: 250px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>Webutilbox</span>
+            </a>
+            <a href="../Tools.html" class="all-tools-btn">All Tools</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>💰 Salary Calculator</h1>
+        <p class="subtitle">Convert between hourly, daily, weekly, monthly, and annual salary with deductions</p>
+
+        <div class="tool-content">
+            <div class="input-section">
+                <div class="input-group">
+                    <label>Enter Your Salary</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="number" id="salaryAmount" value="25" min="0" step="0.01" style="flex: 1;">
+                        <select id="salaryPeriod" style="flex: 0 0 150px;">
+                            <option value="hourly" selected>Per Hour</option>
+                            <option value="daily">Per Day</option>
+                            <option value="weekly">Per Week</option>
+                            <option value="monthly">Per Month</option>
+                            <option value="annual">Per Year</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Hours Per Week</label>
+                    <input type="number" id="hoursPerWeek" value="40" min="1" max="168" step="1">
+                </div>
+                <div class="input-group">
+                    <label>Weeks Per Year</label>
+                    <input type="number" id="weeksPerYear" value="52" min="1" max="52" step="1">
+                    <small>52 weeks = full year, 50 weeks = 2 weeks vacation</small>
+                </div>
+                <div class="input-group">
+                    <label>Overtime Hours Per Week</label>
+                    <input type="number" id="overtimeHours" value="0" min="0" max="80" step="0.5">
+                </div>
+                <div class="input-group">
+                    <label>Overtime Rate Multiplier</label>
+                    <input type="number" id="overtimeRate" value="1.5" min="1" max="3" step="0.1">
+                    <small>1.5 = time and a half, 2.0 = double time</small>
+                </div>
+                <div class="input-group">
+                    <label>Annual Bonus ($)</label>
+                    <input type="number" id="bonus" value="0" min="0" step="100">
+                </div>
+                <div class="input-group">
+                    <label>Tax Rate (%)</label>
+                    <input type="number" id="taxRate" value="25" min="0" max="100" step="0.1">
+                    <small>Estimated total tax (federal + state + local)</small>
+                </div>
+                <div class="input-group">
+                    <label>Other Deductions ($/month)</label>
+                    <input type="number" id="deductions" value="0" min="0" step="10">
+                    <small>Health insurance, 401k, etc.</small>
+                </div>
+                <button class="btn-primary" onclick="calculateSalary()">Calculate Salary</button>
+            </div>
+
+            <div class="output-section" id="results" style="display:none;">
+                <h3>Gross Salary (Before Tax)</h3>
+                <div class="result-card">
+                    <div class="result-item">
+                        <span>Hourly</span>
+                        <strong id="grossHourly">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Daily</span>
+                        <strong id="grossDaily">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Weekly</span>
+                        <strong id="grossWeekly">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Monthly</span>
+                        <strong id="grossMonthly">$0</strong>
+                    </div>
+                    <div class="result-item highlight">
+                        <span>Annual</span>
+                        <strong id="grossAnnual">$0</strong>
+                    </div>
+                </div>
+
+                <h3>Net Salary (After Tax & Deductions)</h3>
+                <div class="result-card">
+                    <div class="result-item">
+                        <span>Hourly</span>
+                        <strong id="netHourly">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Daily</span>
+                        <strong id="netDaily">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Weekly</span>
+                        <strong id="netWeekly">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Monthly</span>
+                        <strong id="netMonthly">$0</strong>
+                    </div>
+                    <div class="result-item highlight">
+                        <span>Annual (Take-Home)</span>
+                        <strong id="netAnnual">$0</strong>
+                    </div>
+                </div>
+
+                <h3>Breakdown</h3>
+                <div class="result-card">
+                    <div class="result-item">
+                        <span>Regular Hours Income</span>
+                        <strong id="regularIncome">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Overtime Income</span>
+                        <strong id="overtimeIncome">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Bonus Income</span>
+                        <strong id="bonusIncome">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Total Gross Income</span>
+                        <strong id="totalGross">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Total Tax Paid</span>
+                        <strong id="totalTax">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Other Deductions</span>
+                        <strong id="totalDeductions">$0</strong>
+                    </div>
+                    <div class="result-item highlight">
+                        <span>Net Take-Home Pay</span>
+                        <strong id="takeHome">$0</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Auto-calculate on input change
+        document.querySelectorAll('input, select').forEach(el => {
+            el.addEventListener('input', () => {
+                if (document.getElementById('results').style.display !== 'none') {
+                    calculateSalary();
+                }
+            });
+        });
+
+        function calculateSalary() {
+            const amount = parseFloat(document.getElementById('salaryAmount').value) || 0;
+            const period = document.getElementById('salaryPeriod').value;
+            const hoursPerWeek = parseFloat(document.getElementById('hoursPerWeek').value) || 40;
+            const weeksPerYear = parseFloat(document.getElementById('weeksPerYear').value) || 52;
+            const overtimeHours = parseFloat(document.getElementById('overtimeHours').value) || 0;
+            const overtimeRate = parseFloat(document.getElementById('overtimeRate').value) || 1.5;
+            const bonus = parseFloat(document.getElementById('bonus').value) || 0;
+            const taxRate = parseFloat(document.getElementById('taxRate').value) || 0;
+            const monthlyDeductions = parseFloat(document.getElementById('deductions').value) || 0;
+
+            // Convert to hourly rate first
+            let hourlyRate = 0;
+            switch(period) {
+                case 'hourly':
+                    hourlyRate = amount;
+                    break;
+                case 'daily':
+                    hourlyRate = amount / (hoursPerWeek / 5);
+                    break;
+                case 'weekly':
+                    hourlyRate = amount / hoursPerWeek;
+                    break;
+                case 'monthly':
+                    hourlyRate = (amount * 12) / (hoursPerWeek * weeksPerYear);
+                    break;
+                case 'annual':
+                    hourlyRate = amount / (hoursPerWeek * weeksPerYear);
+                    break;
+            }
+
+            // Calculate gross income
+            const regularHoursPerYear = hoursPerWeek * weeksPerYear;
+            const overtimeHoursPerYear = overtimeHours * weeksPerYear;
+            
+            const regularIncome = hourlyRate * regularHoursPerYear;
+            const overtimeIncome = hourlyRate * overtimeRate * overtimeHoursPerYear;
+            const totalGrossAnnual = regularIncome + overtimeIncome + bonus;
+
+            // Calculate all time periods (gross)
+            const grossHourly = totalGrossAnnual / (regularHoursPerYear + overtimeHoursPerYear);
+            const grossDaily = totalGrossAnnual / (weeksPerYear * 5);
+            const grossWeekly = totalGrossAnnual / weeksPerYear;
+            const grossMonthly = totalGrossAnnual / 12;
+
+            // Calculate net income
+            const totalTax = totalGrossAnnual * (taxRate / 100);
+            const annualDeductions = monthlyDeductions * 12;
+            const netAnnual = totalGrossAnnual - totalTax - annualDeductions;
+
+            const netHourly = netAnnual / (regularHoursPerYear + overtimeHoursPerYear);
+            const netDaily = netAnnual / (weeksPerYear * 5);
+            const netWeekly = netAnnual / weeksPerYear;
+            const netMonthly = netAnnual / 12;
+
+            // Display gross results
+            document.getElementById('grossHourly').textContent = `$${grossHourly.toFixed(2)}`;
+            document.getElementById('grossDaily').textContent = `$${grossDaily.toFixed(2)}`;
+            document.getElementById('grossWeekly').textContent = `$${grossWeekly.toFixed(2)}`;
+            document.getElementById('grossMonthly').textContent = `$${grossMonthly.toFixed(2)}`;
+            document.getElementById('grossAnnual').textContent = `$${totalGrossAnnual.toLocaleString(undefined, {maximumFractionDigits: 0})}`;
+
+            // Display net results
+            document.getElementById('netHourly').textContent = `$${netHourly.toFixed(2)}`;
+            document.getElementById('netDaily').textContent = `$${netDaily.toFixed(2)}`;
+            document.getElementById('netWeekly').textContent = `$${netWeekly.toFixed(2)}`;
+            document.getElementById('netMonthly').textContent = `$${netMonthly.toFixed(2)}`;
+            document.getElementById('netAnnual').textContent = `$${netAnnual.toLocaleString(undefined, {maximumFractionDigits: 0})}`;
+
+            // Display breakdown
+            document.getElementById('regularIncome').textContent = `$${regularIncome.toLocaleString(undefined, {maximumFractionDigits: 0})}`;
+            document.getElementById('overtimeIncome').textContent = `$${overtimeIncome.toLocaleString(undefined, {maximumFractionDigits: 0})}`;
+            document.getElementById('bonusIncome').textContent = `$${bonus.toLocaleString(undefined, {maximumFractionDigits: 0})}`;
+            document.getElementById('totalGross').textContent = `$${totalGrossAnnual.toLocaleString(undefined, {maximumFractionDigits: 0})}`;
+            document.getElementById('totalTax').textContent = `$${totalTax.toLocaleString(undefined, {maximumFractionDigits: 0})}`;
+            document.getElementById('totalDeductions').textContent = `$${annualDeductions.toLocaleString(undefined, {maximumFractionDigits: 0})}`;
+            document.getElementById('takeHome').textContent = `$${netAnnual.toLocaleString(undefined, {maximumFractionDigits: 0})}`;
+
+            document.getElementById('results').style.display = 'block';
+        }
+    </script>
+
+    <footer style="background: var(--dark); padding: 30px 20px; text-align: center; margin-top: 60px; border-top: 1px solid var(--border);">
+        <p style="color: var(--gray); margin-bottom: 15px;">© 2026 Webutilbox. All rights reserved.</p>
+        <div>
+            <a href="../" style="color: var(--primary); text-decoration: none; margin: 0 15px;">Home</a>
+            <a href="../Tools.html" style="color: var(--primary); text-decoration: none; margin: 0 15px;">All Tools</a>
+            <a href="../about.html" style="color: var(--primary); text-decoration: none; margin: 0 15px;">About</a>
+            <a href="../contact.html" style="color: var(--primary); text-decoration: none; margin: 0 15px;">Contact</a>
+            <a href="../privacy-policy.html" style="color: var(--primary); text-decoration: none; margin: 0 15px;">Privacy Policy</a>
+        </div>
+    </footer>
+</body>
+</html>

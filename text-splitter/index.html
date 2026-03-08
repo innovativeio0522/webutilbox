@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <title>Text Splitter - Split Text by Delimiter, Comma, Space | Webutilbox</title>
+    
+    <!-- Preconnect to external domains for faster loading -->
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com">
+    <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+    
+    <meta name="description" content="Free text splitter tool. Split text by comma, space, newline, or custom delimiter. Convert text to list, array, or separate lines instantly.">
+    <meta name="keywords" content="text splitter, split text by comma, split by delimiter, text to list, comma separator, string splitter, text parser">
+    <link rel="canonical" href="https://webutilbox.com/text-splitter">
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://webutilbox.com/text-splitter">
+    <meta property="og:title" content="Text Splitter - Split Text by Delimiter | Webutilbox">
+    <meta property="og:description" content="Free text splitter. Split text by comma, space, newline, or custom delimiter instantly.">
+    <meta property="og:image" content="https://webutilbox.com/favicon.svg">
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3916624682784320"
+     crossorigin="anonymous"></script>
+    <style>/* Critical CSS - Inline in <head> for instant rendering */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#f97316;--primary-dark:#ea580c;--dark:#0a0a0a;--gray:#a1a1aa;--white:#fafafa;--card-bg:#18181b;--border:#27272a}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;background:linear-gradient(135deg,#000 0%,#1a0f00 30%,#7c2d12 70%,#ea580c 100%);min-height:100vh;color:var(--white)}
+header{background:rgba(10,10,10,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:20px 0;position:sticky;top:0;z-index:100}
+.header-content{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:12px;color:var(--white);text-decoration:none;font-size:1.5rem;font-weight:700;line-height:1}
+.logo span:first-child{font-size:2rem;line-height:1;display:flex;align-items:center}
+.all-tools-btn{padding:10px 20px;background:var(--primary);color:var(--white);text-decoration:none;border-radius:8px;font-weight:600;font-size:.95rem;transition:all .3s}
+.container{max-width:1200px;margin:0 auto;padding:40px 20px}
+h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c 0%,#ea580c 50%,#dc2626 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.subtitle{color:var(--gray);font-size:1.1rem;margin-bottom:30px}
+</style>
+    <link rel="stylesheet" href="../assets/css/common.min.css">
+    <style>
+        .preset-btn{padding:8px 16px;background:var(--light);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all 0.2s;font-size:0.9rem}
+        .preset-btn:hover{border-color:var(--primary);background:var(--input-bg)}
+        .preset-btn.active{background:var(--primary);color:var(--dark);border-color:var(--primary)}
+        .output-format{display:flex;gap:10px;margin-top:15px;flex-wrap:wrap}
+        .format-btn{padding:6px 12px;background:var(--input-bg);border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:0.85rem}
+        .format-btn:hover{border-color:var(--primary)}
+    </style>
+    <style>
+        /* Prevent layout shift from font loading */
+        * {
+            font-display: swap;
+        }
+        /* Reserve space for AdSense to prevent layout shift */
+        .ad-container {
+            min-height: 250px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>Webutilbox</span>
+            </a>
+            <a href="../Tools.html" class="all-tools-btn">All Tools</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>✂️ Text Splitter</h1>
+        <p class="subtitle">Split text by comma, space, newline, or any custom delimiter. Convert text to list instantly.</p>
+
+        <div class="workspace">
+            <div class="input-group">
+                <label>Input Text</label>
+                <textarea id="inputText" placeholder="Enter text to split...&#10;&#10;Example:&#10;apple, banana, orange, grape&#10;or&#10;apple banana orange grape&#10;or&#10;apple|banana|orange|grape" style="min-height:150px"></textarea>
+            </div>
+
+            <div style="margin-bottom:15px">
+                <label style="display:block;margin-bottom:8px;font-weight:600">Split By:</label>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+                    <button class="preset-btn active" onclick="setDelimiter(',','comma')">Comma (,)</button>
+                    <button class="preset-btn" onclick="setDelimiter(' ','space')">Space</button>
+                    <button class="preset-btn" onclick="setDelimiter('\\n','newline')">New Line</button>
+                    <button class="preset-btn" onclick="setDelimiter(';','semicolon')">Semicolon (;)</button>
+                    <button class="preset-btn" onclick="setDelimiter('|','pipe')">Pipe (|)</button>
+                    <button class="preset-btn" onclick="setDelimiter('\\t','tab')">Tab</button>
+                    <button class="preset-btn" onclick="setDelimiter('custom','custom')">Custom</button>
+                </div>
+                <input type="text" id="customDelimiter" placeholder="Enter custom delimiter..." style="width:100%;padding:10px;background:var(--input-bg);border:1px solid var(--border);border-radius:8px;color:var(--white);display:none">
+            </div>
+
+            <div style="display:flex;gap:10px;margin-bottom:15px;flex-wrap:wrap">
+                <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+                    <input type="checkbox" id="trimItems" checked>
+                    <span style="font-size:0.9rem">Trim whitespace</span>
+                </label>
+                <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+                    <input type="checkbox" id="removeEmpty" checked>
+                    <span style="font-size:0.9rem">Remove empty items</span>
+                </label>
+                <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+                    <input type="checkbox" id="removeDuplicates">
+                    <span style="font-size:0.9rem">Remove duplicates</span>
+                </label>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="splitText()">Split Text</button>
+                <button class="btn btn-secondary" onclick="clearAll()">Clear</button>
+            </div>
+
+            <div id="results" style="display:none;margin-top:20px">
+                <div style="background:var(--light);padding:15px;border-radius:12px;border:1px solid var(--border);margin-bottom:15px">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+                        <h3 style="color:var(--primary);margin:0">Results</h3>
+                        <span style="color:var(--gray);font-size:0.9rem" id="itemCount"></span>
+                    </div>
+                    
+                    <div class="output-format">
+                        <button class="format-btn" onclick="formatOutput('list')">📋 List</button>
+                        <button class="format-btn" onclick="formatOutput('numbered')">🔢 Numbered</button>
+                        <button class="format-btn" onclick="formatOutput('comma')">📝 Comma</button>
+                        <button class="format-btn" onclick="formatOutput('array')">[ ] Array</button>
+                        <button class="format-btn" onclick="formatOutput('json')">{ } JSON</button>
+                        <button class="format-btn" onclick="formatOutput('quoted')">❝ Quoted</button>
+                    </div>
+                </div>
+
+                <div class="output-container">
+                    <div class="output-label">Output</div>
+                    <div class="output-content" id="output"></div>
+                    <button class="btn btn-success" style="margin-top:10px" onclick="copyOutput()">Copy Output</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Text Splitter - Split Text by Delimiter Online</h2>
+            <p>This free text splitter tool helps you split text by any delimiter - comma, space, newline, semicolon, pipe, tab, or custom character. Perfect for converting comma-separated values to lists, parsing data, or formatting text.</p>
+            
+            <h3>Features:</h3>
+            <ul>
+                <li><strong>Multiple Delimiters:</strong> Split by comma, space, newline, semicolon, pipe, tab, or custom</li>
+                <li><strong>Trim Whitespace:</strong> Automatically remove extra spaces</li>
+                <li><strong>Remove Empty Items:</strong> Filter out blank entries</li>
+                <li><strong>Remove Duplicates:</strong> Keep only unique items</li>
+                <li><strong>Multiple Output Formats:</strong> List, numbered, comma-separated, array, JSON, quoted</li>
+                <li><strong>Item Counter:</strong> See how many items after splitting</li>
+            </ul>
+
+            <h3>Use Cases:</h3>
+            <ul>
+                <li><strong>CSV Parsing:</strong> Split comma-separated values into individual items</li>
+                <li><strong>Data Cleaning:</strong> Convert messy text into organized lists</li>
+                <li><strong>Programming:</strong> Convert text to arrays for code</li>
+                <li><strong>Email Lists:</strong> Split email addresses from comma-separated list</li>
+                <li><strong>Tag Processing:</strong> Split tags or keywords</li>
+                <li><strong>Data Import:</strong> Prepare data for spreadsheets or databases</li>
+            </ul>
+
+            <h3>Output Formats:</h3>
+            <ul>
+                <li><strong>List:</strong> One item per line</li>
+                <li><strong>Numbered:</strong> 1. item, 2. item, 3. item</li>
+                <li><strong>Comma:</strong> item1, item2, item3</li>
+                <li><strong>Array:</strong> ["item1", "item2", "item3"]</li>
+                <li><strong>JSON:</strong> {"items": ["item1", "item2", "item3"]}</li>
+                <li><strong>Quoted:</strong> "item1", "item2", "item3"</li>
+            </ul>
+
+            <h3>How to Use:</h3>
+            <ol>
+                <li>Paste your text in the input box</li>
+                <li>Choose a delimiter (comma, space, newline, etc.)</li>
+                <li>Select options (trim, remove empty, remove duplicates)</li>
+                <li>Click "Split Text"</li>
+                <li>Choose your preferred output format</li>
+                <li>Copy the result</li>
+            </ol>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        let currentDelimiter=',';
+        let items=[];
+
+        function setDelimiter(delimiter,type){
+            document.querySelectorAll('.preset-btn').forEach(btn=>btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if(type==='custom'){
+                document.getElementById('customDelimiter').style.display='block';
+                document.getElementById('customDelimiter').focus();
+            }else{
+                document.getElementById('customDelimiter').style.display='none';
+                currentDelimiter=delimiter;
+            }
+        }
+
+        function splitText(){
+            const text=document.getElementById('inputText').value;
+            if(!text.trim()){
+                showToast('Please enter some text',true);
+                return;
+            }
+
+            let delimiter=currentDelimiter;
+            const customInput=document.getElementById('customDelimiter');
+            if(customInput.style.display==='block'){
+                delimiter=customInput.value||',';
+            }
+
+            // Handle special characters
+            if(delimiter==='\\n')delimiter='\n';
+            if(delimiter==='\\t')delimiter='\t';
+
+            // Split
+            items=text.split(delimiter);
+
+            // Options
+            if(document.getElementById('trimItems').checked){
+                items=items.map(item=>item.trim());
+            }
+            if(document.getElementById('removeEmpty').checked){
+                items=items.filter(item=>item.length>0);
+            }
+            if(document.getElementById('removeDuplicates').checked){
+                items=[...new Set(items)];
+            }
+
+            document.getElementById('itemCount').textContent=`${items.length} items`;
+            formatOutput('list');
+            document.getElementById('results').style.display='block';
+            showToast('Text split successfully!');
+        }
+
+        function formatOutput(format){
+            let output='';
+            
+            switch(format){
+                case 'list':
+                    output=items.join('\n');
+                    break;
+                case 'numbered':
+                    output=items.map((item,idx)=>`${idx+1}. ${item}`).join('\n');
+                    break;
+                case 'comma':
+                    output=items.join(', ');
+                    break;
+                case 'array':
+                    output=JSON.stringify(items,null,2);
+                    break;
+                case 'json':
+                    output=JSON.stringify({items},null,2);
+                    break;
+                case 'quoted':
+                    output=items.map(item=>`"${item}"`).join(', ');
+                    break;
+            }
+
+            document.getElementById('output').textContent=output;
+        }
+
+        function copyOutput(){
+            const output=document.getElementById('output').textContent;
+            navigator.clipboard.writeText(output).then(()=>{
+                showToast('Copied to clipboard!');
+            });
+        }
+
+        function clearAll(){
+            document.getElementById('inputText').value='';
+            document.getElementById('results').style.display='none';
+            items=[];
+            showToast('Cleared');
+        }
+
+        function showToast(message,isError=false){
+            const toast=document.getElementById('toast');
+            const msg=document.getElementById('toastMessage');
+            msg.textContent=message;
+            toast.className='toast show'+(isError?' error':'');
+            setTimeout(()=>toast.classList.remove('show'),3000);
+        }
+    </script>
+
+    <footer style="background:var(--dark);padding:30px 20px;text-align:center;margin-top:60px;border-top:1px solid var(--border)">
+        <p style="color:var(--gray);margin-bottom:15px">© 2026 Webutilbox. All rights reserved.</p>
+        <div>
+            <a href="../" style="color:var(--primary);text-decoration:none;margin:0 15px">Home</a>
+            <a href="../Tools.html" style="color:var(--primary);text-decoration:none;margin:0 15px">All Tools</a>
+            <a href="../about.html" style="color:var(--primary);text-decoration:none;margin:0 15px">About</a>
+            <a href="../contact.html" style="color:var(--primary);text-decoration:none;margin:0 15px">Contact</a>
+            <a href="../privacy-policy.html" style="color:var(--primary);text-decoration:none;margin:0 15px">Privacy Policy</a>
+        </div>
+    </footer>
+</body>
+</html>

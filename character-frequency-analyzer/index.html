@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <title>Character Frequency Analyzer - Count Letter Occurrences | Webutilbox</title>
+    
+    <!-- Preconnect to external domains for faster loading -->
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com">
+    <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+    
+    <meta name="description" content="Free character frequency analyzer. Count letter occurrences, analyze character distribution, perfect for cryptography, text analysis, and data science.">
+    <meta name="keywords" content="character frequency, letter counter, character distribution, frequency analysis, cryptography tool, cipher analysis, text analysis">
+    <link rel="canonical" href="https://webutilbox.com/character-frequency-analyzer">
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://webutilbox.com/character-frequency-analyzer">
+    <meta property="og:title" content="Character Frequency Analyzer - Count Letters | Webutilbox">
+    <meta property="og:description" content="Free character frequency analyzer for cryptography and text analysis. Count letter occurrences instantly.">
+    <meta property="og:image" content="https://webutilbox.com/favicon.svg">
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3916624682784320"
+     crossorigin="anonymous"></script>
+    <style>/* Critical CSS - Inline in <head> for instant rendering */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#f97316;--primary-dark:#ea580c;--dark:#0a0a0a;--gray:#a1a1aa;--white:#fafafa;--card-bg:#18181b;--border:#27272a}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;background:linear-gradient(135deg,#000 0%,#1a0f00 30%,#7c2d12 70%,#ea580c 100%);min-height:100vh;color:var(--white)}
+header{background:rgba(10,10,10,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:20px 0;position:sticky;top:0;z-index:100}
+.header-content{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:12px;color:var(--white);text-decoration:none;font-size:1.5rem;font-weight:700;line-height:1}
+.logo span:first-child{font-size:2rem;line-height:1;display:flex;align-items:center}
+.all-tools-btn{padding:10px 20px;background:var(--primary);color:var(--white);text-decoration:none;border-radius:8px;font-weight:600;font-size:.95rem;transition:all .3s}
+.container{max-width:1200px;margin:0 auto;padding:40px 20px}
+h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c 0%,#ea580c 50%,#dc2626 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.subtitle{color:var(--gray);font-size:1.1rem;margin-bottom:30px}
+</style>
+    <link rel="stylesheet" href="../assets/css/common.min.css">
+    <style>
+        .char-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:10px;margin-top:15px}
+        .char-card{background:var(--input-bg);padding:12px;border-radius:8px;text-align:center;border:1px solid var(--border);transition:all 0.2s}
+        .char-card:hover{border-color:var(--primary);transform:translateY(-2px)}
+        .char-letter{font-size:1.8rem;font-weight:700;color:var(--primary);margin-bottom:5px}
+        .char-count{font-size:0.9rem;color:var(--gray)}
+        .char-percent{font-size:0.75rem;color:var(--gray)}
+        .summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:15px;margin-bottom:20px}
+        .summary-card{background:var(--light);padding:15px;border-radius:8px;text-align:center;border:1px solid var(--border)}
+        .summary-number{font-size:1.8rem;font-weight:700;color:var(--primary)}
+        .summary-label{font-size:0.85rem;color:var(--gray);margin-top:5px}
+        .chart-bar{height:20px;background:var(--primary);border-radius:4px;margin:5px 0;transition:width 0.3s}
+    </style>
+    <style>
+        /* Prevent layout shift from font loading */
+        * {
+            font-display: swap;
+        }
+        /* Reserve space for AdSense to prevent layout shift */
+        .ad-container {
+            min-height: 250px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>Webutilbox</span>
+            </a>
+            <a href="../Tools.html" class="all-tools-btn">All Tools</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>🔍 Character Frequency Analyzer</h1>
+        <p class="subtitle">Analyze character distribution and count letter occurrences. Perfect for cryptography and text analysis.</p>
+
+        <div class="workspace">
+            <div class="input-group">
+                <label>Your Text</label>
+                <textarea id="inputText" placeholder="Enter text to analyze character frequency...&#10;&#10;Example:&#10;The quick brown fox jumps over the lazy dog" style="min-height:150px"></textarea>
+            </div>
+
+            <div style="display:flex;gap:10px;margin-bottom:15px;flex-wrap:wrap">
+                <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+                    <input type="checkbox" id="caseSensitive">
+                    <span style="font-size:0.9rem">Case sensitive</span>
+                </label>
+                <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+                    <input type="checkbox" id="lettersOnly" checked>
+                    <span style="font-size:0.9rem">Letters only (A-Z)</span>
+                </label>
+                <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+                    <input type="checkbox" id="includeSpaces">
+                    <span style="font-size:0.9rem">Include spaces</span>
+                </label>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="analyzeFrequency()">Analyze Frequency</button>
+                <button class="btn btn-secondary" onclick="clearAll()">Clear</button>
+                <button class="btn btn-success" onclick="exportData()">Export CSV</button>
+            </div>
+
+            <div id="results" style="display:none;margin-top:20px">
+                <div class="summary-grid" id="summary"></div>
+                
+                <div style="background:var(--light);padding:20px;border-radius:12px;border:1px solid var(--border);margin-bottom:15px">
+                    <h3 style="color:var(--primary);margin-bottom:15px">Character Distribution</h3>
+                    <div class="char-grid" id="charGrid"></div>
+                </div>
+
+                <div style="background:var(--light);padding:20px;border-radius:12px;border:1px solid var(--border)">
+                    <h3 style="color:var(--primary);margin-bottom:15px">Frequency Chart</h3>
+                    <div id="chart"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Character Frequency Analyzer - Count Letter Occurrences</h2>
+            <p>This free character frequency analyzer counts how many times each character appears in your text. Essential for cryptography, cipher analysis, text analysis, and data science projects.</p>
+            
+            <h3>Features:</h3>
+            <ul>
+                <li><strong>Character Count:</strong> Count occurrences of each character</li>
+                <li><strong>Percentage Distribution:</strong> See character frequency as percentages</li>
+                <li><strong>Visual Chart:</strong> Bar chart showing character distribution</li>
+                <li><strong>Case Sensitivity:</strong> Option for case-sensitive or case-insensitive analysis</li>
+                <li><strong>Filter Options:</strong> Letters only, include spaces, or all characters</li>
+                <li><strong>CSV Export:</strong> Download results for further analysis</li>
+                <li><strong>Sorted Results:</strong> Characters sorted by frequency</li>
+            </ul>
+
+            <h3>Use Cases:</h3>
+            <ul>
+                <li><strong>Cryptography:</strong> Frequency analysis for breaking substitution ciphers</li>
+                <li><strong>Cipher Analysis:</strong> Identify patterns in encrypted text</li>
+                <li><strong>Text Analysis:</strong> Study character distribution in documents</li>
+                <li><strong>Data Science:</strong> Analyze text data patterns</li>
+                <li><strong>Linguistics:</strong> Study letter frequency in different languages</li>
+                <li><strong>Education:</strong> Teach frequency analysis concepts</li>
+            </ul>
+
+            <h3>English Letter Frequency (Reference):</h3>
+            <p>Most common letters in English text:</p>
+            <ul>
+                <li>E (12.7%) - Most common</li>
+                <li>T (9.1%)</li>
+                <li>A (8.2%)</li>
+                <li>O (7.5%)</li>
+                <li>I (7.0%)</li>
+                <li>N (6.7%)</li>
+                <li>S (6.3%)</li>
+                <li>H (6.1%)</li>
+                <li>R (6.0%)</li>
+            </ul>
+
+            <h3>Cryptography Applications:</h3>
+            <p>Character frequency analysis is a fundamental technique in cryptanalysis:</p>
+            <ul>
+                <li><strong>Substitution Ciphers:</strong> Break simple substitution ciphers by matching frequency patterns</li>
+                <li><strong>Caesar Cipher:</strong> Identify shift amount by comparing letter frequencies</li>
+                <li><strong>Pattern Recognition:</strong> Find repeated patterns in encrypted text</li>
+                <li><strong>Language Detection:</strong> Identify language based on character distribution</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        let freqData=[];
+
+        function analyzeFrequency(){
+            const text=document.getElementById('inputText').value;
+            if(!text){
+                showToast('Please enter some text',true);
+                return;
+            }
+
+            const caseSensitive=document.getElementById('caseSensitive').checked;
+            const lettersOnly=document.getElementById('lettersOnly').checked;
+            const includeSpaces=document.getElementById('includeSpaces').checked;
+
+            let chars=text.split('');
+            
+            // Filter
+            if(lettersOnly){
+                chars=chars.filter(c=>/[a-zA-Z]/.test(c));
+            }
+            if(!includeSpaces){
+                chars=chars.filter(c=>c!==' ');
+            }
+            if(!caseSensitive){
+                chars=chars.map(c=>c.toLowerCase());
+            }
+
+            // Count frequency
+            const freqMap={};
+            chars.forEach(c=>{
+                freqMap[c]=(freqMap[c]||0)+1;
+            });
+
+            // Convert to array
+            const totalChars=chars.length;
+            freqData=Object.entries(freqMap).map(([char,count])=>({
+                char,
+                count,
+                percent:((count/totalChars)*100).toFixed(2)
+            }));
+
+            // Sort by count descending
+            freqData.sort((a,b)=>b.count-a.count);
+
+            displayResults(totalChars);
+            showToast('Analysis complete!');
+        }
+
+        function displayResults(total){
+            const unique=freqData.length;
+            const mostCommon=freqData[0]||{char:'-',count:0};
+            const leastCommon=freqData[freqData.length-1]||{char:'-',count:0};
+
+            document.getElementById('summary').innerHTML=`
+                <div class="summary-card">
+                    <div class="summary-number">${total}</div>
+                    <div class="summary-label">Total Characters</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-number">${unique}</div>
+                    <div class="summary-label">Unique Characters</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-number">${mostCommon.char}</div>
+                    <div class="summary-label">Most Common (${mostCommon.count}x)</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-number">${leastCommon.char}</div>
+                    <div class="summary-label">Least Common (${leastCommon.count}x)</div>
+                </div>
+            `;
+
+            // Character grid
+            document.getElementById('charGrid').innerHTML=freqData.map(item=>`
+                <div class="char-card">
+                    <div class="char-letter">${item.char===' '?'␣':item.char}</div>
+                    <div class="char-count">${item.count}x</div>
+                    <div class="char-percent">${item.percent}%</div>
+                </div>
+            `).join('');
+
+            // Chart
+            const maxCount=Math.max(...freqData.map(d=>d.count));
+            document.getElementById('chart').innerHTML=freqData.slice(0,15).map(item=>`
+                <div style="margin-bottom:10px">
+                    <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+                        <span style="font-weight:600">${item.char===' '?'Space':item.char}</span>
+                        <span style="color:var(--gray)">${item.count} (${item.percent}%)</span>
+                    </div>
+                    <div class="chart-bar" style="width:${(item.count/maxCount)*100}%"></div>
+                </div>
+            `).join('');
+
+            document.getElementById('results').style.display='block';
+        }
+
+        function exportData(){
+            if(!freqData.length){
+                showToast('No data to export',true);
+                return;
+            }
+
+            let csv='Character,Count,Percentage\n';
+            freqData.forEach(item=>{
+                csv+=`"${item.char}",${item.count},${item.percent}%\n`;
+            });
+
+            const blob=new Blob([csv],{type:'text/csv'});
+            const url=URL.createObjectURL(blob);
+            const a=document.createElement('a');
+            a.href=url;
+            a.download='character-frequency.csv';
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('CSV exported!');
+        }
+
+        function clearAll(){
+            document.getElementById('inputText').value='';
+            document.getElementById('results').style.display='none';
+            freqData=[];
+            showToast('Cleared');
+        }
+
+        function showToast(message,isError=false){
+            const toast=document.getElementById('toast');
+            const msg=document.getElementById('toastMessage');
+            msg.textContent=message;
+            toast.className='toast show'+(isError?' error':'');
+            setTimeout(()=>toast.classList.remove('show'),3000);
+        }
+    </script>
+
+    <footer style="background:var(--dark);padding:30px 20px;text-align:center;margin-top:60px;border-top:1px solid var(--border)">
+        <p style="color:var(--gray);margin-bottom:15px">© 2026 Webutilbox. All rights reserved.</p>
+        <div>
+            <a href="../" style="color:var(--primary);text-decoration:none;margin:0 15px">Home</a>
+            <a href="../Tools.html" style="color:var(--primary);text-decoration:none;margin:0 15px">All Tools</a>
+            <a href="../about.html" style="color:var(--primary);text-decoration:none;margin:0 15px">About</a>
+            <a href="../contact.html" style="color:var(--primary);text-decoration:none;margin:0 15px">Contact</a>
+            <a href="../privacy-policy.html" style="color:var(--primary);text-decoration:none;margin:0 15px">Privacy Policy</a>
+        </div>
+    </footer>
+</body>
+</html>

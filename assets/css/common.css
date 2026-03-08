@@ -57,8 +57,33 @@ header {
     gap: 12px;
     color: var(--white);
     text-decoration: none;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     font-weight: 700;
+    line-height: 1;
+}
+
+.logo span:first-child {
+    font-size: 2rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+}
+
+.all-tools-btn {
+    padding: 10px 20px;
+    background: var(--primary);
+    color: var(--white);
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: var(--transition);
+}
+
+.all-tools-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(249, 115, 22, 0.4);
 }
 
 /* Container */

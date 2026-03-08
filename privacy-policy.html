@@ -4,12 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policy | Webutilbox</title>
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">    
+    <!-- Preconnect to external domains for faster loading -->
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com">
+    <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+    
     <meta name="description" content="Privacy Policy for Webutilbox - Learn how we handle your data and protect your privacy.">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3916624682784320"
      crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="assets/css/common.css">
-    <link rel="stylesheet" href="assets/css/home.css">
+    <link rel="preload" href="assets/css/common.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="assets/css/common.css"></noscript>
+    <link rel="preload" href="assets/css/home.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="assets/css/home.css"></noscript>
     <style>
         .privacy-content {
             max-width: 900px;
@@ -72,6 +76,17 @@
         }
         footer a:hover {
             text-decoration: underline;
+        }
+    </style>
+    <style>
+        /* Prevent layout shift from font loading */
+        * {
+            font-display: swap;
+        }
+        /* Reserve space for AdSense to prevent layout shift */
+        .ad-container {
+            min-height: 250px;
+            display: block;
         }
     </style>
 </head>

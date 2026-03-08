@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Profit Calculator - Bitcoin & Ethereum Trading Calculator | Webutilbox</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    
+    <!-- Preconnect to external domains for faster loading -->
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com">
+    <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+    
+    <meta name="description" content="Free crypto profit calculator for Bitcoin, Ethereum, and altcoins. Calculate profit/loss, ROI, fees, and break-even price. Track your cryptocurrency trading gains.">
+    <meta name="keywords" content="crypto profit calculator, bitcoin calculator, ethereum calculator, cryptocurrency profit, crypto ROI calculator, trading profit calculator">
+    <link rel="canonical" href="https://webutilbox.com/crypto-profit-calculator/">
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://webutilbox.com/crypto-profit-calculator/">
+    <meta property="og:title" content="Crypto Profit Calculator - Bitcoin & Ethereum Trading Calculator">
+    <meta property="og:description" content="Free crypto profit calculator for Bitcoin, Ethereum, and altcoins. Calculate profit/loss, ROI, fees, and break-even price.">
+    <meta property="og:image" content="https://webutilbox.com/favicon.svg">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://webutilbox.com/crypto-profit-calculator/">
+    <meta name="twitter:title" content="Crypto Profit Calculator - Bitcoin & Ethereum Trading Calculator">
+    <meta name="twitter:description" content="Free crypto profit calculator for Bitcoin, Ethereum, and altcoins. Calculate profit/loss, ROI, fees, and break-even price.">
+    <meta name="twitter:image" content="https://webutilbox.com/favicon.svg">
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3916624682784320"
+     crossorigin="anonymous"></script>
+    
+    <style>/* Critical CSS - Inline in <head> for instant rendering */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#f97316;--primary-dark:#ea580c;--dark:#0a0a0a;--gray:#a1a1aa;--white:#fafafa;--card-bg:#18181b;--border:#27272a}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;background:linear-gradient(135deg,#000 0%,#1a0f00 30%,#7c2d12 70%,#ea580c 100%);min-height:100vh;color:var(--white)}
+header{background:rgba(10,10,10,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:20px 0;position:sticky;top:0;z-index:100}
+.header-content{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:12px;color:var(--white);text-decoration:none;font-size:1.5rem;font-weight:700;line-height:1}
+.logo span:first-child{font-size:2rem;line-height:1;display:flex;align-items:center}
+.all-tools-btn{padding:10px 20px;background:var(--primary);color:var(--white);text-decoration:none;border-radius:8px;font-weight:600;font-size:.95rem;transition:all .3s}
+.container{max-width:1200px;margin:0 auto;padding:40px 20px}
+h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c 0%,#ea580c 50%,#dc2626 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.subtitle{color:var(--gray);font-size:1.1rem;margin-bottom:30px}
+</style>
+    <link rel="stylesheet" href="../assets/css/common.min.css">
+    <style>/* Critical CSS - Inline in <head> for instant rendering */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#f97316;--primary-dark:#ea580c;--dark:#0a0a0a;--gray:#a1a1aa;--white:#fafafa;--card-bg:#18181b;--border:#27272a}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;background:linear-gradient(135deg,#000 0%,#1a0f00 30%,#7c2d12 70%,#ea580c 100%);min-height:100vh;color:var(--white)}
+header{background:rgba(10,10,10,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:20px 0;position:sticky;top:0;z-index:100}
+.header-content{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:12px;color:var(--white);text-decoration:none;font-size:1.5rem;font-weight:700;line-height:1}
+.logo span:first-child{font-size:2rem;line-height:1;display:flex;align-items:center}
+.all-tools-btn{padding:10px 20px;background:var(--primary);color:var(--white);text-decoration:none;border-radius:8px;font-weight:600;font-size:.95rem;transition:all .3s}
+.container{max-width:1200px;margin:0 auto;padding:40px 20px}
+h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c 0%,#ea580c 50%,#dc2626 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.subtitle{color:var(--gray);font-size:1.1rem;margin-bottom:30px}
+</style>
+    <link rel="stylesheet" href="../assets/css/tool-specific.min.css">
+    <style>
+        /* Prevent layout shift from font loading */
+        * {
+            font-display: swap;
+        }
+        /* Reserve space for AdSense to prevent layout shift */
+        .ad-container {
+            min-height: 250px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="../" class="logo">
+                <span>🧰</span>
+                <span>Webutilbox</span>
+            </a>
+            <a href="../Tools.html" class="all-tools-btn">All Tools</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>₿ Crypto Profit Calculator</h1>
+        <p class="subtitle" style="color: #a1a1aa; font-size: 1.1rem; margin-bottom: 30px;">Calculate cryptocurrency trading profit, loss, ROI, and break-even price</p>
+
+        <div class="tool-content">
+            <div class="input-section">
+                <div class="input-group">
+                    <label>Cryptocurrency</label>
+                    <select id="crypto">
+                        <option value="BTC">Bitcoin (BTC)</option>
+                        <option value="ETH">Ethereum (ETH)</option>
+                        <option value="BNB">Binance Coin (BNB)</option>
+                        <option value="XRP">Ripple (XRP)</option>
+                        <option value="ADA">Cardano (ADA)</option>
+                        <option value="SOL">Solana (SOL)</option>
+                        <option value="DOT">Polkadot (DOT)</option>
+                        <option value="DOGE">Dogecoin (DOGE)</option>
+                        <option value="MATIC">Polygon (MATIC)</option>
+                        <option value="LTC">Litecoin (LTC)</option>
+                        <option value="OTHER">Other Crypto</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Investment Amount ($)</label>
+                    <input type="number" id="investment" value="1000" min="0" step="10">
+                </div>
+                <div class="input-group">
+                    <label>Buy Price ($)</label>
+                    <input type="number" id="buyPrice" value="30000" min="0" step="0.01">
+                </div>
+                <div class="input-group">
+                    <label>Sell Price ($)</label>
+                    <input type="number" id="sellPrice" value="35000" min="0" step="0.01">
+                </div>
+                <div class="input-group">
+                    <label>Buy Fee (%)</label>
+                    <input type="number" id="buyFee" value="0.1" min="0" max="10" step="0.01">
+                    <small>Typical exchange fee: 0.1% - 0.5%</small>
+                </div>
+                <div class="input-group">
+                    <label>Sell Fee (%)</label>
+                    <input type="number" id="sellFee" value="0.1" min="0" max="10" step="0.01">
+                </div>
+                <button class="btn-primary" onclick="calculateProfit()">Calculate Profit</button>
+            </div>
+
+            <div class="output-section" id="results" style="display:none;">
+                <h3>Trading Results</h3>
+                <div class="result-card">
+                    <div class="result-item highlight" id="profitHighlight">
+                        <span>Net Profit/Loss</span>
+                        <strong id="netProfit">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Coins Purchased</span>
+                        <strong id="coinsPurchased">0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Total Investment (with fees)</span>
+                        <strong id="totalInvestment">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Sale Proceeds (after fees)</span>
+                        <strong id="saleProceeds">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Total Fees Paid</span>
+                        <strong id="totalFees">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Return on Investment (ROI)</span>
+                        <strong id="roi">0%</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Break-Even Price</span>
+                        <strong id="breakEven">$0</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Price Change</span>
+                        <strong id="priceChange">0%</strong>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px; padding: 15px; background: rgba(249, 115, 22, 0.1); border-radius: 8px; border-left: 4px solid var(--primary);">
+                    <p style="margin: 0; font-size: 0.9rem; color: var(--text);" id="profitSummary"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Auto-calculate on input change
+        document.querySelectorAll('input, select').forEach(el => {
+            el.addEventListener('input', () => {
+                if (document.getElementById('results').style.display !== 'none') {
+                    calculateProfit();
+                }
+            });
+        });
+
+        function calculateProfit() {
+            const crypto = document.getElementById('crypto').value;
+            const investment = parseFloat(document.getElementById('investment').value) || 0;
+            const buyPrice = parseFloat(document.getElementById('buyPrice').value) || 0;
+            const sellPrice = parseFloat(document.getElementById('sellPrice').value) || 0;
+            const buyFeePercent = parseFloat(document.getElementById('buyFee').value) || 0;
+            const sellFeePercent = parseFloat(document.getElementById('sellFee').value) || 0;
+
+            // Calculate buy side
+            const buyFee = investment * (buyFeePercent / 100);
+            const investmentAfterFee = investment - buyFee;
+            const coinsPurchased = investmentAfterFee / buyPrice;
+
+            // Calculate sell side
+            const saleValue = coinsPurchased * sellPrice;
+            const sellFee = saleValue * (sellFeePercent / 100);
+            const saleProceeds = saleValue - sellFee;
+
+            // Calculate profit/loss
+            const totalFees = buyFee + sellFee;
+            const netProfit = saleProceeds - investment;
+            const roi = (netProfit / investment) * 100;
+
+            // Calculate break-even price (price needed to cover all fees)
+            const breakEven = (investment + totalFees) / coinsPurchased;
+
+            // Calculate price change
+            const priceChange = ((sellPrice - buyPrice) / buyPrice) * 100;
+
+            // Display results
+            const profitColor = netProfit >= 0 ? '#10b981' : '#ef4444';
+            document.getElementById('netProfit').textContent = `${netProfit >= 0 ? '+' : ''}$${netProfit.toFixed(2)}`;
+            document.getElementById('netProfit').style.color = profitColor;
+            document.getElementById('profitHighlight').style.background = netProfit >= 0 ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)';
+
+            document.getElementById('coinsPurchased').textContent = `${coinsPurchased.toFixed(8)} ${crypto}`;
+            document.getElementById('totalInvestment').textContent = `$${investment.toFixed(2)}`;
+            document.getElementById('saleProceeds').textContent = `$${saleProceeds.toFixed(2)}`;
+            document.getElementById('totalFees').textContent = `$${totalFees.toFixed(2)}`;
+            document.getElementById('roi').textContent = `${roi >= 0 ? '+' : ''}${roi.toFixed(2)}%`;
+            document.getElementById('roi').style.color = profitColor;
+            document.getElementById('breakEven').textContent = `$${breakEven.toFixed(2)}`;
+            document.getElementById('priceChange').textContent = `${priceChange >= 0 ? '+' : ''}${priceChange.toFixed(2)}%`;
+
+            // Generate summary
+            const cryptoName = document.getElementById('crypto').options[document.getElementById('crypto').selectedIndex].text;
+            let summary = '';
+            if (netProfit > 0) {
+                summary = `🎉 Profit! You would make $${netProfit.toFixed(2)} (${roi.toFixed(2)}% ROI) by buying ${coinsPurchased.toFixed(8)} ${crypto} at $${buyPrice.toFixed(2)} and selling at $${sellPrice.toFixed(2)}. After paying $${totalFees.toFixed(2)} in fees, your net gain is ${roi.toFixed(2)}%.`;
+            } else if (netProfit < 0) {
+                summary = `📉 Loss! You would lose $${Math.abs(netProfit).toFixed(2)} (${roi.toFixed(2)}% ROI) by buying ${coinsPurchased.toFixed(8)} ${crypto} at $${buyPrice.toFixed(2)} and selling at $${sellPrice.toFixed(2)}. Including $${totalFees.toFixed(2)} in fees, your net loss is ${Math.abs(roi).toFixed(2)}%.`;
+            } else {
+                summary = `⚖️ Break-even! You would neither profit nor lose. The price change exactly covers the trading fees of $${totalFees.toFixed(2)}.`;
+            }
+            document.getElementById('profitSummary').textContent = summary;
+
+            document.getElementById('results').style.display = 'block';
+        }
+    </script>
+
+    <footer style="background: var(--dark); padding: 30px 20px; text-align: center; margin-top: 60px; border-top: 1px solid var(--border);">
+        <p style="color: var(--gray); margin-bottom: 15px;">© 2026 Webutilbox. All rights reserved.</p>
+        <div>
+            <a href="../" style="color: var(--primary); text-decoration: none; margin: 0 15px;">Home</a>
+            <a href="../Tools.html" style="color: var(--primary); text-decoration: none; margin: 0 15px;">All Tools</a>
+            <a href="../about.html" style="color: var(--primary); text-decoration: none; margin: 0 15px;">About</a>
+            <a href="../contact.html" style="color: var(--primary); text-decoration: none; margin: 0 15px;">Contact</a>
+            <a href="../privacy-policy.html" style="color: var(--primary); text-decoration: none; margin: 0 15px;">Privacy Policy</a>
+        </div>
+    </footer>
+</body>
+</html>
