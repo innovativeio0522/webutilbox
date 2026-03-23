@@ -242,8 +242,19 @@
     [style*="grid-template-columns: 1fr 1fr 1fr"] {
         grid-template-columns: 1fr !important;
     }
-    
-    /* Unix Timestamp Converter Responsive */
+
+    /* Fix selects on mobile */
+    select {
+        font-size: 16px;
+        width: 100%;
+    }
+
+    /* Ensure all inline buttons have adequate tap target */
+    button {
+        min-height: 44px;
+        touch-action: manipulation;
+    }
+
     .timestamp-input-row {
         flex-direction: column;
     }

@@ -40,19 +40,6 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
 .subtitle{color:var(--gray);font-size:1.1rem;margin-bottom:30px}
 </style>
     <link rel="stylesheet" href="../assets/css/common.min.css">
-    <style>/* Critical CSS - Inline in <head> for instant rendering */
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--primary:#f97316;--primary-dark:#ea580c;--dark:#0a0a0a;--gray:#a1a1aa;--white:#fafafa;--card-bg:#18181b;--border:#27272a}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;background:linear-gradient(135deg,#000 0%,#1a0f00 30%,#7c2d12 70%,#ea580c 100%);min-height:100vh;color:var(--white)}
-header{background:rgba(10,10,10,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:20px 0;position:sticky;top:0;z-index:100}
-.header-content{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center}
-.logo{display:flex;align-items:center;gap:12px;color:var(--white);text-decoration:none;font-size:1.5rem;font-weight:700;line-height:1}
-.logo span:first-child{font-size:2rem;line-height:1;display:flex;align-items:center}
-.all-tools-btn{padding:10px 20px;background:var(--primary);color:var(--white);text-decoration:none;border-radius:8px;font-weight:600;font-size:.95rem;transition:all .3s}
-.container{max-width:1200px;margin:0 auto;padding:40px 20px}
-h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c 0%,#ea580c 50%,#dc2626 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.subtitle{color:var(--gray);font-size:1.1rem;margin-bottom:30px}
-</style>
     <link rel="stylesheet" href="../assets/css/tool-specific.min.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3916624682784320"
      crossorigin="anonymous"></script>
@@ -136,9 +123,56 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
         </div>
 
         <div class="info-section">
-            <h2>Image Resizer - Resize Images Online</h2>
-            <p>Resize images to custom dimensions. Maintain aspect ratio or set custom width and height. All processing happens in your browser - no upload to server.</p>
-            <p><strong>Use Cases:</strong> Social media images, website optimization, thumbnails, profile pictures, email attachments.</p>
+            <h2>Image Resizer - Resize Images Online for Free</h2>
+            <p>Our free online Image Resizer lets you change the dimensions of any image instantly, right in your browser. No software to install, no account to create, and no file size limits. Whether you need to shrink a photo for email, scale up an image for print, or hit exact pixel dimensions for a website, this tool gets it done in seconds.</p>
+
+            <h3>What Is an Image Resizer?</h3>
+            <p>An image resizer is a tool that changes the pixel dimensions of an image — its width and height. This is different from cropping, which removes parts of the image. Resizing scales the entire image up or down while keeping all the content visible. This tool uses the HTML5 Canvas API to perform all resizing locally in your browser, so your images are never uploaded to any server.</p>
+            <p>Resizing is essential for web performance, social media, and print workflows. Large images slow down websites and apps, while images that are too small look blurry or pixelated. Getting the right dimensions is key to a polished, professional result.</p>
+
+            <h3>Key Features</h3>
+            <ul>
+                <li>Custom width and height input — enter exact pixel dimensions</li>
+                <li>Maintain aspect ratio toggle — prevents distortion when resizing</li>
+                <li>Quick size presets: 1920×1080, 1280×720, 800×600, 500×500</li>
+                <li>Live preview of the resized image before downloading</li>
+                <li>Drag-and-drop image upload support</li>
+                <li>Supports JPG, PNG, and WebP image formats</li>
+                <li>One-click download of the resized image as PNG</li>
+            </ul>
+
+            <h3>How to Use the Image Resizer</h3>
+            <ul>
+                <li>Step 1: Click the upload area or drag and drop your image onto the page.</li>
+                <li>Step 2: The original image dimensions are automatically loaded into the width and height fields.</li>
+                <li>Step 3: Enter your desired width or height. If "Maintain aspect ratio" is checked, the other dimension updates automatically.</li>
+                <li>Step 4: Optionally use a quick size preset button for common resolutions.</li>
+                <li>Step 5: Check the live preview to confirm the result looks correct.</li>
+                <li>Step 6: Click "Download Resized Image" to save the file to your device.</li>
+            </ul>
+
+            <h3>Common Use Cases</h3>
+            <ul>
+                <li>Reducing large photos to smaller file sizes for email attachments</li>
+                <li>Resizing images to meet social media platform requirements (e.g., Twitter header 1500×500)</li>
+                <li>Scaling images down for faster website loading and better Core Web Vitals scores</li>
+                <li>Preparing product images for e-commerce platforms that require specific dimensions</li>
+                <li>Creating thumbnails for blog posts, YouTube videos, or app icons</li>
+                <li>Upscaling small images for print or presentation use</li>
+                <li>Batch-preparing images to a consistent size for a photo gallery or portfolio</li>
+            </ul>
+
+            <h3>Tips and Best Practices</h3>
+            <p>Always keep "Maintain aspect ratio" enabled unless you specifically need a non-proportional resize. Stretching an image to non-proportional dimensions causes distortion that looks unprofessional. If you need a specific aspect ratio that differs from the original, consider using the Image Cropper tool first to get the right proportions, then resize to your target dimensions.</p>
+            <p>When resizing for the web, aim for the smallest file size that still looks sharp at the display size. A 1200px wide image is usually sufficient for most blog or article headers. For retina/HiDPI displays, you may want to provide a 2x version (e.g., 2400px) and use CSS or srcset to serve the right size.</p>
+            <p>Avoid upscaling images significantly — enlarging a small image beyond its original resolution will result in a blurry or pixelated output. The Canvas API uses bilinear interpolation, which helps smooth the result, but there's a limit to how much detail can be recovered from a low-resolution source.</p>
+
+            <h3>Why Use the Image Resizer on Webutilbox?</h3>
+            <p>Unlike desktop software that requires installation and setup, this tool works instantly in any modern browser. There are no watermarks, no file upload limits, and no subscription fees. The tool is completely free and processes your images locally, which means it's also faster than cloud-based alternatives since there's no upload/download round trip.</p>
+            <p>The quick size presets save time for common workflows, and the live preview ensures you get exactly what you expect before downloading. Whether you're a developer, designer, blogger, or just someone who needs to resize a photo quickly, this tool is built to be simple and reliable.</p>
+
+            <h3>Privacy and Security</h3>
+            <p>Your privacy is our priority. All processing happens entirely in your browser using JavaScript. No files, data, or inputs are ever uploaded to any server. Everything stays on your device, making this tool completely safe to use with sensitive content.</p>
         </div>
     </div>
 
@@ -265,7 +299,7 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
         }
     </script>
     <footer style="background: var(--dark); padding: 30px 20px; text-align: center; margin-top: 60px; border-top: 1px solid var(--border);">
-        <p style="color: var(--gray); margin-bottom: 15px;">� 2026 Webutilbox. All rights reserved.</p>
+        <p style="color: var(--gray); margin-bottom: 15px;">� 2026 Webutilbox. All rights reserved.</p>
         <div>
             <a href="../" style="color: var(--primary); text-decoration: none; margin: 0 15px;">Home</a>
             <a href="../Tools.html" style="color: var(--primary); text-decoration: none; margin: 0 15px;">All Tools</a>

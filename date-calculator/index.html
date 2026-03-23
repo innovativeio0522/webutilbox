@@ -40,19 +40,6 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
 .subtitle{color:var(--gray);font-size:1.1rem;margin-bottom:30px}
 </style>
     <link rel="stylesheet" href="../assets/css/common.min.css">
-    <style>/* Critical CSS - Inline in <head> for instant rendering */
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--primary:#f97316;--primary-dark:#ea580c;--dark:#0a0a0a;--gray:#a1a1aa;--white:#fafafa;--card-bg:#18181b;--border:#27272a}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;background:linear-gradient(135deg,#000 0%,#1a0f00 30%,#7c2d12 70%,#ea580c 100%);min-height:100vh;color:var(--white)}
-header{background:rgba(10,10,10,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:20px 0;position:sticky;top:0;z-index:100}
-.header-content{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center}
-.logo{display:flex;align-items:center;gap:12px;color:var(--white);text-decoration:none;font-size:1.5rem;font-weight:700;line-height:1}
-.logo span:first-child{font-size:2rem;line-height:1;display:flex;align-items:center}
-.all-tools-btn{padding:10px 20px;background:var(--primary);color:var(--white);text-decoration:none;border-radius:8px;font-weight:600;font-size:.95rem;transition:all .3s}
-.container{max-width:1200px;margin:0 auto;padding:40px 20px}
-h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c 0%,#ea580c 50%,#dc2626 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.subtitle{color:var(--gray);font-size:1.1rem;margin-bottom:30px}
-</style>
     <link rel="stylesheet" href="../assets/css/tool-specific.min.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3916624682784320"
      crossorigin="anonymous"></script>
@@ -165,12 +152,56 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
         </div>
 
         <div class="info-section">
-            <h2>Date Calculator</h2>
-            <p>Calculate the difference between two dates, add or subtract days/weeks/months/years from a date, or calculate someone's exact age.</p>
-            <p><strong>Features:</strong> Date difference calculator, add/subtract days calculator, age calculator with years/months/days breakdown.</p>
-            <p><strong>Use Cases:</strong> Project planning, age calculation, countdown timers, deadline tracking, event planning, pregnancy due dates.</p>
-            <p><strong>Privacy:</strong> All calculations happen in your browser. No data is sent to any server.</p>
-        </div>
+    <h2>Date Calculator - Calculate Days Between Dates</h2>
+    <p>The Date Calculator computes the number of days, weeks, months, and years between two dates, adds or subtracts time intervals from a date, and calculates a person's exact age. It's an essential tool for project planning, legal deadlines, event scheduling, financial calculations, and any situation where precise date arithmetic matters.</p>
+
+    <h3>What Is Date Calculator?</h3>
+    <p>The Date Calculator is a multi-mode tool that handles three common date calculation tasks in one place. The Date Difference mode finds the exact span between two dates expressed in days, weeks, months, and a detailed year/month/day breakdown. The Add/Subtract mode lets you find a future or past date by adding or subtracting a number of days, weeks, months, or years from a starting date. The Age mode calculates a person's exact age on any given date, including the countdown to their next birthday.</p>
+    <p>All calculations use JavaScript's built-in Date object, which correctly handles calendar complexities including leap years, varying month lengths, and daylight saving time transitions. The results are displayed in multiple formats simultaneously so you can use whichever unit is most relevant to your situation — whether you need the total number of days for a contract term or the years and months breakdown for an age calculation.</p>
+    <p>The tool is entirely browser-based and works offline once the page has loaded. There's no need to connect to an external API or service for date calculations, which means it's fast, reliable, and available even without an internet connection. Your date inputs are never sent anywhere — all computation happens locally on your device.</p>
+
+    <h3>Key Features</h3>
+    <ul>
+        <li>Three calculation modes in one tool: Date Difference, Add/Subtract Days, and Age Calculator, accessible via tabs.</li>
+        <li>Detailed breakdown of date differences showing total days, total weeks, total months, and a precise years/months/days decomposition.</li>
+        <li>Add or subtract days, weeks, months, or years from any starting date to find a specific future or past date.</li>
+        <li>Age calculator that shows years, months, and days of age along with total months, total weeks, and days until the next birthday.</li>
+        <li>Automatic leap year handling ensures accurate results for date ranges that span February 29 in leap years.</li>
+        <li>Default date values pre-populated with today's date so you can start calculating immediately without manual entry.</li>
+    </ul>
+
+    <h3>How to Use Date Calculator</h3>
+    <p>Select the calculation mode you need using the tabs, enter your dates, and click the calculate button to see detailed results.</p>
+    <ul>
+        <li>Step 1: Click the "Date Difference" tab to calculate the span between two dates, "Add/Subtract" to find a future or past date, or "Age" to calculate someone's age.</li>
+        <li>Step 2: Enter your dates using the date picker fields — click the field to open a calendar or type the date directly.</li>
+        <li>Step 3: For Add/Subtract mode, choose whether to add or subtract, enter the number, and select the unit (days, weeks, months, or years).</li>
+        <li>Step 4: Click the Calculate button to run the calculation and display the results in the panel on the right.</li>
+        <li>Step 5: Review the results, which are shown in multiple units simultaneously for maximum usefulness.</li>
+    </ul>
+
+    <h3>Common Use Cases</h3>
+    <p>Date calculations come up in many professional and personal contexts where precision matters.</p>
+    <ul>
+        <li>Legal and contracts: Calculate notice periods, contract durations, statute of limitations deadlines, and payment due dates with exact day counts.</li>
+        <li>Project management: Determine project timelines, sprint lengths, milestone dates, and deadline countdowns for planning and scheduling.</li>
+        <li>Finance and loans: Calculate loan terms, interest accrual periods, bond maturity dates, and payment schedules that depend on exact day counts.</li>
+        <li>Medical and health: Calculate due dates, medication schedules, follow-up appointment timing, and treatment duration tracking.</li>
+        <li>Events and celebrations: Count down to birthdays, anniversaries, holidays, and special events, or calculate how long ago a past event occurred.</li>
+    </ul>
+
+    <h3>Tips and Best Practices</h3>
+    <p>When calculating date differences for legal or contractual purposes, pay attention to whether the requirement specifies calendar days or business days. Calendar days include weekends and holidays, while business days exclude them. This calculator counts calendar days; for business day calculations, you'll need to manually subtract the number of weekends and public holidays in the period.</p>
+    <p>The Add/Subtract mode is particularly useful for calculating deadlines. If a contract requires 30 days' notice, enter today's date as the start date, select "Add," enter 30, and choose "Days" to find the earliest valid termination date. Similarly, if you need to find a date 6 months from now for a renewal deadline, select "Months" as the unit for a calendar-accurate result rather than multiplying days by 30.</p>
+    <p>For age calculations, the tool calculates the exact age as of the date you specify in the "Calculate Age On" field, which defaults to today. This is useful for verifying ages at a specific past or future date — for example, checking whether someone was 18 on a particular date, or calculating how old someone will be on a future event date.</p>
+
+    <h3>Why Use Date Calculator on Webutilbox?</h3>
+    <p>Most people reach for a calendar or count days manually when they need date calculations, which is slow and error-prone. This calculator handles all the complexity automatically — leap years, varying month lengths, and multi-year spans are all handled correctly without any manual adjustment. The multi-unit output means you get the answer in every relevant format at once, saving you from doing secondary calculations.</p>
+    <p>The three-mode design covers the most common date calculation scenarios in a single, cohesive tool. Rather than switching between different calculators for different tasks, you have everything you need in one place. The clean interface and pre-populated default dates mean you can get results in seconds, making it practical for quick lookups as well as more detailed planning work.</p>
+
+    <h3>Privacy and Security</h3>
+    <p>Your privacy is our priority. All processing happens entirely in your browser using JavaScript. No files, data, or inputs are ever uploaded to any server. Everything stays on your device, making this tool completely safe to use with sensitive content.</p>
+</div>
     </div>
 
     <div id="toast" class="toast">
@@ -180,21 +211,23 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
     <script>
         let currentMode = 'diff';
 
-        // Tab switching
-        document.getElementById('tab-diff').addEventListener('click', () => switchMode('diff'));
-        document.getElementById('tab-add').addEventListener('click', () => switchMode('add'));
-        document.getElementById('tab-age').addEventListener('click', () => switchMode('age'));
+        requestIdleCallback(() => {
+            // Tab switching
+            document.getElementById('tab-diff').addEventListener('click', () => switchMode('diff'));
+            document.getElementById('tab-add').addEventListener('click', () => switchMode('add'));
+            document.getElementById('tab-age').addEventListener('click', () => switchMode('age'));
 
-        // Calculate buttons
-        document.getElementById('calcDiffBtn').addEventListener('click', calculateDifference);
-        document.getElementById('calcAddBtn').addEventListener('click', calculateAddSubtract);
-        document.getElementById('calcAgeBtn').addEventListener('click', calculateAge);
+            // Calculate buttons
+            document.getElementById('calcDiffBtn').addEventListener('click', calculateDifference);
+            document.getElementById('calcAddBtn').addEventListener('click', calculateAddSubtract);
+            document.getElementById('calcAgeBtn').addEventListener('click', calculateAge);
 
-        // Set default dates
-        const today = new Date().toISOString().split('T')[0];
-        document.getElementById('diffToDate').value = today;
-        document.getElementById('addStartDate').value = today;
-        document.getElementById('ageCurrentDate').value = today;
+            // Set default dates
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('diffToDate').value = today;
+            document.getElementById('addStartDate').value = today;
+            document.getElementById('ageCurrentDate').value = today;
+        }, { timeout: 2000 });
 
         function switchMode(mode) {
             currentMode = mode;
@@ -424,7 +457,7 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
         }
     </script>
     <footer style="background: var(--dark); padding: 30px 20px; text-align: center; margin-top: 60px; border-top: 1px solid var(--border);">
-        <p style="color: var(--gray); margin-bottom: 15px;">� 2026 Webutilbox. All rights reserved.</p>
+        <p style="color: var(--gray); margin-bottom: 15px;">� 2026 Webutilbox. All rights reserved.</p>
         <div>
             <a href="../" style="color: var(--primary); text-decoration: none; margin: 0 15px;">Home</a>
             <a href="../Tools.html" style="color: var(--primary); text-decoration: none; margin: 0 15px;">All Tools</a>

@@ -9,7 +9,7 @@
     <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
     
     <title>Base64 & URL Encoder/Decoder - Free Online Tool | Webutilbox</title>
-    <meta name="description" content="Encode and decode Base64 and URL strings instantly. Free online converter for Base64, URL encoding/decoding. Works in browser, no upload required.">
+    <meta name="description" content="Encode and decode Base64 and URL strings instantly. Works in browser, no upload required.">
     <meta name="keywords" content="base64 encode, base64 decode, url encode, url decode, base64 converter, url encoder, percent encoding">
     <link rel="canonical" href="https://webutilbox.com/base64-encoder/">    
     <!-- Open Graph / Social Media Meta Tags -->
@@ -40,19 +40,6 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
 .subtitle{color:var(--gray);font-size:1.1rem;margin-bottom:30px}
 </style>
     <link rel="stylesheet" href="../assets/css/common.min.css">
-    <style>/* Critical CSS - Inline in <head> for instant rendering */
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--primary:#f97316;--primary-dark:#ea580c;--dark:#0a0a0a;--gray:#a1a1aa;--white:#fafafa;--card-bg:#18181b;--border:#27272a}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;background:linear-gradient(135deg,#000 0%,#1a0f00 30%,#7c2d12 70%,#ea580c 100%);min-height:100vh;color:var(--white)}
-header{background:rgba(10,10,10,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:20px 0;position:sticky;top:0;z-index:100}
-.header-content{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center}
-.logo{display:flex;align-items:center;gap:12px;color:var(--white);text-decoration:none;font-size:1.5rem;font-weight:700;line-height:1}
-.logo span:first-child{font-size:2rem;line-height:1;display:flex;align-items:center}
-.all-tools-btn{padding:10px 20px;background:var(--primary);color:var(--white);text-decoration:none;border-radius:8px;font-weight:600;font-size:.95rem;transition:all .3s}
-.container{max-width:1200px;margin:0 auto;padding:40px 20px}
-h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c 0%,#ea580c 50%,#dc2626 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.subtitle{color:var(--gray);font-size:1.1rem;margin-bottom:30px}
-</style>
     <link rel="stylesheet" href="../assets/css/tool-specific.min.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3916624682784320"
      crossorigin="anonymous"></script>
@@ -172,12 +159,62 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
         </div>
 
         <div class="info-section">
-            <h2>Base64 & URL Encoder/Decoder</h2>
-            <p>Encode and decode Base64 and URL strings in your browser. All processing happens locally - your data never leaves your device.</p>
-            <p><strong>Base64:</strong> Binary-to-text encoding using 64 printable characters. Used for encoding images, files, and data in URLs, JSON, XML, and email attachments.</p>
-            <p><strong>URL Encoding:</strong> Percent encoding for safe transmission in URLs. Converts special characters to %XX format (e.g., space → %20, & → %26).</p>
-            <p><strong>Use Cases:</strong> Data URIs, API tokens, email attachments, JWT tokens, query parameters, form data, basic authentication headers.</p>
-        </div>
+    <h2>Base64 &amp; URL Encoder/Decoder - Free Online Tool</h2>
+    <p>This tool lets you encode and decode Base64 and URL-encoded strings instantly, right in your browser. Whether you are a developer working with API tokens, a designer embedding images as data URIs, or a student learning about web encoding standards, this encoder and decoder handles everything quickly and privately with no server required.</p>
+
+    <h3>What Is Base64 Encoding?</h3>
+    <p>Base64 is a binary-to-text encoding scheme that represents binary data using a set of 64 printable ASCII characters — the letters A–Z and a–z, the digits 0–9, and the symbols + and /. It was designed to allow binary data to be safely transmitted over text-based protocols that might otherwise misinterpret raw binary bytes. The name "Base64" comes from the fact that the encoding uses a 64-character alphabet.</p>
+    <p>Base64 encoding works by taking three bytes of binary data (24 bits) and splitting them into four groups of six bits each. Each six-bit group is then mapped to one of the 64 characters in the Base64 alphabet. This means that Base64-encoded data is always approximately 33% larger than the original binary data, which is a trade-off for the ability to safely transmit binary content as plain text.</p>
+    <p>Base64 is not encryption — it is simply an encoding scheme. Anyone who has the Base64-encoded string can decode it back to the original data without any key or password. It should never be used to secure sensitive information on its own. Its purpose is data representation and safe transmission, not security.</p>
+
+    <h3>What Is URL Encoding?</h3>
+    <p>URL encoding, also known as percent-encoding, is a method of encoding special characters in URLs so they can be safely transmitted over the internet. URLs can only contain a limited set of characters — letters, digits, and a few special characters like hyphens and underscores. Any other character must be encoded as a percent sign followed by two hexadecimal digits representing the character's ASCII code. For example, a space becomes %20, an ampersand becomes %26, and a question mark becomes %3F.</p>
+    <p>URL encoding is essential when including user-generated content, search queries, or special characters in URL parameters. Without it, characters like &amp;, =, and ? would be interpreted as URL syntax rather than data, breaking the URL structure. Proper URL encoding ensures that query strings and path segments are transmitted correctly regardless of their content.</p>
+    <p>Like Base64, URL encoding is fully reversible — decoding a URL-encoded string always produces the original text. It is a standard part of web development and is used extensively in form submissions, API calls, OAuth flows, and any situation where data needs to be included in a URL.</p>
+
+    <h3>Key Features</h3>
+    <ul>
+        <li>Base64 encoding and decoding with support for Unicode text, including international characters and emoji.</li>
+        <li>URL encoding and decoding using the standard percent-encoding format for safe URL transmission.</li>
+        <li>Auto-convert mode that updates the output in real time as you type, for instant feedback.</li>
+        <li>Size statistics showing the original byte count, encoded byte count, and size ratio for Base64 conversions.</li>
+        <li>One-click copy buttons for both the input and output fields to speed up your workflow.</li>
+        <li>Completely browser-based with no server calls, ensuring fast performance and full privacy.</li>
+    </ul>
+
+    <h3>How to Use the Base64 &amp; URL Encoder/Decoder</h3>
+    <p>Using this tool is simple and requires no technical knowledge beyond knowing which encoding type you need.</p>
+    <ul>
+        <li>Step 1: Select the encoding mode using the tabs at the top — choose "Base64" for Base64 encoding/decoding, or "URL Encoding" for percent-encoding.</li>
+        <li>Step 2: Type or paste your input text into the left panel (Plain Text) to encode it, or into the right panel (Base64 Encoded / URL Encoded) to decode it.</li>
+        <li>Step 3: If Auto-convert is enabled, the output updates instantly as you type. Otherwise, click the Encode or Decode button to trigger the conversion manually.</li>
+        <li>Step 4: Review the output in the opposite panel. For Base64 mode, the size statistics bar shows the original and encoded sizes and the size ratio.</li>
+        <li>Step 5: Click the Copy button next to the panel you want to copy from, then paste the result wherever you need it.</li>
+    </ul>
+
+    <h3>Common Use Cases</h3>
+    <p>Base64 and URL encoding are fundamental tools in web development and are used in a wide variety of everyday scenarios.</p>
+    <ul>
+        <li>API development — decode Base64-encoded tokens, credentials, and responses from REST APIs and authentication systems to inspect their content.</li>
+        <li>Data URIs — encode images, fonts, or other binary files as Base64 strings for embedding directly in HTML, CSS, or JavaScript without separate file requests.</li>
+        <li>JWT tokens — inspect the header and payload sections of JSON Web Tokens, which are Base64url-encoded and used for authentication in modern web applications.</li>
+        <li>URL parameters — encode special characters in query strings, search terms, and form data to ensure they are transmitted correctly in URLs.</li>
+        <li>Email attachments — MIME encoding uses Base64 to encode binary file attachments for safe transmission through email protocols.</li>
+        <li>Debugging — quickly decode encoded strings from logs, network requests, or API responses to inspect their raw content during development and troubleshooting.</li>
+    </ul>
+
+    <h3>Tips and Best Practices</h3>
+    <p>When working with Base64-encoded data, be aware that the encoded string will always end with one or two equals signs (=) as padding characters, unless the original data length is a multiple of three bytes. If you see a Base64 string without padding, it may have been generated using the Base64url variant (used in JWTs), which replaces + with - and / with _ and omits padding. This tool handles standard Base64; for Base64url, you may need to add padding manually before decoding.</p>
+    <p>For URL encoding, note that encodeURIComponent (used by this tool) encodes all special characters except letters, digits, and the characters - _ . ! ~ * ' ( ). This is the correct function to use for encoding individual query parameter values. If you need to encode an entire URL while preserving its structure, use encodeURI instead, which does not encode characters that have special meaning in URLs like /, ?, and #.</p>
+    <p>Remember that neither Base64 nor URL encoding provides any security. If you need to protect sensitive data, use proper encryption. Base64 is often mistaken for encryption because it makes data unreadable at a glance, but it is trivially reversible by anyone. Never use Base64 to "hide" passwords, API keys, or other sensitive information in client-side code.</p>
+
+    <h3>Why Use the Base64 &amp; URL Encoder/Decoder on Webutilbox?</h3>
+    <p>Webutilbox's encoder/decoder is fast, free, and completely private. Unlike many online tools that process your data on a server, this tool runs entirely in your browser. Your text, tokens, and encoded strings never leave your device, which is especially important when working with authentication tokens, API keys, or other sensitive data that you need to inspect or debug.</p>
+    <p>The auto-convert feature makes the tool particularly efficient for iterative work — as you type or paste, the output updates instantly without any button clicks. The size statistics for Base64 conversions give you useful context about the overhead of encoding, which is helpful when optimizing data URIs or evaluating the impact of Base64 encoding on payload size in API responses.</p>
+
+    <h3>Privacy and Security</h3>
+    <p>Your privacy is our priority. All processing happens entirely in your browser using JavaScript. No files, data, or inputs are ever uploaded to any server. Everything stays on your device, making this tool completely safe to use with sensitive content.</p>
+</div>
     </div>
 
     <div id="toast" class="toast">
@@ -448,7 +485,7 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
         }
     </script>
     <footer style="background: var(--dark); padding: 30px 20px; text-align: center; margin-top: 60px; border-top: 1px solid var(--border);">
-        <p style="color: var(--gray); margin-bottom: 15px;">� 2026 Webutilbox. All rights reserved.</p>
+        <p style="color: var(--gray); margin-bottom: 15px;">� 2026 Webutilbox. All rights reserved.</p>
         <div>
             <a href="../" style="color: var(--primary); text-decoration: none; margin: 0 15px;">Home</a>
             <a href="../Tools.html" style="color: var(--primary); text-decoration: none; margin: 0 15px;">All Tools</a>

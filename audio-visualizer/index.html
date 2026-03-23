@@ -40,19 +40,6 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
 .subtitle{color:var(--gray);font-size:1.1rem;margin-bottom:30px}
 </style>
     <link rel="stylesheet" href="../assets/css/common.min.css">
-    <style>/* Critical CSS - Inline in <head> for instant rendering */
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--primary:#f97316;--primary-dark:#ea580c;--dark:#0a0a0a;--gray:#a1a1aa;--white:#fafafa;--card-bg:#18181b;--border:#27272a}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;background:linear-gradient(135deg,#000 0%,#1a0f00 30%,#7c2d12 70%,#ea580c 100%);min-height:100vh;color:var(--white)}
-header{background:rgba(10,10,10,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:20px 0;position:sticky;top:0;z-index:100}
-.header-content{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center}
-.logo{display:flex;align-items:center;gap:12px;color:var(--white);text-decoration:none;font-size:1.5rem;font-weight:700;line-height:1}
-.logo span:first-child{font-size:2rem;line-height:1;display:flex;align-items:center}
-.all-tools-btn{padding:10px 20px;background:var(--primary);color:var(--white);text-decoration:none;border-radius:8px;font-weight:600;font-size:.95rem;transition:all .3s}
-.container{max-width:1200px;margin:0 auto;padding:40px 20px}
-h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c 0%,#ea580c 50%,#dc2626 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.subtitle{color:var(--gray);font-size:1.1rem;margin-bottom:30px}
-</style>
     <link rel="stylesheet" href="../assets/css/tool-specific.min.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3916624682784320"
      crossorigin="anonymous"></script>
@@ -151,11 +138,57 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
         </div>
 
         <div class="info-section">
-            <h2>Audio Visualizer</h2>
-            <p>Visualize audio with real-time frequency spectrum and waveform display. Upload audio files or use your microphone for live visualization.</p>
-            <p><strong>Visualization Types:</strong> Frequency bars, waveform, circular spectrum, mirror bars. Multiple color schemes available.</p>
-            <p><strong>Use Cases:</strong> Music analysis, audio monitoring, presentations, live performances, educational purposes.</p>
-        </div>
+    <h2>Audio Visualizer - Real-Time Frequency and Waveform Display</h2>
+    <p>The Audio Visualizer creates stunning real-time visual representations of audio, transforming sound into animated graphics that respond to every beat, note, and frequency. Whether you are analyzing music, demonstrating audio concepts, or simply enjoying a visual experience while listening, this tool brings your audio to life in a way that is both informative and visually captivating.</p>
+
+    <h3>What Is an Audio Visualizer?</h3>
+    <p>An audio visualizer is a tool that analyzes the frequency and amplitude content of an audio signal in real time and renders it as animated graphics on screen. The visualization updates continuously as the audio plays, creating a dynamic display that reflects the changing characteristics of the sound. Different visualization modes highlight different aspects of the audio — frequency bars show the energy at each frequency band, waveforms show amplitude over time, and circular visualizations create artistic, symmetrical patterns.</p>
+    <p>The technology behind audio visualization is the Fast Fourier Transform (FFT), a mathematical algorithm that decomposes a complex audio signal into its individual frequency components. The Web Audio API's AnalyserNode performs this FFT analysis in real time, providing a frequency spectrum that the visualizer renders as animated graphics at up to 60 frames per second using the HTML5 Canvas API.</p>
+    <p>This tool supports two audio input sources: uploaded audio files and live microphone input. The file mode is ideal for analyzing recorded music, podcasts, or any audio you have saved on your device. The microphone mode enables real-time visualization of live sound, making it useful for voice analysis, instrument tuning, and live performance monitoring.</p>
+
+    <h3>Key Features</h3>
+    <ul>
+        <li>Four visualization modes: Frequency Bars, Waveform, Circular, and Mirror Bars, each offering a distinct visual style.</li>
+        <li>Six color schemes including Orange, Rainbow, Blue, Green, Purple, and Red for full visual customization.</li>
+        <li>Adjustable smoothing control to fine-tune how quickly the visualization responds to changes in the audio signal.</li>
+        <li>Dual input support — upload an audio file or use your device's microphone for live real-time visualization.</li>
+        <li>High-performance Canvas rendering at up to 60 frames per second for smooth, fluid animations.</li>
+        <li>No installation required — runs entirely in your browser using the Web Audio API and HTML5 Canvas.</li>
+    </ul>
+
+    <h3>How to Use the Audio Visualizer</h3>
+    <p>Getting started with the Audio Visualizer takes just a few seconds, whether you are using a file or your microphone.</p>
+    <ul>
+        <li>Step 1: Choose your audio source — click "Upload Audio File" to select a file from your device, or click "Use Microphone" to visualize live audio from your microphone. If using the microphone, your browser will ask for permission to access it.</li>
+        <li>Step 2: Once the audio source is active, the visualization will begin immediately. For file mode, the audio player will appear and playback will start automatically.</li>
+        <li>Step 3: Select a visualization type from the dropdown menu — try Frequency Bars for a classic equalizer look, Waveform for a time-domain view, Circular for an artistic display, or Mirror Bars for a symmetric effect.</li>
+        <li>Step 4: Choose a color scheme that suits your preference. The Rainbow option creates a multi-colored display that maps different colors to different frequency bands.</li>
+        <li>Step 5: Adjust the Smoothing slider to control how quickly the visualization reacts to changes. Higher smoothing creates a more fluid, flowing animation, while lower smoothing creates a more reactive, snappy display.</li>
+    </ul>
+
+    <h3>Common Use Cases</h3>
+    <p>Audio visualization has a wide range of practical and creative applications across many fields.</p>
+    <ul>
+        <li>Music analysis — visually inspect the frequency content and dynamic range of a track to understand its tonal balance and energy distribution.</li>
+        <li>Education — demonstrate sound wave concepts, frequency spectrums, and the physics of sound to students in a visually engaging way.</li>
+        <li>Content creation — capture screenshots or screen recordings of the visualizer to create visually interesting audio content for videos, social media, or presentations.</li>
+        <li>Live performance monitoring — use the microphone mode to monitor the frequency content of a live instrument or voice in real time during rehearsal or performance.</li>
+        <li>Audio debugging — identify frequency imbalances, resonances, or issues in recordings or mixes by visually inspecting the frequency spectrum.</li>
+        <li>Accessibility — provide a visual representation of audio for users who are deaf or hard of hearing, helping them perceive the rhythm and dynamics of sound.</li>
+    </ul>
+
+    <h3>Tips and Best Practices</h3>
+    <p>For the most visually impressive results with music, try the Circular visualization mode with the Rainbow color scheme. This combination creates a symmetrical, kaleidoscopic display that responds beautifully to the rhythm and melody of music. The smoothing slider at around 0.8 provides a good balance between responsiveness and visual fluidity for most music genres.</p>
+    <p>When using the microphone mode for voice analysis or instrument monitoring, the Frequency Bars mode with a lower smoothing value (around 0.4 to 0.6) gives you the most responsive and informative display. You can clearly see which frequency bands are most active and how the spectrum changes as you speak or play. This is useful for identifying the fundamental frequency of an instrument or the tonal characteristics of a voice.</p>
+    <p>If you want to capture the visualization as a video, use your operating system's built-in screen recording feature or a browser extension. The visualizer runs at up to 60 frames per second, so screen recordings will be smooth and high quality. For the best results, use a dark background and a vibrant color scheme like Rainbow or Orange to maximize visual contrast.</p>
+
+    <h3>Why Use the Audio Visualizer on Webutilbox?</h3>
+    <p>Webutilbox's Audio Visualizer is completely free and requires no account, no installation, and no software download. Everything runs in your browser using the Web Audio API and HTML5 Canvas, which are built into all modern browsers. This means you get professional-quality audio visualization without any of the complexity or cost of dedicated software like Adobe After Effects or specialized audio analysis tools.</p>
+    <p>The tool offers a carefully curated set of visualization modes and color schemes that cover the most popular and visually distinct styles. The controls are simple and intuitive, so you can focus on the audio and the visuals rather than navigating complex settings. Whether you are a musician, a student, a content creator, or just someone who loves the visual beauty of sound, the Audio Visualizer on Webutilbox delivers a compelling experience.</p>
+
+    <h3>Privacy and Security</h3>
+    <p>Your privacy is our priority. All processing happens entirely in your browser using JavaScript. No files, data, or inputs are ever uploaded to any server. Everything stays on your device, making this tool completely safe to use with sensitive content.</p>
+</div>
     </div>
 
     <div id="toast" class="toast">
@@ -431,7 +464,7 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
         initCanvas();
     </script>
     <footer style="background: var(--dark); padding: 30px 20px; text-align: center; margin-top: 60px; border-top: 1px solid var(--border);">
-        <p style="color: var(--gray); margin-bottom: 15px;">� 2026 Webutilbox. All rights reserved.</p>
+        <p style="color: var(--gray); margin-bottom: 15px;">� 2026 Webutilbox. All rights reserved.</p>
         <div>
             <a href="../" style="color: var(--primary); text-decoration: none; margin: 0 15px;">Home</a>
             <a href="../Tools.html" style="color: var(--primary); text-decoration: none; margin: 0 15px;">All Tools</a>
