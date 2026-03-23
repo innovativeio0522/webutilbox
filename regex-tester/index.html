@@ -8,8 +8,8 @@
     <link rel="preconnect" href="https://pagead2.googlesyndication.com">
     <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
     
-    <title>Regex Tester - Test Regular Expressions Online Free | Webutilbox</title>
-    <meta name="description" content="Test regular expressions with live matching and highlighting. Free regex tester with match groups, flags, and real-time validation. Perfect for developers.">
+    <title>Regex Tester - Test Regular Expressions | Webutilbox</title>
+    <meta name="description" content="Test regular expressions with live matching and highlighting. Free regex tester for developers.">
     <meta name="keywords" content="regex tester, regular expression tester, regex validator online, test regex pattern, regex match online">
     <link rel="canonical" href="https://webutilbox.com/regex-tester/">    
     <!-- Open Graph / Social Media Meta Tags -->
@@ -40,19 +40,6 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
 .subtitle{color:var(--gray);font-size:1.1rem;margin-bottom:30px}
 </style>
     <link rel="stylesheet" href="../assets/css/common.min.css">
-    <style>/* Critical CSS - Inline in <head> for instant rendering */
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--primary:#f97316;--primary-dark:#ea580c;--dark:#0a0a0a;--gray:#a1a1aa;--white:#fafafa;--card-bg:#18181b;--border:#27272a}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;background:linear-gradient(135deg,#000 0%,#1a0f00 30%,#7c2d12 70%,#ea580c 100%);min-height:100vh;color:var(--white)}
-header{background:rgba(10,10,10,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:20px 0;position:sticky;top:0;z-index:100}
-.header-content{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center}
-.logo{display:flex;align-items:center;gap:12px;color:var(--white);text-decoration:none;font-size:1.5rem;font-weight:700;line-height:1}
-.logo span:first-child{font-size:2rem;line-height:1;display:flex;align-items:center}
-.all-tools-btn{padding:10px 20px;background:var(--primary);color:var(--white);text-decoration:none;border-radius:8px;font-weight:600;font-size:.95rem;transition:all .3s}
-.container{max-width:1200px;margin:0 auto;padding:40px 20px}
-h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c 0%,#ea580c 50%,#dc2626 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.subtitle{color:var(--gray);font-size:1.1rem;margin-bottom:30px}
-</style>
     <link rel="stylesheet" href="../assets/css/tool-specific.min.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3916624682784320"
      crossorigin="anonymous"></script>
@@ -185,11 +172,58 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
         </div>
 
         <div class="info-section">
-            <h2>Regex Tester - Test Regular Expressions Online</h2>
-            <p>This free regex tester helps you test and validate regular expressions with live matching and highlighting. See matches in real-time as you type, view capture groups, and test different regex flags.</p>
-            <p><strong>Common Patterns:</strong> \d (digit), \w (word character), \s (whitespace), . (any character), * (0 or more), + (1 or more), ? (0 or 1), {n} (exactly n), {n,m} (between n and m), ^ (start), $ (end), [abc] (character set), (group) (capture group).</p>
-            <p><strong>Flags:</strong> g (global - find all matches), i (case-insensitive), m (multiline - ^ and $ match line breaks), s (dotAll - . matches newlines).</p>
-            <p><strong>Use Cases:</strong> Form validation, data extraction, text parsing, search and replace, input sanitization, log analysis, URL routing, email validation, phone number formatting.</p>
+            <h2>Regex Tester - Test and Debug Regular Expressions Online</h2>
+            <p>Our free Regex Tester lets you write, test, and debug regular expressions with live match highlighting, capture group details, and real-time validation. See exactly what your pattern matches as you type, with color-coded highlights and detailed match information for every result.</p>
+            <p>Whether you're a developer validating form inputs, a data analyst extracting patterns from text, or a student learning regex syntax, this tool provides everything you need in one clean interface.</p>
+
+            <h3>What Is a Regular Expression?</h3>
+            <p>A regular expression (regex or regexp) is a sequence of characters that defines a search pattern. Regular expressions are used in programming, text processing, and data validation to find, match, extract, or replace text that follows a specific pattern. They are supported natively in virtually every programming language including JavaScript, Python, Java, PHP, Ruby, and many others.</p>
+            <p>Regex patterns can range from simple (matching a specific word) to highly complex (validating an email address or parsing a log file format). The power of regular expressions lies in their ability to describe patterns abstractly — for example, "a string that starts with a digit, followed by one or more letters, ending with a period" — rather than matching only a single specific string.</p>
+            <p>This tester uses JavaScript's built-in RegExp engine, which follows the ECMAScript standard. It supports all standard regex features including character classes, quantifiers, anchors, groups, backreferences, lookaheads, and lookbehinds, as well as the g, i, m, and s flags.</p>
+
+            <h3>Key Features</h3>
+            <ul>
+                <li>Live match highlighting with color-coded results in the test string</li>
+                <li>Detailed match information including match index and full match text</li>
+                <li>Capture group display — see the value of each group for every match</li>
+                <li>Support for all standard regex flags: g (global), i (case-insensitive), m (multiline), s (dotAll)</li>
+                <li>Flag toggle checkboxes for easy flag management without manual typing</li>
+                <li>Real-time pattern validation with clear error messages for invalid patterns</li>
+                <li>Match count and group count statistics displayed at a glance</li>
+            </ul>
+
+            <h3>How to Use the Regex Tester</h3>
+            <ul>
+                <li>Step 1: Enter your regular expression pattern in the pattern field between the forward slashes. You don't need to include the slashes themselves.</li>
+                <li>Step 2: Enter or paste the text you want to test against in the "Test String" textarea.</li>
+                <li>Step 3: Use the flag checkboxes (g, i, m, s) to enable the flags you need, or type them directly in the flags field.</li>
+                <li>Step 4: Matches are highlighted in real time in the "Highlighted Matches" section below the input fields.</li>
+                <li>Step 5: Scroll down to "Match Details" to see each match's position, full text, and any capture group values.</li>
+            </ul>
+
+            <h3>Common Use Cases</h3>
+            <ul>
+                <li>Validating form inputs like email addresses, phone numbers, and postal codes</li>
+                <li>Extracting data from structured text like log files, CSV data, or HTML</li>
+                <li>Building search-and-replace patterns for code editors or text processors</li>
+                <li>Testing URL routing patterns for web frameworks like Express or Django</li>
+                <li>Parsing and tokenizing structured strings in data processing pipelines</li>
+                <li>Learning and experimenting with regex syntax in a safe, visual environment</li>
+                <li>Debugging complex patterns by testing them against real-world sample data</li>
+            </ul>
+
+            <h3>Tips and Best Practices</h3>
+            <p>Always enable the "g" (global) flag when you want to find all matches in a string, not just the first one. Without the global flag, the regex engine stops after finding the first match. The match count in the stats bar will show "1" even if there are multiple matches in the text, which can be misleading when debugging.</p>
+            <p>Use capture groups (parentheses) to extract specific parts of a match. For example, the pattern <code>(\d{4})-(\d{2})-(\d{2})</code> matches a date in YYYY-MM-DD format and captures the year, month, and day as separate groups. The Match Details section will show you the value of each group for every match, making it easy to verify your extraction logic.</p>
+            <p>When writing complex patterns, build them incrementally. Start with a simple pattern that matches part of what you need, verify it works, then add more specificity. Trying to write a complete complex pattern all at once and then debugging it is much harder than building it step by step. The real-time feedback in this tester makes the incremental approach fast and intuitive.</p>
+
+            <h3>Why Use the Regex Tester on Webutilbox?</h3>
+            <p>Many regex testers are cluttered with ads, require registration, or lack the detailed match information that makes debugging efficient. Our tester provides a clean, focused interface with all the information you need — match highlighting, capture groups, match positions, and flag controls — without any distractions.</p>
+            <p>The real-time highlighting is particularly valuable for visual learners and for debugging complex patterns. Seeing exactly which parts of your test string are matched (and which aren't) makes it immediately obvious whether your pattern is working as intended, without having to mentally trace through the regex logic yourself.</p>
+            <p>Since the tester runs entirely in your browser, you can use it with sensitive data — like real log files, customer data samples, or proprietary text formats — without worrying about that data being transmitted to or stored on a remote server.</p>
+
+            <h3>Privacy and Security</h3>
+            <p>Your privacy is our priority. All processing happens entirely in your browser using JavaScript. No files, data, or inputs are ever uploaded to any server. Everything stays on your device, making this tool completely safe to use with sensitive content.</p>
         </div>
     </div>
 

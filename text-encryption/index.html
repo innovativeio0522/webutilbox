@@ -8,8 +8,8 @@
     <link rel="preconnect" href="https://pagead2.googlesyndication.com">
     <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
     
-    <title>Text Encryption - Encrypt Decrypt Text Online with AES | Webutilbox</title>
-    <meta name="description" content="Encrypt and decrypt text with AES-256 encryption. Free online text encryption tool for secure message protection. Works in browser, no upload required.">
+    <title>Text Encryption - AES Encrypt & Decrypt | Webutilbox</title>
+    <meta name="description" content="Encrypt and decrypt text with AES-256. Free online encryption tool. Works in browser, no upload.">
     <meta name="keywords" content="text encryption online, aes encryption tool, encrypt decrypt text, secure text encryption free">
     <link rel="canonical" href="https://webutilbox.com/text-encryption/">    
     <!-- Open Graph / Social Media Meta Tags -->
@@ -40,19 +40,6 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
 .subtitle{color:var(--gray);font-size:1.1rem;margin-bottom:30px}
 </style>
     <link rel="stylesheet" href="../assets/css/common.min.css">
-    <style>/* Critical CSS - Inline in <head> for instant rendering */
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--primary:#f97316;--primary-dark:#ea580c;--dark:#0a0a0a;--gray:#a1a1aa;--white:#fafafa;--card-bg:#18181b;--border:#27272a}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;background:linear-gradient(135deg,#000 0%,#1a0f00 30%,#7c2d12 70%,#ea580c 100%);min-height:100vh;color:var(--white)}
-header{background:rgba(10,10,10,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:20px 0;position:sticky;top:0;z-index:100}
-.header-content{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center}
-.logo{display:flex;align-items:center;gap:12px;color:var(--white);text-decoration:none;font-size:1.5rem;font-weight:700;line-height:1}
-.logo span:first-child{font-size:2rem;line-height:1;display:flex;align-items:center}
-.all-tools-btn{padding:10px 20px;background:var(--primary);color:var(--white);text-decoration:none;border-radius:8px;font-weight:600;font-size:.95rem;transition:all .3s}
-.container{max-width:1200px;margin:0 auto;padding:40px 20px}
-h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c 0%,#ea580c 50%,#dc2626 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.subtitle{color:var(--gray);font-size:1.1rem;margin-bottom:30px}
-</style>
     <link rel="stylesheet" href="../assets/css/tool-specific.min.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3916624682784320"
      crossorigin="anonymous"></script>
@@ -144,13 +131,57 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
         </div>
 
         <div class="info-section">
-            <h2>Text Encryption - Secure Your Messages with AES-256</h2>
-            <p>This free text encryption tool uses AES-256 encryption to secure your messages. Enter a password and encrypt your text to protect sensitive information. Only someone with the correct password can decrypt the message.</p>
-            <p><strong>What is AES-256?</strong> Advanced Encryption Standard (AES) with 256-bit keys is a symmetric encryption algorithm used worldwide for securing sensitive data. It's the same encryption standard used by governments and banks.</p>
-            <p><strong>How it Works:</strong> Your text is encrypted using your password as the key. The encrypted output is Base64-encoded for easy sharing. To decrypt, paste the encrypted text and enter the same password.</p>
-            <p><strong>Security Tips:</strong> Use a strong, unique password. Never share your password with the encrypted text. Remember your password - there's no recovery option. For maximum security, use passwords with 16+ characters.</p>
-            <p><strong>Privacy:</strong> All encryption and decryption happens in your browser. No data is sent to any server. Your text and password never leave your device.</p>
-            <p><strong>Use Cases:</strong> Secure messaging, password storage notes, sensitive document protection, confidential data sharing, private journal entries, API key storage.</p>
+            <h2>Text Encryption Tool - Encrypt and Decrypt Text with AES-256</h2>
+            <p>This free text encryption tool uses AES-256-GCM encryption — the same standard used by governments, banks, and security professionals worldwide — to protect your sensitive text with a password. Encrypt any message, note, or document and share it safely knowing that only someone with the correct password can read it.</p>
+
+            <h3>What Is AES-256 Encryption?</h3>
+            <p>AES (Advanced Encryption Standard) with a 256-bit key is a symmetric encryption algorithm adopted by the U.S. National Institute of Standards and Technology (NIST) and used globally for securing sensitive data. "Symmetric" means the same key (your password) is used for both encryption and decryption. AES-256 is considered computationally infeasible to brute-force with current technology.</p>
+            <p>This tool uses AES-256-GCM (Galois/Counter Mode), which provides both encryption and authentication. GCM mode ensures that if the encrypted data is tampered with or the wrong password is used, decryption will fail with an error rather than silently producing garbled output. This makes it more secure than older modes like CBC.</p>
+            <p>The encryption process uses PBKDF2 (Password-Based Key Derivation Function 2) with 100,000 iterations and SHA-256 to derive a strong cryptographic key from your password. A random salt and initialization vector (IV) are generated for each encryption operation, ensuring that encrypting the same text twice produces different ciphertext each time.</p>
+
+            <h3>Key Features</h3>
+            <ul>
+                <li>AES-256-GCM encryption using the Web Crypto API built into modern browsers</li>
+                <li>PBKDF2 key derivation with 100,000 iterations for brute-force resistance</li>
+                <li>Random salt and IV generated per encryption for maximum security</li>
+                <li>Base64-encoded output for easy copying and sharing as plain text</li>
+                <li>Password visibility toggle for easier entry of complex passwords</li>
+                <li>Encryption and decryption in the same interface</li>
+                <li>Character count display for original and encrypted text</li>
+                <li>Works entirely offline — no internet connection required after page load</li>
+            </ul>
+
+            <h3>How to Use the Text Encryption Tool</h3>
+            <p>Encrypting and decrypting text is simple with this tool:</p>
+            <ul>
+                <li>Step 1: Enter a strong password in the "Encryption Password" field. This is the key to your encrypted data — do not lose it.</li>
+                <li>Step 2: Type or paste the text you want to encrypt into the "Plain Text" box on the left.</li>
+                <li>Step 3: Click "Encrypt" to generate the encrypted output in the right box.</li>
+                <li>Step 4: Copy the encrypted text and share it or store it safely.</li>
+                <li>Step 5: To decrypt, paste the encrypted text into the right box, enter the same password, and click "Decrypt."</li>
+            </ul>
+
+            <h3>Common Use Cases</h3>
+            <ul>
+                <li>Encrypting sensitive notes, journal entries, or personal records before storing them in the cloud</li>
+                <li>Sending confidential messages through insecure channels like email or chat</li>
+                <li>Protecting API keys, passwords, or credentials stored in plain text files</li>
+                <li>Securing sensitive data in shared documents or collaboration tools</li>
+                <li>Creating encrypted backups of private information</li>
+                <li>Sharing confidential business information with a trusted recipient</li>
+            </ul>
+
+            <h3>Tips and Best Practices</h3>
+            <p>Use a strong, unique password for each piece of encrypted content. A good password is at least 16 characters long and includes a mix of uppercase letters, lowercase letters, numbers, and symbols. Avoid using dictionary words, names, or dates that could be guessed. A password manager can help you generate and store strong passwords.</p>
+            <p>Never share your password in the same message or channel as the encrypted text. The security of AES-256 encryption depends entirely on the secrecy of the password. If someone intercepts both the encrypted text and the password, they can decrypt it immediately. Send the password through a separate, secure channel.</p>
+            <p>There is no password recovery option. If you forget the password used to encrypt a piece of text, the data cannot be recovered. Store your passwords securely in a password manager or write them down and keep them in a physically secure location.</p>
+
+            <h3>Why Use the Text Encryption Tool on Webutilbox?</h3>
+            <p>This tool uses the Web Crypto API, a native browser API that provides cryptographically secure operations without relying on any third-party JavaScript libraries. This means there are no external dependencies that could be compromised, and the encryption implementation is maintained by browser vendors who follow strict security standards.</p>
+            <p>Unlike server-based encryption services, this tool never sends your data anywhere. Everything happens locally in your browser. You can even disconnect from the internet after loading the page and the tool will continue to work perfectly. This makes it one of the most private encryption tools available online.</p>
+
+            <h3>Privacy and Security</h3>
+            <p>Your privacy is our priority. All processing happens entirely in your browser using JavaScript. No files, data, or inputs are ever uploaded to any server. Everything stays on your device, making this tool completely safe to use with sensitive content.</p>
         </div>
     </div>
 

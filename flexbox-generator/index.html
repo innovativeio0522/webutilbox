@@ -40,19 +40,6 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
 .subtitle{color:var(--gray);font-size:1.1rem;margin-bottom:30px}
 </style>
     <link rel="stylesheet" href="../assets/css/common.min.css">
-    <style>/* Critical CSS - Inline in <head> for instant rendering */
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--primary:#f97316;--primary-dark:#ea580c;--dark:#0a0a0a;--gray:#a1a1aa;--white:#fafafa;--card-bg:#18181b;--border:#27272a}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;background:linear-gradient(135deg,#000 0%,#1a0f00 30%,#7c2d12 70%,#ea580c 100%);min-height:100vh;color:var(--white)}
-header{background:rgba(10,10,10,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:20px 0;position:sticky;top:0;z-index:100}
-.header-content{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center}
-.logo{display:flex;align-items:center;gap:12px;color:var(--white);text-decoration:none;font-size:1.5rem;font-weight:700;line-height:1}
-.logo span:first-child{font-size:2rem;line-height:1;display:flex;align-items:center}
-.all-tools-btn{padding:10px 20px;background:var(--primary);color:var(--white);text-decoration:none;border-radius:8px;font-weight:600;font-size:.95rem;transition:all .3s}
-.container{max-width:1200px;margin:0 auto;padding:40px 20px}
-h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c 0%,#ea580c 50%,#dc2626 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.subtitle{color:var(--gray);font-size:1.1rem;margin-bottom:30px}
-</style>
     <link rel="stylesheet" href="../assets/css/tool-specific.min.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3916624682784320"
      crossorigin="anonymous"></script>
@@ -166,11 +153,56 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
         </div>
 
         <div class="info-section">
-            <h2>Flexbox Generator</h2>
-            <p>Create CSS flexbox layouts visually. Adjust direction, alignment, wrapping, and spacing to build responsive layouts.</p>
-            <p><strong>Properties:</strong> flex-direction controls main axis, justify-content aligns along main axis, align-items aligns along cross axis.</p>
-            <p><strong>Use Cases:</strong> Navigation bars, card layouts, centering content, responsive grids, form layouts.</p>
-        </div>
+    <h2>CSS Flexbox Generator - Visual Flexbox Layout Tool</h2>
+    <p>The CSS Flexbox Generator provides a visual interface for creating CSS flexbox layouts with live preview. Adjust flex direction, justify content, align items, wrapping, and gap settings using simple controls, then copy the generated CSS code directly into your project. It's the fastest way to learn and prototype flexbox layouts without trial and error.</p>
+
+    <h3>What Is CSS Flexbox Generator?</h3>
+    <p>The Flexbox Generator is an interactive tool that translates visual layout choices into production-ready CSS flexbox code. You control all the key container-level flexbox properties through dropdowns and sliders, and the preview panel updates in real time to show exactly how your flex items will be arranged. The numbered flex items in the preview make it easy to see the effect of each property change immediately.</p>
+    <p>CSS Flexbox (Flexible Box Layout) is a one-dimensional layout model that distributes space and aligns items within a container along a single axis — either a row or a column. It was designed to solve common layout problems that were difficult or impossible to achieve cleanly with older techniques like floats, inline-block, or table-based layouts. Flexbox is now supported in every modern browser and is one of the most widely used CSS features in production websites.</p>
+    <p>The generator focuses on the flex container properties that define the overall layout behavior. Once you have your container CSS, you can further customize individual flex items using properties like flex-grow, flex-shrink, flex-basis, align-self, and order to create more nuanced layouts where different items behave differently within the same container.</p>
+
+    <h3>Key Features</h3>
+    <ul>
+        <li>Live visual preview that updates instantly as you change any setting, showing numbered flex items responding to your configuration in real time.</li>
+        <li>Flex Direction control with all four values: row, row-reverse, column, and column-reverse, letting you set the main axis orientation.</li>
+        <li>Justify Content control with six values: flex-start, flex-end, center, space-between, space-around, and space-evenly for main-axis alignment.</li>
+        <li>Align Items control with five values: stretch, flex-start, flex-end, center, and baseline for cross-axis alignment of items.</li>
+        <li>Flex Wrap control to enable or disable wrapping, with wrap-reverse for reversed wrapping behavior.</li>
+        <li>Gap slider and item count slider for fine-tuning spacing and testing how the layout behaves with different numbers of items.</li>
+    </ul>
+
+    <h3>How to Use CSS Flexbox Generator</h3>
+    <p>Experimenting with the generator is the fastest way to build an intuition for how flexbox properties interact with each other.</p>
+    <ul>
+        <li>Step 1: Choose a Flex Direction to set whether items flow horizontally (row) or vertically (column) and whether the order is normal or reversed.</li>
+        <li>Step 2: Adjust Justify Content to control how items are distributed along the main axis — try space-between and space-evenly to see the difference.</li>
+        <li>Step 3: Change Align Items to control how items are positioned on the cross axis — stretch fills the container height, while center vertically centers items.</li>
+        <li>Step 4: Set Flex Wrap to "wrap" and increase the item count slider to see how items wrap to new lines when they overflow the container.</li>
+        <li>Step 5: Click "Copy CSS" to copy the generated code and paste it into your stylesheet as the CSS for your flex container element.</li>
+    </ul>
+
+    <h3>Common Use Cases</h3>
+    <p>Flexbox is the right tool for a wide range of component-level layout challenges in modern web development.</p>
+    <ul>
+        <li>Navigation bars: Distribute navigation links horizontally with space-between to push the logo left and links right, or use space-evenly for equal spacing.</li>
+        <li>Centering content: The simplest way to center an element both horizontally and vertically is display: flex; justify-content: center; align-items: center on the parent.</li>
+        <li>Card rows: Arrange cards in a horizontal row with flex-wrap: wrap so they automatically flow to new lines on smaller screens without media queries.</li>
+        <li>Form layouts: Align form labels and inputs in a row with consistent spacing, or stack them vertically using flex-direction: column.</li>
+        <li>Button groups: Distribute buttons evenly within a toolbar or action bar using justify-content: space-between or space-evenly.</li>
+    </ul>
+
+    <h3>Tips and Best Practices</h3>
+    <p>Understanding the main axis and cross axis is the key to mastering flexbox. The main axis is defined by flex-direction — it's horizontal for row and vertical for column. Justify-content always controls alignment along the main axis, and align-items always controls alignment along the cross axis (perpendicular to the main axis). Once this mental model clicks, the behavior of all flexbox properties becomes predictable and intuitive.</p>
+    <p>The gap property (formerly grid-gap) is the cleanest way to add spacing between flex items. Unlike using margins on individual items, gap only adds space between items — not on the outer edges of the container. This eliminates the need for negative margins or :first-child/:last-child selectors to remove unwanted outer spacing, making your CSS simpler and more maintainable.</p>
+    <p>For responsive layouts, combine flex-wrap: wrap with a min-width on flex items to create layouts that automatically adjust the number of columns based on available space. For example, setting flex: 1 1 250px on flex items means each item will be at least 250px wide and will grow to fill available space, with items wrapping to new rows when the container is too narrow to fit them all.</p>
+
+    <h3>Why Use CSS Flexbox Generator on Webutilbox?</h3>
+    <p>Flexbox has six container properties and five item properties, each with multiple possible values. Learning how they interact through documentation alone is slow and abstract. This generator makes the learning process visual and immediate — you can see the effect of every property change in real time, which builds intuition far faster than reading about it. It's an ideal companion for developers who are learning flexbox or who want to quickly prototype a layout idea.</p>
+    <p>The generated CSS is clean, minimal, and uses only standard properties with no vendor prefixes needed for modern browsers. You can drop it directly into any project. The item count slider is particularly useful for testing how your layout handles different amounts of content — a layout that looks great with three items might break with eight, and the generator lets you catch that immediately before writing any HTML.</p>
+
+    <h3>Privacy and Security</h3>
+    <p>Your privacy is our priority. All processing happens entirely in your browser using JavaScript. No files, data, or inputs are ever uploaded to any server. Everything stays on your device, making this tool completely safe to use with sensitive content.</p>
+</div>
     </div>
 
     <div id="toast" class="toast">

@@ -103,12 +103,57 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
         </div>
 
         <div class="info-section">
-            <h2>ASCII Art Generator - Text to ASCII Art</h2>
-            <p>Convert text to ASCII art with multiple font styles. Create eye-catching text art for social media, comments, or documentation.</p>
-            <p><strong>Font Styles:</strong> Choose from Standard, Banner, Block, Bubble, Digital, and Slant styles for different looks.</p>
-            <p><strong>Use Cases:</strong> Social media posts, code comments, README files, forum signatures, text-based designs, retro aesthetics.</p>
-            <p><strong>Tip:</strong> Keep text short (1-10 characters) for best results. Longer text may be too wide.</p>
-        </div>
+    <h2>ASCII Art Generator - Convert Text to ASCII Art Online</h2>
+    <p>The ASCII Art Generator converts any text into creative ASCII art using a variety of fonts and styles. Whether you want to create banners, headers, or fun text art for terminals, chat messages, or code comments, this tool makes it fast and easy. Just type your text, pick a font, and your ASCII art is ready to copy or download instantly.</p>
+
+    <h3>What Is ASCII Art?</h3>
+    <p>ASCII art is a graphic design technique that uses printable characters from the ASCII (American Standard Code for Information Interchange) character set to create visual designs and text-based images. It originated in the early days of computing when graphical displays were not available, and programmers used characters like #, *, |, and / to draw pictures and decorative text in terminals and printers.</p>
+    <p>Despite the widespread availability of modern graphics, ASCII art remains popular today for a variety of reasons. It works in any environment that can display plain text — from terminal emulators and command-line interfaces to README files, chat applications, and email. It has a distinctive retro aesthetic that many developers and designers appreciate for its nostalgic charm and technical character.</p>
+    <p>Modern ASCII art has evolved beyond simple character drawings to include elaborate multi-line text banners using Unicode block characters, which produce much sharper and more visually impressive results than traditional ASCII alone. Our generator supports both classic ASCII styles and modern Unicode-enhanced fonts for maximum visual impact.</p>
+
+    <h3>Key Features</h3>
+    <ul>
+        <li>Multiple font styles including Standard, Banner, Block, Bubble, Digital, and Slant for diverse visual outputs.</li>
+        <li>Real-time preview that updates as you type, so you can see your ASCII art take shape instantly.</li>
+        <li>One-click copy button to copy the generated art to your clipboard for immediate use anywhere.</li>
+        <li>Download as .txt option to save your ASCII art as a plain text file for later use.</li>
+        <li>Support for letters, numbers, and common punctuation characters across all font styles.</li>
+        <li>Completely browser-based with no server calls, ensuring fast performance and full privacy.</li>
+    </ul>
+
+    <h3>How to Use the ASCII Art Generator</h3>
+    <p>Generating ASCII art with this tool is quick and straightforward — no technical knowledge required.</p>
+    <ul>
+        <li>Step 1: Type your desired text into the input field. Keep it short (under 15 characters) for the best visual results, as longer text can become very wide.</li>
+        <li>Step 2: Select a font style from the dropdown menu. Try different styles to see which one fits your use case — Block for bold impact, Slant for a dynamic look, or Standard for a clean classic style.</li>
+        <li>Step 3: The ASCII art preview updates automatically as you type and change fonts, so you can experiment freely.</li>
+        <li>Step 4: Once you are happy with the result, click the Copy button to copy the art to your clipboard.</li>
+        <li>Step 5: Paste the ASCII art wherever you need it — a README file, a code comment, a terminal, a chat message, or anywhere else that accepts plain text.</li>
+    </ul>
+
+    <h3>Common Use Cases</h3>
+    <p>ASCII art has a surprisingly wide range of practical and creative applications in the modern world.</p>
+    <ul>
+        <li>README files — add stylish, eye-catching headers to GitHub or GitLab README files to make your project stand out.</li>
+        <li>Code comments — mark major sections of a codebase with decorative banners to improve navigation and readability.</li>
+        <li>Terminal applications — create splash screens, welcome messages, and section dividers for CLI tools and scripts.</li>
+        <li>Social media bios — add a creative, unique touch to your profile bio on platforms that support plain text formatting.</li>
+        <li>Email signatures — include a distinctive ASCII art signature in your emails for a memorable personal brand.</li>
+        <li>Game development — create retro-style title screens, menus, and UI elements for text-based or terminal games.</li>
+    </ul>
+
+    <h3>Tips and Best Practices</h3>
+    <p>For the best visual results, keep your input text short — ideally five to ten characters. Longer strings produce very wide output that may not display correctly in environments with limited line width, such as terminals set to 80 columns. If you need to display a longer phrase, consider breaking it into multiple lines and generating each line separately.</p>
+    <p>Always view your ASCII art in a monospace font before using it. Most terminals, code editors, and README renderers use monospace fonts by default, which is essential for ASCII art to align correctly. If you paste ASCII art into a proportional-font environment like a word processor or email client, the characters will not line up and the art will look broken.</p>
+    <p>When using ASCII art in code comments, wrap it in a block comment style appropriate for your language. In JavaScript or CSS, use /* ... */, and in Python, use triple quotes or # prefixes on each line. This ensures the art is treated as a comment and does not affect code execution.</p>
+
+    <h3>Why Use the ASCII Art Generator on Webutilbox?</h3>
+    <p>Webutilbox's ASCII Art Generator is fast, free, and requires no installation or account creation. The tool runs entirely in your browser, which means there are no server round-trips and no waiting — your art appears the moment you start typing. The clean, minimal interface keeps the focus on your creative work without distractions.</p>
+    <p>The generator offers a curated selection of font styles that cover the most popular and visually distinct ASCII art aesthetics. Whether you need something professional for a technical README or something playful for a chat message, there is a font style that fits. The download option also makes it easy to save your work for later use in projects, presentations, or documentation.</p>
+
+    <h3>Privacy and Security</h3>
+    <p>Your privacy is our priority. All processing happens entirely in your browser using JavaScript. No files, data, or inputs are ever uploaded to any server. Everything stays on your device, making this tool completely safe to use with sensitive content.</p>
+</div>
     </div>
 
     <div id="toast" class="toast">
@@ -289,7 +334,9 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
         }
 
         // Auto-generate on input
-        document.getElementById('textInput').addEventListener('input', generateArt);
+        requestIdleCallback(() => {
+            document.getElementById('textInput').addEventListener('input', generateArt);
+        }, { timeout: 2000 });
     </script>
 
     <footer style="background: var(--dark); padding: 30px 20px; text-align: center; margin-top: 60px; border-top: 1px solid var(--border);">

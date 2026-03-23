@@ -8,8 +8,8 @@
     <link rel="preconnect" href="https://pagead2.googlesyndication.com">
     <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
     
-    <title>JWT Decoder - Decode JSON Web Tokens Online Free | Webutilbox</title>
-    <meta name="description" content="Decode and inspect JWT tokens instantly. Free JWT decoder shows header, payload, and signature. Validate JWT structure and view claims online.">
+    <title>JWT Decoder - Decode JSON Web Tokens | Webutilbox</title>
+    <meta name="description" content="Decode JWT tokens instantly. View header, payload, and signature. Validate JWT structure online.">
     <meta name="keywords" content="jwt decoder, json web token decoder, decode jwt online, jwt inspector, jwt validator free">
     <link rel="canonical" href="https://webutilbox.com/jwt-decoder/">    
     <!-- Open Graph / Social Media Meta Tags -->
@@ -40,19 +40,6 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
 .subtitle{color:var(--gray);font-size:1.1rem;margin-bottom:30px}
 </style>
     <link rel="stylesheet" href="../assets/css/common.min.css">
-    <style>/* Critical CSS - Inline in <head> for instant rendering */
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--primary:#f97316;--primary-dark:#ea580c;--dark:#0a0a0a;--gray:#a1a1aa;--white:#fafafa;--card-bg:#18181b;--border:#27272a}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;background:linear-gradient(135deg,#000 0%,#1a0f00 30%,#7c2d12 70%,#ea580c 100%);min-height:100vh;color:var(--white)}
-header{background:rgba(10,10,10,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:20px 0;position:sticky;top:0;z-index:100}
-.header-content{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center}
-.logo{display:flex;align-items:center;gap:12px;color:var(--white);text-decoration:none;font-size:1.5rem;font-weight:700;line-height:1}
-.logo span:first-child{font-size:2rem;line-height:1;display:flex;align-items:center}
-.all-tools-btn{padding:10px 20px;background:var(--primary);color:var(--white);text-decoration:none;border-radius:8px;font-weight:600;font-size:.95rem;transition:all .3s}
-.container{max-width:1200px;margin:0 auto;padding:40px 20px}
-h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c 0%,#ea580c 50%,#dc2626 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.subtitle{color:var(--gray);font-size:1.1rem;margin-bottom:30px}
-</style>
     <link rel="stylesheet" href="../assets/css/tool-specific.min.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3916624682784320"
      crossorigin="anonymous"></script>
@@ -133,12 +120,55 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
         </div>
 
         <div class="info-section">
-            <h2>JWT Decoder - Decode JSON Web Tokens Online</h2>
-            <p>This free JWT decoder decodes and inspects JSON Web Tokens without verification. View the header (algorithm and token type), payload (claims and data), and signature. Perfect for debugging authentication issues and understanding JWT structure.</p>
-            <p><strong>What is JWT?</strong> JSON Web Token (JWT) is a compact, URL-safe token format used for securely transmitting information between parties. It consists of three parts: Header (algorithm), Payload (claims), and Signature (verification).</p>
-            <p><strong>Standard Claims:</strong> iss (issuer), sub (subject), aud (audience), exp (expiration time), nbf (not before), iat (issued at), jti (JWT ID). These are registered claims defined in RFC 7519.</p>
-            <p><strong>Security Note:</strong> This tool only decodes JWTs. It does NOT verify signatures or validate tokens. Never paste sensitive production tokens into online tools. Use for development and debugging only.</p>
-            <p><strong>Use Cases:</strong> Debugging authentication, inspecting token claims, understanding JWT structure, API development, OAuth/OpenID debugging, token expiration checking.</p>
+            <h2>JWT Decoder - Decode and Inspect JSON Web Tokens Online</h2>
+            <p>Our free JWT Decoder lets you instantly decode and inspect JSON Web Tokens (JWTs) without any verification. View the header, payload, and signature of any JWT, inspect standard claims like expiration time and issuer, and debug authentication issues — all directly in your browser.</p>
+
+            <h3>What Is a JWT?</h3>
+            <p>A JSON Web Token (JWT) is a compact, URL-safe token format defined in RFC 7519. It's widely used for authentication and authorization in web applications, APIs, and microservices. A JWT consists of three Base64URL-encoded parts separated by dots: the Header (algorithm and token type), the Payload (claims and data), and the Signature (used for verification).</p>
+            <p>JWTs are commonly issued by OAuth 2.0 authorization servers, OpenID Connect providers, and custom authentication systems. They're passed in HTTP headers (typically as <code>Authorization: Bearer &lt;token&gt;</code>) and can be decoded by anyone who has the token — the signature is what prevents tampering, not the encoding. This means decoding a JWT reveals its contents, which is exactly what this tool does.</p>
+
+            <h3>Key Features</h3>
+            <ul>
+                <li>Instant JWT decoding — paste a token and see results immediately as you type</li>
+                <li>Color-coded token structure visualization (header in orange, payload in purple, signature in green)</li>
+                <li>Formatted JSON display for both header and payload sections</li>
+                <li>Standard claims inspector with human-readable timestamps for <code>exp</code>, <code>iat</code>, and <code>nbf</code></li>
+                <li>Expiration status indicator — shows if a token is expired or not yet valid</li>
+                <li>Validation status display with clear success/error messages</li>
+                <li>Sample JWT loader for quick testing and learning</li>
+            </ul>
+
+            <h3>How to Use the JWT Decoder</h3>
+            <ul>
+                <li>Step 1: Paste your JWT token into the input textarea. The decoder processes it automatically as you type.</li>
+                <li>Step 2: View the color-coded token structure showing the three parts of your JWT.</li>
+                <li>Step 3: Inspect the Header section to see the signing algorithm (e.g., HS256, RS256) and token type.</li>
+                <li>Step 4: Review the Payload section to see all claims — user ID, roles, permissions, and custom data.</li>
+                <li>Step 5: Check the Standard Claims panel for human-readable expiration times and issuer information.</li>
+                <li>Step 6: Use the "Load Sample" button to see a working example if you don't have a token handy.</li>
+            </ul>
+
+            <h3>Common Use Cases</h3>
+            <ul>
+                <li>Debugging authentication issues by inspecting what claims are in a token</li>
+                <li>Checking if a JWT has expired by reading the <code>exp</code> claim</li>
+                <li>Verifying that the correct user ID, roles, or permissions are encoded in a token</li>
+                <li>Understanding the structure of JWTs when learning OAuth 2.0 or OpenID Connect</li>
+                <li>Inspecting tokens from third-party identity providers (Auth0, Okta, Firebase, etc.)</li>
+                <li>Troubleshooting API authorization errors in development and staging environments</li>
+            </ul>
+
+            <h3>Tips and Best Practices</h3>
+            <p>Remember that JWTs are encoded, not encrypted. Anyone with the token can decode and read its contents. Never put sensitive information like passwords, credit card numbers, or private keys in a JWT payload. The payload is meant for identity claims and authorization data that the recipient needs to process the request.</p>
+            <p>Pay close attention to the <code>exp</code> (expiration) claim when debugging authentication issues. A token that has expired will be rejected by your API even if everything else looks correct. This tool shows the expiration time in human-readable format and flags expired tokens with a warning, making it easy to spot this common issue.</p>
+            <p>When working with JWTs in production, never paste real user tokens into online tools you don't control. Use this tool for development tokens, test tokens, or sample tokens only. For production debugging, use your application's logging system or a local debugging tool instead.</p>
+
+            <h3>Why Use the JWT Decoder on Webutilbox?</h3>
+            <p>This decoder processes tokens instantly as you type, with no button to click. The color-coded visualization makes it immediately clear which part of the token you're looking at, and the standard claims panel translates Unix timestamps into readable dates so you don't have to do the conversion manually.</p>
+            <p>Unlike some online JWT tools, this decoder runs entirely in your browser. Your tokens are never sent to any server, which is critical when working with tokens that contain user identity information. It's the safest way to inspect JWTs during development.</p>
+
+            <h3>Privacy and Security</h3>
+            <p>Your privacy is our priority. All processing happens entirely in your browser using JavaScript. No files, data, or inputs are ever uploaded to any server. Everything stays on your device, making this tool completely safe to use with sensitive content.</p>
         </div>
     </div>
 
@@ -290,7 +320,7 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
         }
     </script>
     <footer style="background: var(--dark); padding: 30px 20px; text-align: center; margin-top: 60px; border-top: 1px solid var(--border);">
-        <p style="color: var(--gray); margin-bottom: 15px;">� 2026 Webutilbox. All rights reserved.</p>
+        <p style="color: var(--gray); margin-bottom: 15px;">� 2026 Webutilbox. All rights reserved.</p>
         <div>
             <a href="../" style="color: var(--primary); text-decoration: none; margin: 0 15px;">Home</a>
             <a href="../Tools.html" style="color: var(--primary); text-decoration: none; margin: 0 15px;">All Tools</a>

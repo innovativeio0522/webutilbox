@@ -40,19 +40,6 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
 .subtitle{color:var(--gray);font-size:1.1rem;margin-bottom:30px}
 </style>
     <link rel="stylesheet" href="../assets/css/common.min.css">
-    <style>/* Critical CSS - Inline in <head> for instant rendering */
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--primary:#f97316;--primary-dark:#ea580c;--dark:#0a0a0a;--gray:#a1a1aa;--white:#fafafa;--card-bg:#18181b;--border:#27272a}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;background:linear-gradient(135deg,#000 0%,#1a0f00 30%,#7c2d12 70%,#ea580c 100%);min-height:100vh;color:var(--white)}
-header{background:rgba(10,10,10,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:20px 0;position:sticky;top:0;z-index:100}
-.header-content{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center}
-.logo{display:flex;align-items:center;gap:12px;color:var(--white);text-decoration:none;font-size:1.5rem;font-weight:700;line-height:1}
-.logo span:first-child{font-size:2rem;line-height:1;display:flex;align-items:center}
-.all-tools-btn{padding:10px 20px;background:var(--primary);color:var(--white);text-decoration:none;border-radius:8px;font-weight:600;font-size:.95rem;transition:all .3s}
-.container{max-width:1200px;margin:0 auto;padding:40px 20px}
-h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c 0%,#ea580c 50%,#dc2626 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.subtitle{color:var(--gray);font-size:1.1rem;margin-bottom:30px}
-</style>
     <link rel="stylesheet" href="../assets/css/tool-specific.min.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3916624682784320"
      crossorigin="anonymous"></script>
@@ -153,11 +140,56 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
         </div>
 
         <div class="info-section">
-            <h2>CSS Grid Generator</h2>
-            <p>Create CSS grid layouts visually. Adjust columns, rows, gaps, and alignment to build complex responsive layouts.</p>
-            <p><strong>Properties:</strong> grid-template-columns/rows define grid structure, gap controls spacing, justify/align control item positioning.</p>
-            <p><strong>Use Cases:</strong> Page layouts, image galleries, dashboards, card grids, magazine-style layouts.</p>
-        </div>
+    <h2>CSS Grid Generator - Visual Grid Layout Tool</h2>
+    <p>The CSS Grid Generator lets you visually design CSS grid layouts and instantly get the generated CSS code. Adjust columns, rows, gaps, and alignment with live preview to build complex, responsive layouts without writing code from scratch. Whether you're a beginner learning grid or an experienced developer prototyping a layout, this tool saves time and eliminates guesswork.</p>
+
+    <h3>What Is CSS Grid Generator?</h3>
+    <p>The CSS Grid Generator is an interactive visual tool that translates your layout choices into production-ready CSS code. You control the number of columns and rows, the spacing between cells, and how items are aligned — all through simple sliders and dropdowns. The live preview updates instantly so you can see exactly how your grid will look before writing a single line of code.</p>
+    <p>CSS Grid Layout is a two-dimensional layout system built into modern browsers. Unlike older layout techniques that relied on floats or tables, Grid was designed specifically for page and component layout. It gives you precise control over both the horizontal and vertical axes simultaneously, making it the most powerful layout tool available in CSS today.</p>
+    <p>This generator focuses on the container-level properties that define the grid structure itself. Once you have your grid container CSS, you can further customize individual grid items using properties like grid-column, grid-row, and grid-area to create complex spanning layouts that would be difficult to achieve with any other CSS technique.</p>
+
+    <h3>Key Features</h3>
+    <ul>
+        <li>Live visual preview that updates in real time as you adjust settings, so you always see exactly what your grid will look like.</li>
+        <li>Column and row controls using sliders for quick adjustments from 1 to 6 tracks in each direction.</li>
+        <li>Independent column gap and row gap controls, letting you set different spacing on each axis for precise layouts.</li>
+        <li>Justify-items control for horizontal alignment of content within each grid cell (stretch, start, end, center).</li>
+        <li>Align-items control for vertical alignment of content within each grid cell across all four standard values.</li>
+        <li>One-click CSS copy that puts the complete, ready-to-use CSS code directly on your clipboard.</li>
+    </ul>
+
+    <h3>How to Use CSS Grid Generator</h3>
+    <p>Getting started with the generator is straightforward and takes just a few seconds to produce usable CSS code.</p>
+    <ul>
+        <li>Step 1: Use the Columns slider to set how many columns your grid should have, from 1 to 6 equal-width columns.</li>
+        <li>Step 2: Use the Rows slider to set the number of rows, which determines how many cells appear in the preview.</li>
+        <li>Step 3: Adjust the Column Gap and Row Gap sliders to set the spacing between cells in pixels.</li>
+        <li>Step 4: Choose Justify Items and Align Items values from the dropdowns to control how content sits within each cell.</li>
+        <li>Step 5: Click "Copy CSS" to copy the generated code and paste it directly into your stylesheet.</li>
+    </ul>
+
+    <h3>Common Use Cases</h3>
+    <p>CSS Grid is the go-to solution for a wide range of layout challenges in modern web development.</p>
+    <ul>
+        <li>Page-level layouts: Define the overall structure of a webpage with header, sidebar, main content, and footer areas using named grid areas.</li>
+        <li>Card grids: Create uniform card layouts where items automatically wrap to new rows, perfect for product listings, blog post archives, and portfolio galleries.</li>
+        <li>Dashboard interfaces: Arrange multiple widgets of varying sizes in a structured grid, with some widgets spanning multiple columns or rows for emphasis.</li>
+        <li>Magazine-style layouts: Build editorial layouts with asymmetric columns, featured images that span multiple cells, and varied content block sizes.</li>
+        <li>Image galleries: Create clean, evenly spaced photo grids with consistent gaps and alignment, replacing the need for complex float-based or table-based gallery code.</li>
+    </ul>
+
+    <h3>Tips and Best Practices</h3>
+    <p>When building grid layouts, start with the overall structure before worrying about individual items. Define your columns and rows at the container level first, then use grid-column and grid-row on child elements to place them precisely. This top-down approach keeps your CSS organized and easier to maintain as your layout evolves.</p>
+    <p>The fr unit (fractional unit) is one of the most powerful features of CSS Grid. Using repeat(3, 1fr) creates three equal columns that automatically share the available space. Mixing fr units with fixed values like 200px 1fr 1fr lets you create layouts where one column has a fixed width and the others share the remaining space proportionally.</p>
+    <p>For responsive layouts, combine CSS Grid with media queries or use the auto-fill and auto-fit keywords with minmax() to create grids that automatically adjust the number of columns based on available space. For example, grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) creates a responsive card grid with no media queries needed.</p>
+
+    <h3>Why Use CSS Grid Generator on Webutilbox?</h3>
+    <p>Learning CSS Grid through documentation alone can be challenging because the visual nature of layout is hard to grasp from text descriptions. This generator bridges that gap by letting you experiment visually and see the results immediately. It's an ideal learning tool for developers who are new to Grid and a fast prototyping tool for experienced developers who want to quickly test layout ideas.</p>
+    <p>The generated CSS is clean, minimal, and production-ready. There are no unnecessary vendor prefixes, no extra wrapper classes, and no framework dependencies — just standard CSS that works in every modern browser. You can drop it directly into any project, whether you're using plain HTML, React, Vue, or any other framework.</p>
+
+    <h3>Privacy and Security</h3>
+    <p>Your privacy is our priority. All processing happens entirely in your browser using JavaScript. No files, data, or inputs are ever uploaded to any server. Everything stays on your device, making this tool completely safe to use with sensitive content.</p>
+</div>
     </div>
 
     <div id="toast" class="toast">

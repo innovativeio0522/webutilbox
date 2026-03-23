@@ -430,6 +430,89 @@
 
 ---
 
+## 🚀 PERFORMANCE & SEO — PENDING TECHNICAL FIXES
+
+These were identified during a PageSpeed / Core Web Vitals audit. Complete in order — highest impact first.
+
+### 1. ✅ Add `defer` to 11 blocking library scripts
+**Impact:** High — immediate measurable improvement to page load  
+**Effort:** ~5 minutes  
+**Status:** ✅ DONE — March 23, 2026
+**What:** These external scripts load without `async` or `defer`, blocking HTML parsing:
+- `favicon-generator` — jszip
+- `image-metadata` — exif-js
+- `json-formatter` — js-yaml
+- `markdown-to-html` — marked.js
+- `pdf-images-converter` — pdf-lib + pdf.js (two scripts)
+- `pdf-merger` — pdf-lib
+- `pdf-splitter` — pdf-lib
+- `qr-barcode-generator` — qrcodejs + JsBarcode (two scripts)
+- `sha256-generator` — bcryptjs
+
+**Fix:** Add `defer` attribute to each `<script src="...">` tag in those 9 files.
+
+---
+
+### 2. ⏳ Move AdSense script to `</body>` once ad units are placed
+**Impact:** Medium — removes render-blocking third-party connection from `<head>`  
+**Effort:** ~10 minutes (bulk find/replace across all pages)  
+**What:** AdSense `<script>` is currently in `<head>` on all 94 pages. Even with `async`, it triggers an early DNS lookup + connection to Google's ad servers on every page load. There are currently no `<ins class="adsbygoogle">` ad units placed anywhere.  
+**Fix:** Once AdSense is approved and ad units are ready to place, move the script tag to just before `</body>` on all pages and add the actual `<ins>` ad unit tags where ads should appear.  
+**Note:** Keep the script in `<head>` for now — Google needs to see it during the approval review period.
+
+---
+
+### 3. ✅ Dynamic (on-interaction) loading for heavy libraries
+**Impact:** High — biggest perceived speed improvement for tool pages  
+**Effort:** Medium (per-page JS change)  
+**Status:** ✅ DONE — March 23, 2026  
+**What:** These large libraries are downloaded on page load even before the user interacts with the tool:
+- `pdf-lib` (~500KB) — used in pdf-merger, pdf-splitter, pdf-images-converter
+- `pdf.js` (~800KB) — used in pdf-images-converter
+- `qrcodejs` + `JsBarcode` — used in qr-barcode-generator
+
+**Fix:** Remove the `<script src="...">` tags from `<head>`/`<body>` and instead inject them dynamically on first button click:
+```js
+document.getElementById('generateBtn').addEventListener('click', async () => {
+    if (!window.QRCode) {
+        await loadScript('https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js');
+    }
+    // run tool logic
+});
+
+function loadScript(src) {
+    return new Promise(resolve => {
+        const s = document.createElement('script');
+        s.src = src; s.onload = resolve;
+        document.head.appendChild(s);
+    });
+}
+```
+
+---
+
+### 4. ✅ Remove duplicate `<style>` blocks in `<head>`
+**Impact:** Low — reduces redundant CSS parsing  
+**Effort:** ~15 minutes (bulk find/replace)  
+**Status:** ✅ DONE — March 23, 2026  
+**What:** Many pages have the same critical CSS `<style>` block inlined twice in `<head>` — once before `common.min.css` and once after. This doubles CSS parsing work for no benefit.  
+**Fix:** Remove the second duplicate `<style>` block from each affected page. Keep only one copy of the critical CSS inline block.
+
+---
+
+### 5. ✅ Wrap heavy inline scripts with `requestIdleCallback`
+**Impact:** High long-term — moves JS work off the main thread  
+**Effort:** High (touches 55+ pages)  
+**Status:** ✅ DONE — March 23, 2026  
+**What:** 55+ pages have 5–18KB of inline JavaScript that the browser parses and compiles during initial page load, even though none of it runs until user interaction. Worst offenders: meme-generator (18.2KB), image-watermark (17KB), json-to-csv (14.4KB), gif-maker (13.6KB).  
+**Fix:** Wrapped non-critical initialization code (addEventListener registrations and bare init calls) in `requestIdleCallback` so the browser defers them until after the page is interactive. Applied to: meme-generator, image-watermark, ascii-art-generator, json-to-csv, date-calculator, color-converter, sql-formatter, image-blur-pixelate, js-obfuscator, css-js-minifier.
+
+---
+
+**Last reviewed:** March 23, 2026
+
+---
+
 ## RESOURCES
 
 ### Domain Registrars

@@ -99,11 +99,57 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
         </div>
 
         <div class="info-section">
-            <h2>Morse Code Translator - Text to Morse Code Converter</h2>
-            <p>Translate between text and Morse code instantly. Supports letters, numbers, and common punctuation. Includes audio playback feature.</p>
-            <p><strong>Morse Code:</strong> A method of encoding text using sequences of dots (.) and dashes (-). Developed in the 1830s for telegraph communication.</p>
-            <p><strong>Features:</strong> Bidirectional translation, audio playback, complete character reference, real-time conversion.</p>
-            <p><strong>Use Cases:</strong> Learning Morse code, emergency communication, radio operation, educational purposes, puzzles and games.</p>
+            <h2>Morse Code Translator - Convert Text to Morse Code and Back</h2>
+            <p>Our free Morse Code Translator converts text to Morse code and Morse code back to text instantly. Type in either direction, listen to the audio playback of your message, and reference the complete character chart — all in one tool, right in your browser.</p>
+
+            <h3>What Is Morse Code?</h3>
+            <p>Morse code is a method of encoding text characters as sequences of two signals: short signals called dots (.) and long signals called dashes (–). Developed in the 1830s by Samuel Morse and Alfred Vail for use with the electric telegraph, it became the first widely used form of long-distance electronic communication.</p>
+            <p>Each letter, number, and punctuation mark has a unique Morse code sequence. For example, the letter A is ".-" (dot-dash), while S is "..." (three dots) and O is "---" (three dashes). The famous SOS distress signal is "... --- ..." — three dots, three dashes, three dots — chosen because it's easy to recognize and transmit even under stress.</p>
+            <p>While Morse code is no longer used for mainstream communication, it remains relevant in amateur (ham) radio, aviation, military signaling, and as an accessibility tool for people with limited mobility who can communicate using a single switch.</p>
+
+            <h3>Key Features</h3>
+            <ul>
+                <li>Bidirectional translation: type text to get Morse code, or type Morse code to get text</li>
+                <li>Real-time conversion as you type in either field</li>
+                <li>Audio playback of Morse code using the Web Audio API</li>
+                <li>Complete reference chart for all letters (A–Z) and numbers (0–9)</li>
+                <li>Support for common punctuation marks and special characters</li>
+                <li>Copy buttons for both text and Morse code output</li>
+                <li>Clear all button to reset both fields at once</li>
+            </ul>
+
+            <h3>How to Use the Morse Code Translator</h3>
+            <p>The translator works in both directions simultaneously. Here's how to use each mode:</p>
+            <ul>
+                <li>Step 1 (Text to Morse): Type or paste your text into the left "Text" field. The Morse code equivalent appears instantly in the right field.</li>
+                <li>Step 2 (Morse to Text): Type Morse code directly into the right field using dots (.) and dashes (-), with spaces between letters and a forward slash (/) between words. The decoded text appears in the left field.</li>
+                <li>Step 3: Click "Play Morse Code" to hear the audio representation of your Morse code message.</li>
+                <li>Step 4: Use the "Copy Text" or "Copy Morse" buttons to copy either output to your clipboard.</li>
+                <li>Step 5: Refer to the Morse Code Reference chart at the bottom to look up individual characters.</li>
+            </ul>
+
+            <h3>Common Use Cases</h3>
+            <ul>
+                <li>Learning Morse code for amateur (ham) radio licensing exams</li>
+                <li>Decoding Morse code messages in puzzles, escape rooms, and games</li>
+                <li>Educational use in history, communication, and technology classes</li>
+                <li>Sending hidden messages or creating coded communications for fun</li>
+                <li>Practicing Morse code transmission and reception for radio operators</li>
+                <li>Accessibility applications where Morse code is used as an input method</li>
+            </ul>
+
+            <h3>Tips and Best Practices</h3>
+            <p>When entering Morse code manually, use a single space between each letter's code and a forward slash (/) surrounded by spaces to separate words. For example, "HELLO WORLD" in Morse would be: <code>.... . .-.. .-.. --- / .-- --- .-. .-.. -..</code>. Getting the spacing right is essential for accurate decoding.</p>
+            <p>To learn Morse code effectively, start with the most common letters in English: E (.), T (-), A (.-), and N (-.). These four letters appear most frequently in text, so learning them first gives you the most immediate payoff. Practice by translating short, common words before moving on to full sentences.</p>
+            <p>The audio playback feature is excellent for training your ear to recognize Morse code by sound rather than by sight. Listen to the playback repeatedly while following along with the dots and dashes on screen. Over time, you'll start to recognize common letter patterns by their rhythm alone.</p>
+
+            <h3>Why Use This Morse Code Translator on Webutilbox?</h3>
+            <p>This translator handles both encoding and decoding in real time, so you don't need to switch between separate tools. The bidirectional conversion means you can use it as a learning aid — type a word, see its Morse code, then try to type the Morse code yourself and verify your answer.</p>
+            <p>The audio playback uses the Web Audio API to generate accurate dot and dash tones at the correct timing ratios (a dash is three times the length of a dot, and the gap between letters is three dot-lengths). This makes it suitable for actual Morse code practice, not just visual reference.</p>
+            <p>The complete reference chart at the bottom of the tool covers all 26 letters and 10 digits, making it a handy quick-reference guide even if you're not actively translating anything.</p>
+
+            <h3>Privacy and Security</h3>
+            <p>Your privacy is our priority. All processing happens entirely in your browser using JavaScript. No files, data, or inputs are ever uploaded to any server. Everything stays on your device, making this tool completely safe to use with sensitive content.</p>
         </div>
     </div>
 
@@ -252,7 +298,7 @@ h1{font-size:2.5rem;margin-bottom:15px;background:linear-gradient(135deg,#fb923c
         generateReference();
     </script>
     <footer style="background: var(--dark); padding: 30px 20px; text-align: center; margin-top: 60px; border-top: 1px solid var(--border);">
-        <p style="color: var(--gray); margin-bottom: 15px;">� 2026 Webutilbox. All rights reserved.</p>
+        <p style="color: var(--gray); margin-bottom: 15px;">� 2026 Webutilbox. All rights reserved.</p>
         <div>
             <a href="../" style="color: var(--primary); text-decoration: none; margin: 0 15px;">Home</a>
             <a href="../Tools.html" style="color: var(--primary); text-decoration: none; margin: 0 15px;">All Tools</a>
